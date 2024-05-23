@@ -1,5 +1,7 @@
 :root{
   --primary-color: rgb(198, 234, 255);
+
+  --transition-time: 0.2s ease;
 }
 
 .App {
