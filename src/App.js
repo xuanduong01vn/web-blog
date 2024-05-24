@@ -1,5 +1,5 @@
 import './App.css';
-import Header from'./Header/Header.js';
+import Header from'./components/Header/Header.js';
 
 
 document.title="Blog hay lắm"

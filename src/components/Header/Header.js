@@ -6,6 +6,14 @@ import { faMagnifyingGlass,
           faBell
  } from '@fortawesome/free-solid-svg-icons';
 
+ let userOpenPopUpBtn = document.querySelector(".user-bar.user-btn");
+ let userPopUp = document.querySelector("#user-pop-up");
+
+ function clickOpenPopUp(){
+    userPopUp.style.display="block"; 
+    
+ }
+
 function Header(){
     return (    
         <React.Fragment>
@@ -34,6 +42,25 @@ function Header(){
                   <img src="https://www.vietnamfineart.com.vn/wp-content/uploads/2023/07/anh-avatar-dep-cho-con-gai-1.jpg" 
                   alt="user avatar" className="user-image"/>
                   <p className="user-name">username</p>
+                  <div id="user-pop-up">
+                    <ul className='user-pop-up-list'>
+                      <li className='user-pop-up-item'>
+                        <a href="" className="user-profile">
+                          Trang cá nhân
+                        </a>
+                      </li>
+                      <li className='user-pop-up-item'>
+                        <a href="" className="user-blogs">
+                          Quản lý bài viết
+                        </a>
+                      </li>
+                      <li className='user-pop-up-item'>
+                        <a href="" className="log-out-btn">
+                          Đăng xuất
+                        </a>
+                      </li>
+                    </ul>
+                  </div>
                 </button>
               </div>
             </div>
