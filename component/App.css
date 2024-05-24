@@ -1,5 +1,6 @@
 :root{
-  --primary-color: rgb(198, 234, 255);
+  --primary-color: rgb(183, 255, 245);
+  --shadow-color: rgb(216, 216, 216);
 
   --transition-time: 0.2s ease;
 }
@@ -40,4 +41,10 @@
   to {
     transform: rotate(360deg);
   }
+}
+
+a{
+  text-decoration: none;
+  color: grey;
+  cursor: pointer;
 }
