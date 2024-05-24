@@ -1,6 +1,10 @@
 :root{
+<<<<<<< HEAD:component/App.css
   --primary-color: rgb(183, 255, 245);
   --shadow-color: rgb(216, 216, 216);
+=======
+  --primary-color: rgb(198, 234, 255);
+>>>>>>> origin/dev:src/App.css
 
   --transition-time: 0.2s ease;
 }
