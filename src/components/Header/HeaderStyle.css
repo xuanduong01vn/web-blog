@@ -15,18 +15,18 @@
 }
 
 .header-title{
-  color: var(--hightlight-color);
+  color: var(--shadow-color);
   font-weight: 800;
   text-shadow: 
-    -1px -1px 0 white,  
-    1px -1px 0 white,
-    -1px 1px 0 white,
-    1px 1px 0 white;
+    -1px -1px 0 var(--text-color),  
+    1px -1px 0 var(--text-color),
+    -1px 1px 0 var(--text-color),
+    1px 1px 0 var(--text-color);
 }
 
 #search-container{
   border-radius: 18px;
-  /* border: 2px solid gray; */
+  border: 2px solid var(--shadow-color);
   width: 400px; 
   background-color: white;
   display: flex;
@@ -56,13 +56,13 @@
 
 .search-icon{
   height: 20px;
-  color: var(--primary-color);
+  color: var(--hightlight-color);
   transition: var(--transition-time);
 }
 
 #sign-btn{
   text-decoration: none;
-  color: white;
+  color: var(--hightlight-color);
   font-weight: 500;
   transition: var(--transition-time);
 }
@@ -104,7 +104,7 @@
   top: -4px;
   left: 12px;
   background-color: var(--hightlight-color);
-  color: white;
+  color: var(--primary-color);
   width: max-content;
   height: 18px;
   min-width: 18px;
@@ -124,7 +124,7 @@
 }
 
 .user-container-icon{
-  color: white;
+  color: var(--hightlight-color);
   height: 100%;
   width: 100%;
 }
@@ -152,25 +152,24 @@
 
 .user-name{
   font-size: 16px;
-  color: white;
+  color: var(--hightlight-color);;
 }
 
 #user-pop-up{
   position: absolute;
-  z-index: 1;
+  z-index: 9;
   top: calc(100%);
   right: 0;
   background-color: white;
-  border: 1px solid var(--shadow-color);
   border-radius: 4px;
-  box-shadow: 0px 2px 4px var(--shadow-color);
+  /* box-shadow: 0px 0px 2px var(--shadow-color); */
   display: none;
   cursor: default;
+  border: 1px solid var(--shadow-color);
 }
 
 #user-pop-up::before{
   content: "";
-  border-bottom: 12px white solid;
   z-index: 10;
   display: block;
   border-width: 12px;
@@ -179,6 +178,18 @@
   position: absolute;
   top: -24px;
   right: 24px;       
+}
+
+#user-pop-up::after{
+  content: "";
+  z-index: 9;
+  display: block;
+  border-width: 13px;
+  border-style: solid;
+  border-color: transparent transparent var(--shadow-color) transparent;
+  position: absolute;
+  top: -26px;
+  right: 23px;       
 }
 
 .user-pop-up-list{
@@ -211,8 +222,9 @@
   width: 100%;
   padding: 6px 40px 6px 0;
   transition: var(--transition-time);
+  color: var(--text-color);
 }
 
 .user-pop-up-item a:hover{
-  color: var(--hightlight-color);
+  color: var(--shadow-color);
 }

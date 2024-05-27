@@ -69,7 +69,7 @@ const Wrapper = styled.div`
   width: 100vw;
   position: absolute;
   bottom: 0;
-  color: white;
+  color: var(--text-color);
   padding: 40px 0;
 
   .footer-container{
@@ -87,14 +87,14 @@ const Wrapper = styled.div`
 
   .footer-title{
     margin: 0;
-    color: var(--hightlight-color);
+    color: var(--shadow-color);
     font-weight: 800;
     font-size: 60px;
     text-shadow: 
-      -1px -1px 0 white,  
-      1px -1px 0 white,
-      -1px 1px 0 white,
-      1px 1px 0 white;
+      -1px -1px 0 var(--text-color),  
+      1px -1px 0 var(--text-color),
+      -1px 1px 0 var(--text-color),
+      1px 1px 0 var(--text-color);
   }
 
   .footer-list{
@@ -111,7 +111,6 @@ const Wrapper = styled.div`
 
   .footer-link{
     height: 100%;
-    color: white;
     display: flex;
     justify-content: left;
     align-items: center;
@@ -125,7 +124,7 @@ const Wrapper = styled.div`
     }
 
     &:hover{
-      color: var(--hightlight-color);
+      color: var(--shadow-color);
     }
   }
 `

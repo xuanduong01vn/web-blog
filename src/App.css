@@ -1,7 +1,8 @@
 :root{
-  --primary-color: #132532;
-  --shadow-color: rgb(216, 216, 216);
-  --hightlight-color: rgb(255, 81, 0);
+  --primary-color: #E3FEF7;
+  --shadow-color: #77B0AA;
+  --hightlight-color: #135D66;
+  --text-color: #003C43;
   --transition-time: 0.2s ease;
   --general-width: 1140px;
 }
@@ -46,6 +47,6 @@
 
 a{
   text-decoration: none;
-  color: var(--primary-color);
+  color: var(--text-color);
   cursor: pointer;
 }
