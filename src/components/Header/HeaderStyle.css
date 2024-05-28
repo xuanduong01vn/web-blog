@@ -2,6 +2,9 @@
   width: 100vw;
   height: 60px;
   background-color: var(--primary-color);
+  margin-bottom: 40px;
+  position: fixed;
+  top: 0;
 }
 
 
@@ -16,6 +19,7 @@
 
 .header-title{
   color: var(--shadow-color);
+  font-size: 40px;
   font-weight: 800;
   text-shadow: 
     -1px -1px 0 var(--text-color),  

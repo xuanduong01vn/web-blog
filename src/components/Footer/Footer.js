@@ -20,7 +20,7 @@ function Footer(){
     <Wrapper>
       <div className="footer-container">
         <div className="footer-col">
-          <h1 className='footer-title'>BlogZ</h1>
+          <h1 className='footer-title'>BlogX</h1>
           <p className='year-present'>© 2024 xuanduong01vn</p>
         </div>
         <div className="footer-col">
@@ -39,8 +39,8 @@ function Footer(){
               </a>
             </li>
             <li className="footer-item">
-              <a target="_blank" href="tel:+84987654321" className="footer-link">
-                <FontAwesomeIcon icon={faPhone} />0987654321
+              <a target="_blank" href="tel:+84353434036" className="footer-link">
+                <FontAwesomeIcon icon={faPhone} />0353434036
               </a>
             </li>
             <li className="footer-item">
@@ -65,12 +65,12 @@ export default Footer;
 const Wrapper = styled.div`
   background-color: var(--primary-color);
   padding: 0;
-  margin: 0;
+  margin-top: 60px;
   width: 100vw;
-  position: absolute;
   bottom: 0;
   color: var(--text-color);
   padding: 40px 0;
+  font-weight: 600;
 
   .footer-container{
     
