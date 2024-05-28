@@ -64,6 +64,21 @@ function Header(){
                 <div className="user-container-item">
                   <button className="new-blog-btn user-btn">
                     <FontAwesomeIcon icon={faPen} className='new-blog-icon user-container-icon'/>
+                    {openPopUp && <div className="header-pop-up new-blog-pop-up">
+                      <ul className='header-pop-up-list'>
+                        <li className='header-pop-up-item'>
+                          <a href="" className="header-pop-up-link create-blog">
+                            Tạo bài viết
+                          </a>
+                        </li>
+                        <li className='header-pop-up-item'>
+                          <a href="" className="header-pop-up-link create-question">
+                            Đặt câu hỏi
+                          </a>
+                        </li>
+                      </ul>
+                    </div>
+                    }
                   </button>
                 </div>
                 <div className="user-container-item">
@@ -79,20 +94,20 @@ function Header(){
                     <img src="https://www.vietnamfineart.com.vn/wp-content/uploads/2023/07/anh-avatar-dep-cho-con-gai-1.jpg" 
                     alt="user avatar" className="user-image"/>
                     <p className="user-name">username</p>
-                    {openPopUp && <div id="user-pop-up">
-                      <ul className='user-pop-up-list'>
-                        <li className='user-pop-up-item'>
-                          <a href="" className="user-profile">
+                    {openPopUp && <div className="header-pop-up user-pop-up">
+                      <ul className='header-pop-up-list'>
+                        <li className='header-pop-up-item'>
+                          <a href="" className="header-pop-up-link user-profile">
                             Trang cá nhân
                           </a>
                         </li>
-                        <li className='user-pop-up-item'>
-                          <a href="" className="user-blogs">
+                        <li className='header-pop-up-item'>
+                          <a href="" className="header-pop-up-link blog-manage">
                             Quản lý bài viết
                           </a>
                         </li>
-                        <li className='user-pop-up-item'>
-                          <a href="" className="log-out-btn">
+                        <li className='header-pop-up-item'>
+                          <a href="" className="header-pop-up-link log-out">
                             Đăng xuất
                           </a>
                         </li>

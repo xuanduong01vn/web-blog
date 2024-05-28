@@ -46,7 +46,7 @@ function BlogList(){
                   </button>
                 </div>
               </div>
-              <a href="" className="blog-item-title">
+              <a href="/blog" className="blog-item-title">
                 <h3>React basic basicReact basic basicReact basic basicReact basic basicReact basic basicReact basic basicReact basic basic</h3> 
               </a>
               
