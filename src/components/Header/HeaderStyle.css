@@ -5,6 +5,7 @@
   margin-bottom: 40px;
   position: fixed;
   top: 0;
+  box-shadow: 0 0 10px var(--shadow-color);
 }
 
 
@@ -87,6 +88,10 @@
   margin-right: 18px;
   width: max-content;
   height: max-content;
+}
+
+.user-container-item:last-child{
+  margin-right: 0;
 }
 
 .user-btn{

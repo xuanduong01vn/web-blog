@@ -1,11 +1,13 @@
 import styled from 'styled-components';
 import BlogList from '../BlogList/BlogList.js';
+import QuestionList from '../QuestionList/QuestionList.js';
 
 function HomeLayout(){
   return (
     <Wrapper>
       <div className="home-content">
         <BlogList/>
+        <QuestionList/>
       </div>
     </Wrapper>
   )
@@ -23,5 +25,7 @@ const Wrapper = styled.div`
 
   .home-content{
     width: var(--general-width);
+    display: flex;
+    justify-content: space-between;
   }
 `
