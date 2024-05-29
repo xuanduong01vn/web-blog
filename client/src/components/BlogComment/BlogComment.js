@@ -5,7 +5,21 @@ import {
   faComment 
 } from "@fortawesome/free-regular-svg-icons";
 
-function BlogComment(){
+import BlogReply from "./BlogReply.js";
+
+function BlogComment(e){
+  const [activeReply, setActiveReply]=useState(false);
+
+  function openReplyBox(e){
+    if(activeReply==false)
+      setActiveReply(true);
+    console.log(e.target);
+  }
+
+  function closeReplyBox(e){
+      setActiveReply(false);
+  }
+
   return(
     <Wrapper>
       <div className="blog-comment-container">
@@ -37,6 +51,19 @@ function BlogComment(){
             <div className="comment-item-content">
               <p>Hay đấy</p>
             </div>
+            <div className="comment-item-action">
+              <button className="comment-item-btn active"
+              onClick={openReplyBox}>
+                Trả lời
+              </button>
+              <button className="comment-item-btn">
+                Sửa
+              </button>
+              <button className="comment-item-btn">
+                Xóa
+              </button>
+            </div>
+            {activeReply && <BlogReply openReply={closeReplyBox}/>}
             
             <ul className="blog-reply-list">
               <li className="blog-reply-item">
@@ -52,7 +79,8 @@ function BlogComment(){
                   <p>Hay đấy</p>
                 </div>
                 <div className="reply-item-action">
-                  <button className="reply-item-btn active">
+                  <button className="reply-item-btn active"
+                  onClick={openReplyBox}>
                     Trả lời
                   </button>
                   <button className="reply-item-btn">
@@ -62,42 +90,12 @@ function BlogComment(){
                     Xóa
                   </button>
                 </div>
+                {activeReply && <BlogReply openReply={closeReplyBox}/>}
               </li>
-              <li className="blog-reply-item">
-                <div className="reply-item-created">
-                  <img src="https://www.vietnamfineart.com.vn/wp-content/uploads/2023/07/anh-avatar-dep-cho-con-gai-1.jpg" 
-                  alt="" className="reply-item-user-avatar" />
-                  <div className="reply-item-user-created">
-                    <a href="" className="reply-item-username">xuanduong</a>
-                    <p className="reply-item-created-time">bình luận lúc 2024</p>
-                  </div>
-                </div>
-                <div className="reply-item-content">
-                  <p>Hay đấy</p>
-                </div>
-                <div className="reply-item-action">
-                  <button className="reply-item-btn active">
-                    Trả lời
-                  </button>
-                  <button className="reply-item-btn">
-                    Sửa
-                  </button>
-                  <button className="reply-item-btn">
-                    Xóa
-                  </button>
-                </div>
-              </li>
+
+
             </ul>
-            <div className="blog-reply-type-box">
-              <div className="reply-current-user">
-                <img src="https://www.vietnamfineart.com.vn/wp-content/uploads/2023/07/anh-avatar-dep-cho-con-gai-1.jpg" 
-                alt="" className="reply-current-user-avatar" />
-                <p className="reply-current-user-name">xuanduong</p>
-              </div>
-              <input className="reply-type-box" type="text" placeholder="Viết bình luận..."/>
-              <button className="reply-send-btn active">Trả lời</button>
-              <button className="reply-send-btn">Hủy</button>
-            </div>
+            
           </li>
         </ul>
       </div>
@@ -138,28 +136,24 @@ const Wrapper = styled.div`
     text-align: right;
   }
 
-  .comment-current-user,
-  .reply-current-user{
+  .comment-current-user{
     display: flex;
     align-items: center;
     margin-bottom: 8px;
     width: 100%;
   }
-  .comment-current-user-avatar,
-  .reply-current-user-avatar{
+  .comment-current-user-avatar{
     height: 36px; 
     width: 36px;
     border-radius: 50%; 
     margin-right: 12px;
   }
 
-  .comment-current-user-name,
-  .reply-current-user-name{
+  .comment-current-user-name{
     margin: 0;
   }
 
-  .comment-type-box,
-  .reply-type-box{
+  .comment-type-box{
     border: 1px solid var(--shadow-color);
     border-radius: 4px;
     outline: none;
@@ -169,8 +163,7 @@ const Wrapper = styled.div`
     box-sizing: border-box;
   }      
   
-  .comment-send-btn,
-  .reply-send-btn{
+  .comment-send-btn{
     margin: 12px 0 0 12px;
     padding: 12px 18px;
     background-color: var(--shadow-color);
@@ -184,8 +177,7 @@ const Wrapper = styled.div`
     }
   }
 
-  .comment-send-btn.active,
-  .reply-send-btn.active{
+  .comment-send-btn.active{
     background-color: var(--hightlight-color);
   }
 
@@ -205,8 +197,7 @@ const Wrapper = styled.div`
     box-sizing: border-box;
   }
 
-  .comment-item-created,
-  .reply-item-created{
+  .comment-item-created{
     display: flex;
     align-items: center;
   }
@@ -283,17 +274,9 @@ const Wrapper = styled.div`
     box-sizing: border-box;
   }
 
-  .blog-reply-type-box{
-    padding: 12px 0 0 36px;
-    width: 100%;
-    box-sizing: border-box;
-    margin: 0;
-    text-align: right;
-  }
-
-  .reply-current-user{
-    border-top: 1px solid var(--shadow-color);
-    padding-top: 12px;
+  .reply-item-created{
+    display: flex;
+    align-items: center;
   }
 
 `
