@@ -253,6 +253,11 @@ const Wrapper = styled.div`
     margin-right: 12px;
   }
 
+  .comment-item-btn:hover,
+  .reply-item-btn:hover{
+    color: var(--hightlight-color);
+  }
+
   .comment-item-btn.active,
   .reply-item-btn.active{
     color: var(--hightlight-color);

@@ -9,6 +9,8 @@ import { BrowserRouter as Router,
 } from 'react-router-dom';
 import Home from './pages/Home/Home.js';
 import ReadBlog from './pages/ReadBlog/ReadBlog.js';
+import Login from './pages/Login/Login.js';
+import Register from './pages/Register/Register.js';
 
 
 function App() {
@@ -18,6 +20,8 @@ function App() {
         <Routes>
           <Route exact path='/' element={<Home/>}/>
           <Route exact path='/blog' element={<ReadBlog/>}/>
+          <Route exact path='/login' element={<Login/>}/>
+          <Route exact path='/register' element={<Register/>} />
         </Routes>
       </div>
     </Router>  

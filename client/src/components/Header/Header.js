@@ -56,7 +56,7 @@ function Header(){
                 </button>
               </div> 
               <div id="sign-container">
-                <a href="" id="sign-btn">
+                <a href="/login" id="sign-btn">
                   Đăng nhập/ Đăng ký
                 </a>
               </div>
