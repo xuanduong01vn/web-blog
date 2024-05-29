@@ -4,6 +4,8 @@ import Header from "../../components/Header/Header.js";
 import HomeLayout from "../../components/HomeLayout/HomeLayout";
 import Footer from "../../components/Footer/Footer";
 
+document.title='BlogX';
+
 function Home(){
   return(
     <Wrapper>

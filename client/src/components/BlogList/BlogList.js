@@ -37,7 +37,7 @@ function BlogList(){
                     alt="" className="blog-author-avatar" />
                     <p className="blog-author-name">xuanduong</p>
                   </a>
-                  <p className="blog-item-author-create">2022.2.3</p>
+                  <p className="blog-item-author-create">đã đăng lúc 2022.2.3</p>
                 </div>
                 <div className="blog-item-action">
                   <button onClick={clickMark} className="add-blog blog-item-btn">
@@ -145,7 +145,7 @@ const Wrapper = styled.div`
   }
 
   .blog-item-author-info{
-    margin-right: 24px;
+    margin-right: 4px;
     display: flex;
     text-align: center;
     align-items: center;
@@ -160,7 +160,7 @@ const Wrapper = styled.div`
 
     .blog-author-name{
       margin: 0;
-      color: var(--shadow-color);
+      color: var(--hightlight-color);
     } 
 
     &:hover .blog-author-name{
@@ -199,15 +199,15 @@ const Wrapper = styled.div`
     }
 
     &:hover h3{
-      color: var(--shadow-color);
+      color: var(--hightlight-color);
     }
   }
 
   .blog-item-interact{
     display: flex;
     margin-top: 12px;
-    color: var(--shadow-color);
     font-size: 14px;
+    color: var(--shadow-color);
     
     &>div{
       margin-right: 20px;

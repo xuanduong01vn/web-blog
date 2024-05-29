@@ -5,6 +5,7 @@ import {
   faComment,
   faThumbsUp,
   faThumbsDown,
+  faStar
 }from '@fortawesome/free-solid-svg-icons'
 
 function QuestionList(){
@@ -31,11 +32,11 @@ function QuestionList(){
               
               <div className="question-item-interact">
                 <div className="question-item-likes">
-                  <FontAwesomeIcon icon={faThumbsUp} />6
+                  <FontAwesomeIcon icon={faStar} />6
                 </div>
-                <div className="question-item-dislikes">
+                {/* <div className="question-item-dislikes">
                   <FontAwesomeIcon icon={faThumbsDown} />6
-                </div>
+                </div> */}
                 <div className="question-item-comments">
                   <FontAwesomeIcon icon={faComment} />8
                 </div>
@@ -44,27 +45,27 @@ function QuestionList(){
           </li>
           <li className="question-item">
             <div className="question-item-cover">
+            <a href="" className="question-item-title">
+                <h3>Cách tạo 1 project bằng Reactjs và Express</h3> 
+              </a>
               <div className="question-item-user">
                 <div className="question-item-author">
                   <a href="" className="question-item-author-info">
                     {/* <img src="https://www.vietnamfineart.com.vn/wp-content/uploads/2023/07/anh-avatar-dep-cho-con-gai-1.jpg" 
                     alt="" className="blog-author-avatar" /> */}
-                    <p className="question-author-name">xuanduong</p>
+                    <p className="question-author-name">xuanduong </p>
                   </a>
                 </div>
-                <p> đã hỏi lúc 20:00</p>
+                <p className="uestion-item-author-ask">đã hỏi lúc 20:00</p>
               </div>
-              <a className="question-item-title">
-                <h3>How to react js</h3> 
-              </a>
               
               <div className="question-item-interact">
                 <div className="question-item-likes">
-                  <FontAwesomeIcon icon={faThumbsUp} />6
+                  <FontAwesomeIcon icon={faStar} />6
                 </div>
-                <div className="question-item-dislikes">
+                {/* <div className="question-item-dislikes">
                   <FontAwesomeIcon icon={faThumbsDown} />6
-                </div>
+                </div> */}
                 <div className="question-item-comments">
                   <FontAwesomeIcon icon={faComment} />8
                 </div>
@@ -92,7 +93,7 @@ const Wrapper = styled.div`
   }
 
   .question-item{
-    border-bottom: 1px solid var(--shadow-color);
+    border-bottom: 1px solid var(--hightlight-color);
 
     &:last-child{
       border-bottom: none ;
@@ -108,7 +109,7 @@ const Wrapper = styled.div`
     }
 
     &:hover h3{
-      color: var(--shadow-color);
+      color: var(--hightlight-color);
     }
   }
 
@@ -128,7 +129,7 @@ const Wrapper = styled.div`
 
   .question-item-author-info{
     font-weight: 600;
-    color: var(--shadow-color);
+    color: var(--hightlight-color);
     transition: var(--transition-time);
 
     &:hover p{
@@ -145,7 +146,7 @@ const Wrapper = styled.div`
 
     &>div{
       margin-right: 16px;
-      opacity: 0.4;
+      color: var(--shadow-color);
     }
 
     & svg{

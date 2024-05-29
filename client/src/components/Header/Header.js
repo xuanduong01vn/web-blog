@@ -48,7 +48,7 @@ function Header(){
         <React.Fragment>
           <div className="header-container">
             <div className="header-bar">
-              <a href="" className="header-title">BlogX</a>
+              <a href="/" className="header-title">BlogX</a>
               <div id="search-container">
                 <input id="search-box" type="text" placeholder='Tìm kiếm trên BlogX'/>
                 <button id="search-btn">

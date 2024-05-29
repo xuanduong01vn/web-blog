@@ -8,9 +8,8 @@ import { BrowserRouter as Router,
   Route
 } from 'react-router-dom';
 import Home from './pages/Home/Home.js';
+import ReadBlog from './pages/ReadBlog/ReadBlog.js';
 
-
-document.title="BlogX"
 
 function App() {
   return (    
@@ -18,6 +17,7 @@ function App() {
       <div className="App">
         <Routes>
           <Route exact path='/' element={<Home/>}/>
+          <Route exact path='/blog' element={<ReadBlog/>}/>
         </Routes>
       </div>
     </Router>  

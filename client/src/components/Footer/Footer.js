@@ -124,7 +124,7 @@ const Wrapper = styled.div`
     }
 
     &:hover{
-      color: var(--shadow-color);
+      color: var(--hightlight-color);
     }
   }
 `

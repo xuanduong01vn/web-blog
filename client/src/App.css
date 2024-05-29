@@ -1,8 +1,8 @@
 :root{
-  --primary-color: #E3FEF7;
-  --shadow-color: #77B0AA;
-  --hightlight-color: #135D66;
-  --text-color: #003C43;
+  --primary-color: #EEEEEE;
+  --shadow-color: #bbc2cf;
+  --hightlight-color: #DC5F00;
+  --text-color: #373A40;
   --transition-time: 0.2s ease;
   --general-width: 1140px;
 }
