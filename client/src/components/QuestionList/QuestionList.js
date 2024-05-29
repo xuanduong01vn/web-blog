@@ -93,7 +93,7 @@ const Wrapper = styled.div`
   }
 
   .question-item{
-    border-bottom: 1px solid var(--hightlight-color);
+    border-bottom: 1px solid var(--shadow-color);
 
     &:last-child{
       border-bottom: none ;
