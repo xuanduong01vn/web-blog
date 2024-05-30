@@ -22,10 +22,13 @@ const Wrapper = styled.div`
   box-sizing: content-box;
   display: flex;
   justify-content: center;
+  min-height: 560px;
+  
 
   .home-content{
     width: var(--general-width);
     display: flex;
     justify-content: space-between;
+    
   }
 `

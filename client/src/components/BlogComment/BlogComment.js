@@ -44,8 +44,8 @@ function BlogComment(e){
               <img src="https://www.vietnamfineart.com.vn/wp-content/uploads/2023/07/anh-avatar-dep-cho-con-gai-1.jpg" 
               alt="" className="comment-item-user-avatar" />
               <div className="comment-item-user-created">
-                <a href="" className="comment-item-username">xuanduong</a>
-                <p className="comment-item-created-time">bình luận lúc 2024</p>
+                <a href="/user" className="comment-item-username">xuanduong</a>
+                <span className="comment-item-created-time"> bình luận lúc 2024</span>
               </div>
             </div>
             <div className="comment-item-content">
@@ -71,8 +71,8 @@ function BlogComment(e){
                   <img src="https://www.vietnamfineart.com.vn/wp-content/uploads/2023/07/anh-avatar-dep-cho-con-gai-1.jpg" 
                   alt="" className="reply-item-user-avatar" />
                   <div className="reply-item-user-created">
-                    <a href="" className="reply-item-username">xuanduong</a>
-                    <p className="reply-item-created-time">bình luận lúc 2024</p>
+                    <a href="/user" className="reply-item-username">xuanduong</a>
+                    <span className="reply-item-created-time"> bình luận lúc 2024</span>
                   </div>
                 </div>
                 <div className="reply-item-content">

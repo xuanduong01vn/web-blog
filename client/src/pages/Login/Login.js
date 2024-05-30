@@ -6,7 +6,10 @@ import {
   faEye,
 } from '@fortawesome/free-solid-svg-icons';
 
+
+
 function Login(){
+  document.title='Login';
 
   const [hidePassword, setHidePassword] = useState(false);
   const [typeInput, setTypeInput] = useState("password");
@@ -45,7 +48,7 @@ function Login(){
         </div>
         
         
-        <button className="login-btn">Đăng nhập</button>
+        <a href="/" className="login-btn">Đăng nhập</a>
         <div className="other-action">
           <a href="/forgot-password" className="forgot-password-btn">Quên mật khẩu?</a>
           <a href="/register" className="register-btn">Tạo tài khoản</a>
@@ -73,6 +76,7 @@ const Wrapper =styled.div`
   }
 
   .page-name{
+    text-align: center;
     margin: 0;
     font-weight: 800;
     font-size: 54px;
@@ -121,6 +125,8 @@ const Wrapper =styled.div`
     padding: 12px 0;
     border: none;
     color: white;
+    display: block;
+    text-align: center;
   }
   
   .login-btn:hover{

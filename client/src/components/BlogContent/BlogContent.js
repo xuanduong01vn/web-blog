@@ -39,7 +39,7 @@ function BlogContent(){
             <img src="https://www.vietnamfineart.com.vn/wp-content/uploads/2023/07/anh-avatar-dep-cho-con-gai-1.jpg" 
             alt="" className="blog-author-avatar" />
             <div className="blog-content-created">
-              <a href="" className="blog-author-name">xuanduong</a>
+              <a href="/user" className="blog-author-name">xuanduong</a>
               <p className="blog-created-time">đã đăng lúc 2024</p>
             </div>
           </div>

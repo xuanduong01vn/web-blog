@@ -67,12 +67,12 @@ function Header(){
                     {openPopUp && <div className="header-pop-up new-blog-pop-up">
                       <ul className='header-pop-up-list'>
                         <li className='header-pop-up-item'>
-                          <a href="" className="header-pop-up-link create-blog">
+                          <a href="create/blog" className="header-pop-up-link create-blog">
                             Tạo bài viết
                           </a>
                         </li>
                         <li className='header-pop-up-item'>
-                          <a href="" className="header-pop-up-link create-question">
+                          <a href="create/question" className="header-pop-up-link create-question">
                             Đặt câu hỏi
                           </a>
                         </li>
@@ -97,12 +97,12 @@ function Header(){
                     {openPopUp && <div className="header-pop-up user-pop-up">
                       <ul className='header-pop-up-list'>
                         <li className='header-pop-up-item'>
-                          <a href="" className="header-pop-up-link user-profile">
+                          <a href="account/profile" className="header-pop-up-link user-profile">
                             Trang cá nhân
                           </a>
                         </li>
                         <li className='header-pop-up-item'>
-                          <a href="" className="header-pop-up-link blog-manage">
+                          <a href="account/blog" className="header-pop-up-link blog-manage">
                             Quản lý bài viết
                           </a>
                         </li>

@@ -8,6 +8,7 @@ import {
 
 function Register(){
 
+  document.title='Register';
   const [hidePassword, setHidePassword] = useState(false);
   const [typeInput, setTypeInput] = useState("password");
 
@@ -67,7 +68,7 @@ function Register(){
           <input className="agree-policy-input" type="checkbox" />
           <span>Tôi đồng ý với các điều khoản</span>
         </div>
-        <button className="register-btn">Đăng ký</button>
+        <a href='/login' className="register-btn">Đăng ký</a>
         
       </div>
     </Wrapper>
@@ -92,6 +93,7 @@ const Wrapper =styled.div`
   }
 
   .page-name{
+    text-align: center;
     margin: 0;
     font-weight: 800;
     font-size: 54px;
@@ -151,6 +153,8 @@ const Wrapper =styled.div`
     padding: 12px 0;
     border: none;
     color: white;
+    display: block;
+    text-align: center;
   }
   
   .login-btn:hover{

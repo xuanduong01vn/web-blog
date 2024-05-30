@@ -6,58 +6,46 @@ import {
   faThumbsUp,
   faThumbsDown,
   faStar
-}from '@fortawesome/free-solid-svg-icons';
-import QuestionItem from '../QuestionItem/QuestionItem';
+}from '@fortawesome/free-solid-svg-icons'
 
-function QuestionList(){
-
-  const [noQuestion,setNoQuestion]=useState(false);
-
-  return (
+function QuestionItem(){
+  return(
     <Wrapper>
-      <div className="question-list-container">
-      <h2 className="question-container-title">Danh sách câu hỏi</h2>
-      {noQuestion&&
-        <div className="blog-list-alert">
-          <span>Chưa có câu hỏi nào</span>
+      <div className="question-item-cover">
+        <a href="" className="question-item-title">
+          <h3>Cách tạo 1 project bằng Reactjs và Express</h3> 
+          </a>
+        <div className="question-item-user">
+          <div className="question-item-author">
+            <a href="/user" className="question-item-author-info">
+              xuanduong
+            </a>
+          </div>
+          <span className="uestion-item-author-ask"> đã hỏi lúc 20:00</span>
         </div>
-      }
-
-      {!noQuestion &&
-        <ul className="question-list-box">
-          <li className="question-item">
-            <QuestionItem/>
-          </li>
-          <li className="question-item">
-            <QuestionItem/>
-          </li>
-        </ul>
-      }
+        
+        <div className="question-item-interact">
+          <div className="question-item-likes">
+            <FontAwesomeIcon icon={faStar} />6
+          </div>
+          {/* <div className="question-item-dislikes">
+            <FontAwesomeIcon icon={faThumbsDown} />6
+          </div> */}
+          <div className="question-item-comments">
+            <FontAwesomeIcon icon={faComment} />8
+          </div>
+        </div>
       </div>
     </Wrapper>
   )
 }
 
-export default QuestionList;
+export default QuestionItem;
 
 const Wrapper = styled.div`
-  width: 30%;
-  margin-left: 36px;
-  text-align: left;
-  
 
-  .question-list-box{
-    list-style: none;
-    padding: 0;
-    margin: 0;
-  }
-
-  .question-item{
-    border-bottom: 1px solid var(--shadow-color);
-
-    &:last-child{
-      border-bottom: none ;
-    }
+  .question-item-cover{
+    width: 100%;
   }
 
   .question-item-title{
@@ -114,5 +102,4 @@ const Wrapper = styled.div`
     }
   }
 
-  
 `
