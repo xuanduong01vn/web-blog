@@ -6,6 +6,7 @@ import styled from "styled-components";
 import React, { useEffect, useState } from "react";
 
 function Profile(){
+  document.title="Change password";
   return (
     <Wrapper>
       <Header/>

@@ -8,11 +8,17 @@ import {
 import {
   faStar as faStared,
   faBookmark as faBookmarked,
+  faEllipsis,
 } from "@fortawesome/free-solid-svg-icons";
 import BlogComment from "../BlogComment/BlogComment.js";
 
 
 function BlogContent(){
+
+  const closedPopUp={display: 'none'};
+  const openedPopUp={display: 'absolute', zIndex: 99 };
+
+  const [openPopUp, setOpenPopUp] = useState("author-pop-up");
 
   const [liked, setLiked] = useState(false);
   const [marked, setMarked] = useState(false);
@@ -29,6 +35,14 @@ function BlogContent(){
       setMarked(true);
     else
       setMarked(false);
+  }
+
+  function handleOpenBlogPopUp(){
+    if(openPopUp=="author-pop-up")
+      setOpenPopUp("author-pop-up opened");
+    else if(openPopUp=="author-pop-up opened")
+      setOpenPopUp("author-pop-up");
+    console.log(openPopUp);
   }
 
   return(
@@ -72,6 +86,26 @@ function BlogContent(){
         <h1 className="blog-content-title">
             REAct basic hello world
         </h1>
+        <div className="author-action">
+          <button onClick={handleOpenBlogPopUp} className="author-action-btn">
+            <FontAwesomeIcon icon={faEllipsis} />
+          </button>
+            <div className={openPopUp}>
+              <ul className='author-pop-up-list'>
+                <li className='author-pop-up-item'>
+                  <a href="/edit/author" className="author-pop-up-link">
+                    Sửa bài viết
+                  </a>
+                </li>
+                <li className='author-pop-up-item'>
+                  <a href="/user" className="author-pop-up-link">
+                    Xóa bài viết
+                  </a>
+                </li>
+              </ul>
+            </div>
+
+        </div>
         <div className="blog-content-text">
           <p>
           I. Thiết lập màu trong HTML:
@@ -170,6 +204,104 @@ const Wrapper = styled.div`
 
   .blog-content-title{
     text-align: left;
+  }
+
+  .author-action{
+    height: 24px;
+    width: max-content;
+    margin-left: auto;
+    display: flex;
+    justify-content: right;
+    position: relative;
+  }
+
+  .author-action-btn{
+    height: 24px;
+
+    svg{
+      height: 100%;
+    }
+  }
+
+  .author-pop-up{
+    top: calc(100% + 24px);
+    right: 50%;
+    background-color: white;
+    border-radius: 4px;
+    box-shadow: 0px 0px 2px var(--shadow-color);
+    border: 1px solid var(--shadow-color);
+    transition: var(--transition-time);
+    transform: scaleY(0%) translateX(50%);
+    transform-origin: 0 -12px;
+    position: absolute;
+  }
+
+  .author-pop-up.opened{
+    transform: scaleY(100%) translateX(50%);
+  }
+
+  .author-pop-up::before{
+    content: "";
+    z-index: 100;
+    display: block;
+    border-width: 12px;
+    border-style: solid;
+    border-color: transparent transparent white transparent;
+    position: absolute;
+    top: -24px;
+    right: 50%;
+    transform: translateX(50%);     
+  }
+
+  .author-pop-up::after{
+    content: "";
+    z-index: 99;
+    display: block;
+    border-width: 13px;
+    border-style: solid;
+    border-color: transparent transparent var(--shadow-color) transparent;
+    position: absolute;
+    top: -26px;
+    right: 50%;
+    transform: translateX(50%);     
+  }
+
+  .author-pop-up-list{
+    /* list-style: none; */
+  }
+
+  .author-pop-up-list{ 
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    width: max-content;
+  }
+
+  .author-pop-up-item{
+    height: max-content;
+    font-size: 16px;
+    text-align: left;
+    display: flex;
+    align-items: center;
+    /* border-bottom: 1px solid var(--shadow-color); */
+    margin: 0;
+    font-weight: 500;
+  }
+
+  .author-pop-up-item:last-child{
+    border-bottom: 0;
+  }
+
+  .author-pop-up-link{
+    width: 100%;
+    padding: 12px;
+    transition: var(--transition-time);
+    color: var(--text-color);
+  }
+
+  .author-pop-up-link:hover{
+    color: var(--hightlight-color);
+    background-color: var(--primary-color);
   }
 
 `

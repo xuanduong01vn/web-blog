@@ -6,7 +6,7 @@ function AccountNavbar(){
   const [activeItemNavbar, setActiveItemNavbar] = useState("account-navbar-link active");
 
   function clickItemNavbar(){
-    
+
   }
 
   return(

@@ -102,6 +102,11 @@ function Header(){
                           </a>
                         </li>
                         <li className='header-pop-up-item'>
+                          <a href="user" className="header-pop-up-link blog-manage">
+                            Tổng quan
+                          </a>
+                        </li>
+                        <li className='header-pop-up-item'>
                           <a href="account/blog" className="header-pop-up-link blog-manage">
                             Quản lý bài viết
                           </a>
@@ -134,6 +139,7 @@ const Wrapper = styled.div`
     position: fixed;
     top: 0;
     box-shadow: 0 0 10px var(--shadow-color);
+    z-index: 98;
   }
 
 
@@ -279,11 +285,6 @@ const Wrapper = styled.div`
     padding-right: 0;
   }
 
-  .user-bar:hover > .user-pop-up,
-  .new-blog-btn:hover > .new-blog-pop-up{
-    display: block;
-  }
-
   .user-image{
     width: 36px;
     height: 36px;
@@ -293,24 +294,34 @@ const Wrapper = styled.div`
 
   .user-name{
     font-size: 16px;
-    color: var(--text-color);;
+    color: var(--text-color);
   }
 
+  
   .header-pop-up{
     position: absolute;
-    z-index: 9;
+    z-index: 99;
     top: calc(100%);
-    right: 0;
     background-color: white;
     border-radius: 4px;
     box-shadow: 0px 0px 2px var(--shadow-color);
-    display: none;
     border: 1px solid var(--shadow-color);
+    transition: var(--transition-time);
+    transform-origin: 0 -12px;
+  }
+
+  .user-bar:hover > .user-pop-up{
+    transform: scaleY(100%) translateX(0);
+  }
+
+  .user-pop-up{
+    right: 0;
+    transform: scaleY(0%) translateX(0);
   }
 
   .header-pop-up::before{
     content: "";
-    z-index: 10;
+    z-index: 100;
     display: block;
     border-width: 12px;
     border-style: solid;
@@ -322,7 +333,7 @@ const Wrapper = styled.div`
 
   .header-pop-up::after{
     content: "";
-    z-index: 9;
+    z-index: 99;
     display: block;
     border-width: 13px;
     border-style: solid;
@@ -334,7 +345,11 @@ const Wrapper = styled.div`
 
   .new-blog-pop-up{
     right: 50%;
-    transform: translateX(50%);
+    transform: scaleY(0%) translateX(50%);
+  }
+
+  .new-blog-btn:hover > .new-blog-pop-up{
+    transform: scaleY(100%) translateX(50%);
   }
 
   .new-blog-pop-up::before{
@@ -364,9 +379,7 @@ const Wrapper = styled.div`
     text-align: left;
     display: flex;
     align-items: center;
-    /* border-bottom: 1px solid var(--shadow-color); */
     margin: 0;
-    font-weight: 600;
   }
 
   .header-pop-up-item:last-child{

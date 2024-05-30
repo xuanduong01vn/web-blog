@@ -80,7 +80,7 @@ const Wrapper = styled.div`
     color: var(--hightlight-color);
     transition: var(--transition-time);
 
-    &:hover p{
+    &:hover{
       text-decoration: underline;
     }
   }

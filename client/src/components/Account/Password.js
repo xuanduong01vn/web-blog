@@ -1,10 +1,27 @@
 import styled from "styled-components";
 import React, {useState, useEffect} from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faCamera,
+import { 
+  faEyeSlash,
+  faEye,
 } from '@fortawesome/free-solid-svg-icons';
 
 function Password(){
+  const [hidePassword, setHidePassword] = useState(false);
+  const [typeInput, setTypeInput] = useState("password");
+
+  function handleHidePassword(e){
+    if(hidePassword==true){
+      setHidePassword(false);
+      setTypeInput('password');
+    }
+    else{
+      setHidePassword(true);
+      setTypeInput('text');
+    }
+  }
+
+
   return(
     <Wrapper>
       <h2 className="password-container-title">Mật khẩu</h2>
@@ -13,19 +30,50 @@ function Password(){
           <label htmlFor="password-current">
             <span className="red-asterisk">* </span>Mật khẩu hiện tại
           </label>
-          <input type="text" id="password-current" className="password-input" value={"xuanduong"}/>
+          <div className="password-type-box">
+            <input type={typeInput} id="password-current" className="password-input" value={"xuanduong"}/>
+            <button className="hide-password-btn" 
+            onClick={handleHidePassword}>
+              {hidePassword ?
+                <FontAwesomeIcon icon={faEye} />
+                : 
+                <FontAwesomeIcon icon={faEyeSlash} />
+              }
+            </button>
+          </div>
+          
         </div>
         <div className="password-item">
           <label htmlFor="password-new">
             <span className="red-asterisk">* </span>Mật khẩu mới
           </label>
-          <input type="text" id="password-new" className="password-input" value={"xuanduong"}/>
+          <div className="password-type-box">
+            <input type={typeInput} id="password-new" className="password-input" value={"xuanduong"}/>
+            <button className="hide-password-btn" 
+            onClick={handleHidePassword}>
+              {hidePassword ?
+                <FontAwesomeIcon icon={faEye} />
+                : 
+                <FontAwesomeIcon icon={faEyeSlash} />
+              }
+            </button>
+          </div>
         </div>
         <div className="password-item">
           <label htmlFor="password-confirm">
             <span className="red-asterisk">* </span>Nhập lại mật khẩu mới
           </label>
-          <input type="text" id="password-confirm" className="password-input" value={"xuanduong"}/>
+          <div className="password-type-box">
+            <input type={typeInput} id="password-confirm" className="password-input" value={"xuanduong"}/>
+            <button className="hide-password-btn" 
+            onClick={handleHidePassword}>
+              {hidePassword ?
+                <FontAwesomeIcon icon={faEye} />
+                : 
+                <FontAwesomeIcon icon={faEyeSlash} />
+              }
+            </button>
+          </div>
         </div>
         <div className="password-action">
           <button className="password-btn">Hủy</button>
@@ -55,42 +103,22 @@ const Wrapper = styled.div`
   }
 
   .password-item{
-    position: relative;
     margin-bottom: 20px;
   }
+
 
   .red-asterisk{
     color: red;
   }
 
-  .password-avatar{
-    width: 200px;
-    height: 200px;
-    border-radius: 50%;
-  }
-
-  .avatar-btn{
-    position: absolute;
-    height: 40px;
-    width: 40px;
-    border-radius: 50%;
-    top: 150px;
-    left: 150px;
-    background-color: var(--primary-color);
-    border: 2px solid var(--shadow-color);
-    display: flex;
-    justify-content: center;
-    align-items: center;
-
-    svg{
-      height: 60%;
-      color: var(--text-color);
-    }
-  }
-
   label{
     display: block;
     font-size: 18px;
+  }
+
+  .password-type-box{
+    position: relative;
+    z-index: 1;
   }
 
   .password-input{
@@ -104,6 +132,19 @@ const Wrapper = styled.div`
 
   .password-input:focus{
     border: 1px solid var(--hightlight-color);
+  }
+
+  .hide-password-btn{
+    position: absolute;
+    right: 0;
+    top: 50%;
+    transform: translateY(-50%);
+    height: 36px;
+    width: 36px;
+    outline: none;
+    border: none;
+    background-color: transparent;
+    color: var(--shadow-color);
   }
 
   .password-action{

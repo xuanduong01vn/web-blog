@@ -5,6 +5,7 @@ import UserLayout from "../../components/User/User";
 import Footer from "../../components/Footer/Footer";
 
 function User(){
+  document.title="User";
   return(
     <Wrapper>
       <Header/>
