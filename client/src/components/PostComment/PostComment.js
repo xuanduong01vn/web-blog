@@ -5,9 +5,9 @@ import {
   faComment 
 } from "@fortawesome/free-regular-svg-icons";
 
-import BlogReply from "./BlogReply.js";
+import PostReply from "./PostReply.js";
 
-function BlogComment(e){
+function PostComment(e){
   const [activeReply, setActiveReply]=useState(false);
 
   function openReplyBox(e){
@@ -22,13 +22,13 @@ function BlogComment(e){
 
   return(
     <Wrapper>
-      <div className="blog-comment-container">
+      <div className="post-comment-container">
         <h3>Chưa có bình luận nào</h3>
-        <div className="blog-comment-alert">
+        <div className="post-comment-alert">
           <FontAwesomeIcon icon={faComment}/>
           <p>Đăng nhập để bình luận</p>
         </div>
-        <div className="blog-comment-type-box">
+        <div className="post-comment-type-box">
           <div className="comment-current-user">
             <img src="https://www.vietnamfineart.com.vn/wp-content/uploads/2023/07/anh-avatar-dep-cho-con-gai-1.jpg" 
             alt="" className="comment-current-user-avatar" />
@@ -38,8 +38,8 @@ function BlogComment(e){
           <button className="comment-send-btn active">Bình luận</button>
           <button className="comment-send-btn">Hủy</button>
         </div>
-        <ul className="blog-comment-list">
-          <li className="blog-comment-item">
+        <ul className="post-comment-list">
+          <li className="post-comment-item">
             <div className="comment-item-created">
               <img src="https://www.vietnamfineart.com.vn/wp-content/uploads/2023/07/anh-avatar-dep-cho-con-gai-1.jpg" 
               alt="" className="comment-item-user-avatar" />
@@ -63,10 +63,10 @@ function BlogComment(e){
                 Xóa
               </button>
             </div>
-            {activeReply && <BlogReply openReply={closeReplyBox}/>}
+            {activeReply && <PostReply openReply={closeReplyBox}/>}
             
-            <ul className="blog-reply-list">
-              <li className="blog-reply-item">
+            <ul className="post-reply-list">
+              <li className="post-reply-item">
                 <div className="reply-item-created">
                   <img src="https://www.vietnamfineart.com.vn/wp-content/uploads/2023/07/anh-avatar-dep-cho-con-gai-1.jpg" 
                   alt="" className="reply-item-user-avatar" />
@@ -90,7 +90,7 @@ function BlogComment(e){
                     Xóa
                   </button>
                 </div>
-                {activeReply && <BlogReply openReply={closeReplyBox}/>}
+                {activeReply && <PostReply openReply={closeReplyBox}/>}
               </li>
 
 
@@ -103,17 +103,17 @@ function BlogComment(e){
   )
 }
 
-export default BlogComment;
+export default PostComment;
 
 const Wrapper = styled.div`
 
-  .blog-comment-container{
+  .post-comment-container{
     width: var(--general-width);
     border-top: 1px solid var(--shadow-color);
     text-align: left;
   }
 
-  .blog-comment-alert{
+  .post-comment-alert{
     border: 1px solid var(--shadow-color);
     color: var(--shadow-color);
     display: flex;
@@ -127,7 +127,7 @@ const Wrapper = styled.div`
     }
   }
 
-  .blog-comment-type-box{
+  .post-comment-type-box{
     width: 100%;
     border: 1px solid var(--shadow-color);
     border-radius: 8px;
@@ -181,14 +181,14 @@ const Wrapper = styled.div`
     background-color: var(--hightlight-color);
   }
 
-  .blog-comment-list{
+  .post-comment-list{
     list-style: none;
     padding: 0;
     margin: 12px 0;
     width: 100%;
   }
 
-  .blog-comment-item{
+  .post-comment-item{
     border: 1px solid var(--shadow-color);
     border-radius: 8px;
     outline: none;
@@ -263,7 +263,7 @@ const Wrapper = styled.div`
     color: var(--hightlight-color);
   }
 
-  .blog-reply-list{
+  .post-reply-list{
     list-style: none;
     padding: 0 0 0 36px;
     margin-top: 12px;
@@ -271,7 +271,7 @@ const Wrapper = styled.div`
     box-sizing: border-box;
   }
 
-  .blog-reply-item{
+  .post-reply-item{
     border-top: 1px solid var(--shadow-color);
     outline: none;
     padding: 12px 0;

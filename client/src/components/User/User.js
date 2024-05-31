@@ -10,7 +10,7 @@ import {
   faStar,
   faComment,
 } from '@fortawesome/free-solid-svg-icons';
-import BlogList from "../BlogList/BlogList";
+import PostList from "../PostList/PostList";
 import QuestionList from "../QuestionList/QuestionList";
 
 function UserLayout(){
@@ -42,7 +42,7 @@ function UserLayout(){
           </div>
         </div>
         <div className="user-content">
-          <BlogList/>
+          <PostList/>
           <QuestionList/>
         </div>
         

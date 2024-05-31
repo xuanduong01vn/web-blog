@@ -11,7 +11,7 @@ import {
   faComment,
 } from '@fortawesome/free-solid-svg-icons';
 
-function BlogItem(){
+function PostItem(){
 
   const [marked, setMarked]=useState(false);
   function clickMark(e){
@@ -23,35 +23,35 @@ function BlogItem(){
 
   return(
     <Wrapper>
-      <div className="blog-item-cover">
-        <div className="blog-item-user">
-          <div className="blog-item-author">
-            <a href="/user" className="blog-item-author-info">
+      <div className="post-item-cover">
+        <div className="post-item-user">
+          <div className="post-item-author">
+            <a href="/user" className="post-item-author-info">
               <img src="https://www.vietnamfineart.com.vn/wp-content/uploads/2023/07/anh-avatar-dep-cho-con-gai-1.jpg" 
-              alt="" className="blog-author-avatar" />
-              <p className="blog-author-name">xuanduong</p>
+              alt="" className="post-author-avatar" />
+              <p className="post-author-name">xuanduong</p>
             </a>
-            <span className="blog-item-author-create"> đã đăng lúc 2022.2.3</span>
+            <span className="post-item-author-create"> đã đăng lúc 2022.2.3</span>
           </div>
-          <div className="blog-item-action">
-            <button onClick={clickMark} className="add-blog blog-item-btn">
-              {!marked && <FontAwesomeIcon className="blog-item-btn-mark" icon={faBookmark} />}
-              {marked && <FontAwesomeIcon className="blog-item-btn-marked" icon={faBookmarked} />}
+          <div className="post-item-action">
+            <button onClick={clickMark} className="add-blog post-item-btn">
+              {!marked && <FontAwesomeIcon className="post-item-btn-mark" icon={faBookmark} />}
+              {marked && <FontAwesomeIcon className="post-item-btn-marked" icon={faBookmarked} />}
             </button>
           </div>
         </div>
-        <a href="/blog" className="blog-item-title">
+        <a href="/post" className="post-item-title">
           <h3>React basic basicReact basic basicReact basic basicReact basic basicReact basic basicReact basic basicReact basic basic</h3> 
         </a>
 
-        <div className="blog-item-interact">
-          <div className="blog-item-stars">
+        <div className="post-item-interact">
+          <div className="post-item-stars">
             <FontAwesomeIcon icon={faStar} />6
           </div>
-          <div className="blog-item-comments">
+          <div className="post-item-comments">
             <FontAwesomeIcon icon={faComment} />6
           </div>
-          <div className="blog-item-marks">
+          <div className="post-item-marks">
             <FontAwesomeIcon icon={faBookmarked} />8
           </div>
         </div>
@@ -60,52 +60,52 @@ function BlogItem(){
   )
 }
 
-export default BlogItem;
+export default PostItem;
 
 const Wrapper = styled.div`
-  .blog-item-cover{
+  .post-item-cover{
     border: 1px solid var(--shadow-color);
     border-radius: 12px; 
     padding: 12px;
   }
 
-  .blog-item-user{
+  .post-item-user{
     display: flex;
     justify-content: space-between;
   }
 
-  .blog-item-author{
+  .post-item-author{
     display: flex;
     text-align: center;
     align-items: center;
     font-weight: 600;
   }
 
-  .blog-item-author-info{
+  .post-item-author-info{
     margin-right: 4px;
     display: flex;
     text-align: center;
     align-items: center;
     font-weight: 600;
 
-    .blog-author-avatar{
+    .post-author-avatar{
       width: 32px;
       height: 32px;
       border-radius: 50%; 
       margin-right: 12px;
     }  
 
-    .blog-author-name{
+    .post-author-name{
       margin: 0;
       color: var(--hightlight-color);
     } 
 
-    &:hover .blog-author-name{
+    &:hover .post-author-name{
         text-decoration: underline;
     } 
   }
 
-  .blog-item-author-create{
+  .post-item-author-create{
     margin: 0;
     font-size: 14px;
     display: flex;
@@ -113,7 +113,7 @@ const Wrapper = styled.div`
     align-items: center;
   }
 
-  .blog-item-btn{
+  .post-item-btn{
     outline: none;
     border: none;
     background: transparent;
@@ -127,7 +127,10 @@ const Wrapper = styled.div`
     }
   }
 
-  .blog-item-title{
+
+
+
+  .post-item-title{
 
     h3{
       margin: 8px 0;
@@ -140,7 +143,7 @@ const Wrapper = styled.div`
     }
   }
 
-  .blog-item-interact{
+  .post-item-interact{
     display: flex;
     margin-top: 12px;
     font-size: 14px;

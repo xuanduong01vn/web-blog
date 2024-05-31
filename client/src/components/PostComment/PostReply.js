@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 
-function BlogReply({openReply}){
+function PostReply({openReply}){
   const [activeReply, setActiveReply]=useState(true);
 
   
@@ -11,7 +11,7 @@ function BlogReply({openReply}){
 
   return (
     <Wrapper>
-        <div className="blog-reply-type-box">
+        <div className="post-reply-type-box">
         <div className="reply-current-user">
           <img src="https://www.vietnamfineart.com.vn/wp-content/uploads/2023/07/anh-avatar-dep-cho-con-gai-1.jpg" 
           alt="" className="reply-current-user-avatar" />
@@ -26,11 +26,11 @@ function BlogReply({openReply}){
   )
 }
 
-export default BlogReply;
+export default PostReply;
 
 const Wrapper = styled.div`
 
-.blog-reply-type-box{
+.post-reply-type-box{
     padding-top: 12px;
     width: 100%;
     box-sizing: border-box;
