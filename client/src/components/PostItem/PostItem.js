@@ -127,6 +127,9 @@ const Wrapper = styled.div`
     }
   }
 
+
+
+
   .post-item-title{
 
     h3{
