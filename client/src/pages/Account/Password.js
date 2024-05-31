@@ -11,8 +11,10 @@ function Profile(){
     <Wrapper>
       <Header/>
       <div className="account-container">
-        <AccountNavbar/>
-        <PasswordSection/>
+        <div className="account-layout">
+          <AccountNavbar/>
+          <PasswordSection/>
+        </div>
       </div>
       <Footer/>
     </Wrapper>
@@ -23,10 +25,16 @@ export default Profile;
 
 const Wrapper = styled.div`
 
-  .account-container{
+.account-container{
     display: flex;
-    width: var(--general-width);
-    margin: 80px auto 20px auto;
+    width: 100vw;
+    margin: 80px 0 20px 0;
     min-height: 560px;
+    justify-content: center;
+  }
+
+  .account-layout{
+    width: var(--general-width);
+    display: flex;
   }
 `

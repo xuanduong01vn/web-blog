@@ -1,7 +1,7 @@
 import styled from "styled-components";
 import React, {useState, useEffect} from "react";
 
-function AccountNavbar(){
+function AssetsLayout(){
 
   const [activeItemNavbar, setActiveItemNavbar] = useState("account-navbar-item active");
 
@@ -10,20 +10,20 @@ function AccountNavbar(){
   }
 
   const navbarItems=[
-    {path:"/account/profile", title: "Thông tin cá nhân"},
-    {path:"/account/password", title: "Mật khẩu"},
+    {path:"/account/post", title: "Bài viết"},
+    {path:"/account/post", title: "Câu hỏi"},
+    {path:"/account/marked", title: "Đã lưu"},
   ]
 
   const [selectedItem, setSelectedItem]=useState(0);
 
-  const handleSelectNavbar=(e,index)=>{
+  const handleSelectNavbar=(e)=>{
     console.log(e.target.innerHTML); 
   }
 
   return(
     <Wrapper>
       <div className="account-navbar">
-        <h2 className="account-navbar-title">Tài khoản</h2>
         <ul className="account-navbar-list">
           {
             navbarItems.map((navbarItem, index)=>{
@@ -42,11 +42,11 @@ function AccountNavbar(){
   )
 }
 
-export default AccountNavbar
+export default AssetsLayout
 
 const Wrapper = styled.div`
   width: 280px;
-  padding: 24px 20px 24px 0;
+  padding: 0 20px 24px 0;
 
   .account-navbar{
     width: 100%;
@@ -71,6 +71,7 @@ const Wrapper = styled.div`
     box-sizing: border-box;
     margin-bottom: 8px;
     border-radius: 8px;
+    transition: var(--transition-time);
   }
 
   .account-navbar-item.active{
@@ -92,9 +93,7 @@ const Wrapper = styled.div`
     display: block;
     font-weight: 800;
     box-sizing: border-box;
-    transition: var(--transition-time);
+    
   }
-
-  
 
 `

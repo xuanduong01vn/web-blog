@@ -1,19 +1,19 @@
-import ProfileSection from "../../components/Account/Profile";
+import AssetsLayout from "../../components/AccountAssets/AssetsLayout";
+import AssetsPost from "../../components/AccountAssets/AssetsPost";
 import Header from "../../components/Header/Header";
 import Footer from "../../components/Footer/Footer";
-import AccountNavbar from "../../components/Account/AccountNavbar";
 import styled from "styled-components";
 import React, { useEffect, useState } from "react";
 
 function Profile(){
-  document.title="Account profile";
+  document.title="Change password";
   return (
     <Wrapper>
       <Header/>
       <div className="account-container">
         <div className="account-layout">
-          <AccountNavbar/>
-          <ProfileSection/>
+          <AssetsLayout/>
+          <AssetsPost/>
         </div>
       </div>
       <Footer/>
@@ -25,7 +25,7 @@ export default Profile;
 
 const Wrapper = styled.div`
 
-  .account-container{
+.account-container{
     display: flex;
     width: 100vw;
     margin: 80px 0 20px 0;

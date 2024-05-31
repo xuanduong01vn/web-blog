@@ -28,8 +28,8 @@ function Login(){
   return(
     <Wrapper>
       <div className="login-container">
-        <h1 className="page-name">BlogX</h1>
-        <h3 className="page-title">Đăng nhập vào BlogX</h3>
+        <h1 className="page-name">QAx</h1>
+        <h3 className="page-title">Đăng nhập vào QAx</h3>
         <div className="input-item">
           <input type="text" placeholder="Tên người dùng"
           id="username-input" />

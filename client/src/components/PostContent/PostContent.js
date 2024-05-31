@@ -37,13 +37,18 @@ function PostContent(){
       setMarked(false);
   }
 
-  function handleOpenPostPopUp(){
-    if(openPopUp=="author-pop-up")
-      setOpenPopUp("author-pop-up opened");
-    else if(openPopUp=="author-pop-up opened")
-      setOpenPopUp("author-pop-up");
-    console.log(openPopUp);
+  const handleOpenPostPopUp=(e)=>{
+    openPopUp.includes(" opened")
+      ?setOpenPopUp("author-pop-up")
+      :setOpenPopUp("author-pop-up opened");
+    console.log(e.target.className);
+
   }
+
+  const handleClosePopUp=(e)=>{
+  }
+
+  document.addEventListener("click",handleClosePopUp)
 
   return(
     <Wrapper>
@@ -87,8 +92,8 @@ function PostContent(){
             REAct basic hello world
         </h1>
         <div className="author-action">
-          <button onClick={handleOpenPostPopUp} className="author-action-btn">
-            <FontAwesomeIcon icon={faEllipsis} />
+          <button className="author-action-btn">
+            <FontAwesomeIcon className="author-action-btn-icon" icon={faEllipsis} />
           </button>
             <div className={openPopUp}>
               <ul className='author-pop-up-list'>

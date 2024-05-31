@@ -20,7 +20,7 @@ function Footer(){
     <Wrapper>
       <div className="footer-container">
         <div className="footer-col">
-          <h1 className='footer-title'>BlogX</h1>
+          <h1 className='footer-title'>QAx</h1>
           <p className='year-present'>© 2024 xuanduong01vn</p>
         </div>
         <div className="footer-col">
