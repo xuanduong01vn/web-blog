@@ -1,12 +1,12 @@
 import styled from 'styled-components';
-import BlogList from '../BlogList/BlogList.js';
+import PostList from '../PostList/PostList.js';
 import QuestionList from '../QuestionList/QuestionList.js';
 
 function HomeLayout(){
   return (
     <Wrapper>
       <div className="home-content">
-        <BlogList/>
+        <PostList/>
         <QuestionList/>
       </div>
     </Wrapper>

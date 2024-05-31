@@ -1,21 +1,21 @@
 import styled from 'styled-components';
 import React, { useEffect, useState } from 'react';
 import Header from '../../components/Header/Header.js';
-import Footer from "../../components/Footer/Footer";
-import BlogContent from '../../components/BlogContent/BlogContent.js';
+import Footer from "../../components/Footer/Footer.js";
+import PostContent from '../../components/PostContent/PostContent.js';
 
-function ReadBlog(){
-  document.title="Read blog";
+function ReadPost(){
+  document.title="Read post";
   
   return (
     <Wrapper>
       <Header/>
-      <BlogContent/>
+      <PostContent/>
       <Footer/>
     </Wrapper>
   )
 }
 
-export default ReadBlog;
+export default ReadPost;
 
 const Wrapper = styled.div``

@@ -10,10 +10,10 @@ import {
   faBookmark as faBookmarked,
   faEllipsis,
 } from "@fortawesome/free-solid-svg-icons";
-import BlogComment from "../BlogComment/BlogComment.js";
+import PostComment from "../PostComment/PostComment.js";
 
 
-function BlogContent(){
+function PostContent(){
 
   const closedPopUp={display: 'none'};
   const openedPopUp={display: 'absolute', zIndex: 99 };
@@ -23,21 +23,21 @@ function BlogContent(){
   const [liked, setLiked] = useState(false);
   const [marked, setMarked] = useState(false);
 
-  function likeBlog(e){
+  function likePost(e){
     if(liked==false)
       setLiked(true);
     else
       setLiked(false);
   }
 
-  function markBlog(e){
+  function markPost(e){
     if(marked==false)
       setMarked(true);
     else
       setMarked(false);
   }
 
-  function handleOpenBlogPopUp(){
+  function handleOpenPostPopUp(){
     if(openPopUp=="author-pop-up")
       setOpenPopUp("author-pop-up opened");
     else if(openPopUp=="author-pop-up opened")
@@ -47,47 +47,47 @@ function BlogContent(){
 
   return(
     <Wrapper>
-      <div className="blog-content-container">
-        <div className="blog-content-user">
-          <div className="blog-content-author">
+      <div className="post-content-container">
+        <div className="post-content-user">
+          <div className="post-content-author">
             <img src="https://www.vietnamfineart.com.vn/wp-content/uploads/2023/07/anh-avatar-dep-cho-con-gai-1.jpg" 
-            alt="" className="blog-author-avatar" />
-            <div className="blog-content-created">
-              <a href="/user" className="blog-author-name">xuanduong</a>
-              <p className="blog-created-time">đã đăng lúc 2024</p>
+            alt="" className="post-author-avatar" />
+            <div className="post-content-created">
+              <a href="/user" className="post-author-name">xuanduong</a>
+              <p className="post-created-time">đã đăng lúc 2024</p>
             </div>
           </div>
-          <div className="blog-content-action">
+          <div className="post-content-action">
             <p className="liked-action-ammount">6</p>
             {!liked && 
-              <button onClick={likeBlog} className="blog-content-action-btn">
+              <button onClick={likePost} className="post-content-action-btn">
                 <FontAwesomeIcon icon={faStar}/>
               </button>
             }
             {liked &&
-              <button onClick={likeBlog} className="blog-content-action-btn">
+              <button onClick={likePost} className="post-content-action-btn">
                 <FontAwesomeIcon icon={faStared}/>
               </button>
             }
             <p className="marked-action-ammount">6</p>
             {!marked &&
-              <button onClick={markBlog} className="blog-content-action-btn">
+              <button onClick={markPost} className="post-content-action-btn">
                 <FontAwesomeIcon icon={faBookmark}/>
               </button>
             }
             {marked &&
-              <button onClick={markBlog} className="blog-content-action-btn">
+              <button onClick={markPost} className="post-content-action-btn">
                 <FontAwesomeIcon icon={faBookmarked}/>
               </button>
             } 
             
           </div>
         </div>
-        <h1 className="blog-content-title">
+        <h1 className="post-content-title">
             REAct basic hello world
         </h1>
         <div className="author-action">
-          <button onClick={handleOpenBlogPopUp} className="author-action-btn">
+          <button onClick={handleOpenPostPopUp} className="author-action-btn">
             <FontAwesomeIcon icon={faEllipsis} />
           </button>
             <div className={openPopUp}>
@@ -106,7 +106,7 @@ function BlogContent(){
             </div>
 
         </div>
-        <div className="blog-content-text">
+        <div className="post-content-text">
           <p>
           I. Thiết lập màu trong HTML:
 
@@ -118,12 +118,12 @@ function BlogContent(){
           </p>
         </div>
       </div>
-      <BlogComment/>
+      <PostComment/>
     </Wrapper>
   )
 }
 
-export default BlogContent;
+export default PostContent;
 
 const Wrapper = styled.div`
   width: 100vw;
@@ -133,30 +133,30 @@ const Wrapper = styled.div`
   padding-top: 40px;
   flex-wrap: wrap;
 
-  .blog-content-container{
+  .post-content-container{
     width: var(--general-width);
     margin: 0 auto;
   }
 
-  .blog-content-user{
+  .post-content-user{
     display: flex;
     justify-content: space-between;
   }
 
-  .blog-content-author{
+  .post-content-author{
     display: flex;
     justify-content: left;
     text-align: left;
   }
 
-  .blog-author-avatar{
+  .post-author-avatar{
     height: 48px;
     width: 48px;
     border-radius: 50%;
     margin-right: 12px;
   }
 
-  .blog-author-name{
+  .post-author-name{
     margin: 0;
     padding: 0;
     color: var(--hightlight-color);
@@ -164,17 +164,17 @@ const Wrapper = styled.div`
     font-size: 18px;
   }
 
-  .blog-author-name:hover{
+  .post-author-name:hover{
     text-decoration: underline;
   }
 
-  .blog-created-time{
+  .post-created-time{
     margin: 0;
     padding: 0;
     font-size: 14px;
   }
 
-  .blog-content-action{
+  .post-content-action{
     display: flex;
     justify-content: right;
     align-items: center;
@@ -183,7 +183,7 @@ const Wrapper = styled.div`
     color: var(--shadow-color);
   }
 
-  .blog-content-action-btn{
+  .post-content-action-btn{
     margin-right: 12px;
     width: 40px;
     height: 40px;
@@ -198,11 +198,11 @@ const Wrapper = styled.div`
       height: 60%;
     }
   }
-  .blog-content-action-btn:last-child{
+  .post-content-action-btn:last-child{
     margin-right: 0;
   }
 
-  .blog-content-title{
+  .post-content-title{
     text-align: left;
   }
 
@@ -266,10 +266,6 @@ const Wrapper = styled.div`
     transform: translateX(50%);     
   }
 
-  .author-pop-up-list{
-    /* list-style: none; */
-  }
-
   .author-pop-up-list{ 
     list-style: none;
     padding: 0;
@@ -283,7 +279,6 @@ const Wrapper = styled.div`
     text-align: left;
     display: flex;
     align-items: center;
-    /* border-bottom: 1px solid var(--shadow-color); */
     margin: 0;
     font-weight: 500;
   }
