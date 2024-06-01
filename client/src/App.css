@@ -22,8 +22,23 @@ button{
   cursor: pointer;
   border: none;
   background-color: transparent;
+  
 }
 
 input{
   outline: none;
+  border: 1px solid var(--shadow-color);
+  border-radius: 4px;
+  padding: 8px 16px;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+input:focus{
+  border: 1px solid var(--hightlight-color);
+}
+
+ul{
+  list-style: none;
+  padding: 0;
 }

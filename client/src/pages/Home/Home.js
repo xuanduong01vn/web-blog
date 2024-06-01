@@ -5,7 +5,7 @@ import HomeLayout from "../../components/HomeLayout/HomeLayout";
 import Footer from "../../components/Footer/Footer";
 
 function Home(){
-  document.title='BlogX';
+  document.title='QAx';
   return(
     <Wrapper>
       <Header/>

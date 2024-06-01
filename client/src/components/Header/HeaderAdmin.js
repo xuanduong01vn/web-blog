@@ -8,7 +8,7 @@ import { faMagnifyingGlass,
 
  
 
-function Header(){
+function HeaderAdmin(){
 
   const [openPopUp, setOpenPopUp] = useState(true);
 
@@ -55,11 +55,11 @@ function Header(){
                   <FontAwesomeIcon icon={faMagnifyingGlass} className="search-icon" />
                 </button>
               </div> 
-              <div id="sign-container">
+              {/* <div id="sign-container">
                 <a href="/login" id="sign-btn">
                   Đăng nhập/ Đăng ký
                 </a>
-              </div>
+              </div> */}
               <div className="user-container">
                 <div className="user-container-item">
                   <button className="new-blog-btn user-btn">
@@ -128,11 +128,13 @@ function Header(){
     )
 }
 
-export default Header;
+export default HeaderAdmin;
 
 const Wrapper = styled.div`
   .header-container{
     width: 100vw;
+    padding: 0 24px;
+    box-sizing: border-box;
     height: 60px;
     background-color: var(--primary-color);
     margin-bottom: 40px;
@@ -144,7 +146,7 @@ const Wrapper = styled.div`
 
 
   .header-bar{
-    width: var(--general-width);
+    width: 100%;
     height: 100%;
     display: flex;
     justify-content: space-between;

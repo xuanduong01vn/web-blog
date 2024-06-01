@@ -6,6 +6,9 @@ import Profile from '../pages/Account/Profile.js';
 import Password from '../pages/Account/Password.js';
 import User from '../pages/User/User.js';
 import AccountPost from '../pages/Account/AccountPost.js';
+import CreatePost from '../pages/CreatePost/CreatePost.js';
+import HomeAdmin from '../pages/HomeAdmin/HomeAdmin.js';
+import DashboardPost from '../pages/DashboardPost/DashboardPost.js';
 
 const routes=[
   {path: "/", component: Home},
@@ -16,6 +19,14 @@ const routes=[
   {path: "/account/password", component: Password},
   {path: "/user", component: User},
   {path: "/account/post", component: AccountPost},
+  {path: "/create/post", component: CreatePost},
+  {path: "/dashboard", component: HomeAdmin},
+  {path: "/dashboard/posts", component: DashboardPost},
+  {path: "/dashboard/questions", component: CreatePost},
+  {path: "/dashboard/admins", component: CreatePost},
+  {path: "/dashboard/users", component: CreatePost},
+  {path: "/dashboard/tags", component: CreatePost},
+
 ]
 
 export { routes };

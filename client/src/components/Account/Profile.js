@@ -105,16 +105,6 @@ const Wrapper = styled.div`
   }
 
   .profile-input{
-    font-size: 18px;
-    width: 100%;
-    box-sizing: border-box;
-    padding: 4px 24px;
-    border: 1px solid var(--shadow-color);
-    border-radius: 4px; 
-  }
-
-  .profile-input:focus{
-    border: 1px solid var(--hightlight-color);
   }
 
   .profile-action{
@@ -125,7 +115,7 @@ const Wrapper = styled.div`
   .profile-btn{
     background-color: var(--shadow-color);
     color: white;
-    padding: 12px 36px;
+    padding: 12px 32px;
     border-radius: 8px;
     margin-left: 20px;
   }
