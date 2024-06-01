@@ -4,20 +4,20 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCamera,
 } from '@fortawesome/free-solid-svg-icons';
 
-import HeaderAdmin from "../../components/Header/HeaderAdmin";
-import AdminLayout from "../../components/AdminLayout/AdminLayout";
-import AdminPost from "../../components/AdminPost/AdminPost.js";
+import HeaderDashboard from "../../components/Header/HeaderDashboard.js";
+import DashboardLayout from "../../components/DashboardLayout/DashboardLayout.js";
+import DashboardPost from "../../components/DashboardPost/DashboardPost.js";
 
-function DashboardPost(){
+function PageDashboardPost(){
   document.title="Dashboard admin";
 
   return (
     <Wrapper>
       <div className="dashboard-admin-container">
-        <HeaderAdmin/>
+        <HeaderDashboard/>
         <div className="dashboard-admin-content">
-          <AdminLayout/>
-          <AdminPost/>
+          <DashboardLayout/>
+          <DashboardPost/>
         </div>
       </div>
 
@@ -25,7 +25,7 @@ function DashboardPost(){
   )
 }
 
-export default DashboardPost;
+export default PageDashboardPost;
 
 const Wrapper = styled.div`
   width: 100vw;

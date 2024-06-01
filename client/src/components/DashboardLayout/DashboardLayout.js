@@ -13,7 +13,7 @@ import {
   faHashtag,
  } from '@fortawesome/free-solid-svg-icons';
 
- function AdminLayout(){
+ function DashboardLayout(){
 
   const [openedLowMenu, setOpenedLowMenu] = useState(true);
   const [openMenuIcon, setOpenMenuIcon] = useState("opened-menu-icon");
@@ -105,7 +105,7 @@ import {
   )
  }
 
- export default AdminLayout;
+ export default DashboardLayout;
 
  const Wrapper = styled.div`
   min-width: 240px;

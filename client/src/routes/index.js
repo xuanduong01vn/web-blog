@@ -9,6 +9,8 @@ import AccountPost from '../pages/Account/AccountPost.js';
 import CreatePost from '../pages/CreatePost/CreatePost.js';
 import HomeAdmin from '../pages/HomeAdmin/HomeAdmin.js';
 import DashboardPost from '../pages/DashboardPost/DashboardPost.js';
+import DashboardAdmin from '../pages/DashboardAdmin/DashboardAdmin.js';
+import AddNewAdmin from '../pages/AddNewAdmin/AddNewAdmin.js';
 
 const routes=[
   {path: "/", component: Home},
@@ -22,8 +24,8 @@ const routes=[
   {path: "/create/post", component: CreatePost},
   {path: "/dashboard", component: HomeAdmin},
   {path: "/dashboard/posts", component: DashboardPost},
-  {path: "/dashboard/questions", component: CreatePost},
-  {path: "/dashboard/admins", component: CreatePost},
+  {path: "/dashboard/admins", component: DashboardAdmin},
+  {path: "/dashboard/new-admin", component: AddNewAdmin},
   {path: "/dashboard/users", component: CreatePost},
   {path: "/dashboard/tags", component: CreatePost},
 

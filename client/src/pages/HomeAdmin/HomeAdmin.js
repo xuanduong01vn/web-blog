@@ -4,8 +4,8 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCamera,
 } from '@fortawesome/free-solid-svg-icons';
 
-import HeaderAdmin from "../../components/Header/HeaderAdmin";
-import AdminLayout from "../../components/AdminLayout/AdminLayout";
+import HeaderAdmin from "../../components/Header/HeaderDashboard";
+import AdminLayout from "../../components/DashboardLayout/DashboardLayout";
 import GeneralAdmin from "../../components/GeneralAdmin/GeneralAdmin";
 
 function HomeAdmin(){

@@ -4,35 +4,38 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faMagnifyingGlass,
           faPen,
           faBell
- } from '@fortawesome/free-solid-svg-icons';
+} from '@fortawesome/free-solid-svg-icons';
 
-function AdminPost(){
+function DashboardAdmin(){
   return (
     <Wrapper>
       <div className="dashboard-post-container">
         <div className="dashboard-add-new">
-          <h3>Quản lý bài viết</h3>
-          <a href="" target="_blank" className="dashboard-new-btn">Thêm mới</a>
+          <h3>Quản lý quản trị viên</h3>
+          <a href="/dashboard/new-admin" target="_blank" className="dashboard-new-btn">Thêm mới</a>
         </div>
         
-        <div className="dashboard-post-filter">
-          <ul className="post-filter-list">
-            <li className="post-filter-item active">Tất cả</li>
-            <li className="post-filter-item">Đang hoạt động</li>
-            <li className="post-filter-item">Đã xóa</li>
+        <div className="dashboard-filter">
+          <ul className="dashboard-filter-list">
+            <li className="dashboard-filter-item active">Tất cả</li>
+            <li className="dashboard-filter-item">Đang hoạt động</li>
+            <li className="dashboard-filter-item">Đã xóa</li>
           </ul>
         </div>
         
         <table className="dashboard-post-table">
           <thead>
             <th>
-              Tiêu đề bài viết
+              Tên tài khoản
             </th>
             <th>
-              Tác giả
+              Tên hiển thị
             </th>
             <th>
-              Trạng thái
+              Email
+            </th>
+            <th>
+              Ngày tạo
             </th>
             <th>
               
@@ -40,16 +43,19 @@ function AdminPost(){
           </thead>
           <tbody>
             <td>
-              React basic
+              @admin01
             </td>
             <td>
-              Xuân dương
+              QTV01
             </td>
             <td>
-              Công khai
+              admin01@gmail.com
             </td>
             <td>
-              <button className='read-post-btn'>
+              2024
+            </td>
+            <td>
+              <button className='detail-item-btn'>
                 Chi tiết
               </button>
             </td>
@@ -60,7 +66,7 @@ function AdminPost(){
   )
 }
 
-export default AdminPost;
+export default DashboardAdmin;
 
 const Wrapper = styled.div`
   width: 100%;
@@ -88,7 +94,7 @@ const Wrapper = styled.div`
     color: black;
   }
 
-  .post-filter-list{
+  .dashboard-filter-list{
     display: flex;
     justify-content: left;
     background-color: var(--primary-color);
@@ -100,7 +106,7 @@ const Wrapper = styled.div`
     
   }
 
-  .post-filter-item{
+  .dashboard-filter-item{
     border-bottom: 4px solid transparent;
     transition: var(--hightlight-color);
     font-size: 18px;
@@ -108,11 +114,11 @@ const Wrapper = styled.div`
     padding: 4px 12px;
   }
 
-  .post-filter-item:hover{
+  .dashboard-filter-item:hover{
     color: var(--hightlight-color);
   }
 
-  .post-filter-item.active{
+  .dashboard-filter-item.active{
     border-bottom: 4px solid var(--hightlight-color);
     color: var(--hightlight-color)
   }
@@ -131,11 +137,13 @@ const Wrapper = styled.div`
     background-color: var(--primary-color);
   }
 
-  thead th:nth-child(1){
-    width: 50%;
+  thead th:nth-child(1),
+  thead th:nth-child(2),
+  thead th:nth-child(3){
+    width: 15%;
   }
 
-  thead th:nth-child(3){
+  thead th:nth-child(4){
     width: 10%;
   }
 
@@ -143,7 +151,7 @@ const Wrapper = styled.div`
     width: 60px;
   }
 
-  .read-post-btn{
+  .detail-item-btn{
     background-color: var(--hightlight-color); 
     padding: 8px;
     border-radius: 8px;
@@ -151,7 +159,7 @@ const Wrapper = styled.div`
     transition: var(--transition-time);
   }
 
-  .read-post-btn:hover{
+  .detail-item-btn:hover{
     background-color: var(--shadow-color); 
     color: black;
   }
