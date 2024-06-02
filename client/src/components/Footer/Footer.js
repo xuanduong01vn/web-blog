@@ -24,6 +24,14 @@ function Footer(){
           <p className='year-present'>© 2024 xuanduong01vn</p>
         </div>
         <div className="footer-col">
+          <ul className="footer-list">
+            <li className="footer-item"> <a target="_blank" href="" className="footer-link">Chính sách</a></li>
+            <li className="footer-item"><a target="_blank" href="" className="footer-link">Quyền lợi</a></li>
+            <li className="footer-item"><a target="_blank" href="" className="footer-link">Đóng góp</a></li>
+            <li className="footer-item"><a target="_blank" href="" className="footer-link">Trợ giúp</a></li>
+          </ul>
+        </div>
+        <div className="footer-col">
         <ul className="footer-list">
             <li className="footer-item">
               <a target="_blank" href="https://www.facebook.com/xuanduong01vn" className="footer-link">
@@ -47,14 +55,7 @@ function Footer(){
               </li>
           </ul>
         </div>
-        <div className="footer-col">
-          <ul className="footer-list">
-            <li className="footer-item"> <a target="_blank" href="" className="footer-link">Chính sách</a></li>
-            <li className="footer-item"><a target="_blank" href="" className="footer-link">Quyền lợi</a></li>
-            <li className="footer-item"><a target="_blank" href="" className="footer-link">Đóng góp</a></li>
-            <li className="footer-item"><a target="_blank" href="" className="footer-link">Trợ giúp</a></li>
-          </ul>
-        </div>
+        
         
       </div>
     </Wrapper>
@@ -67,7 +68,7 @@ const Wrapper = styled.div`
   background-color: var(--primary-color);
   padding: 0;
   margin-top: 60px;
-  width: 100vw;
+  width: 100%;
   bottom: 0;
   color: var(--text-color);
   padding: 40px 0;

@@ -42,7 +42,8 @@ export default QuestionList;
 
 const Wrapper = styled.div`
   width: 30%;
-  margin-left: 36px;
+  box-sizing: border-box;
+  margin-left: 18px;
   text-align: left;
   
 
@@ -114,5 +115,27 @@ const Wrapper = styled.div`
     }
   }
 
+    /* small desktop*/
+  @media (max-width: 1279px) and (min-width: 769px) {
+    width: 40%;
+    
+  }
+
+  /* tablet large phone*/
+  @media (max-width: 768px) and (min-width: 481px) {
+    width: 100%;
+    margin-left: 0;
+    margin-top: 36px;
+  }
+
+  /* small phone */
+  @media (max-width: 480px) {
+    width: 100%;
+    margin-left: 0;
+    margin-top: 36px;
+
+    
+  }
+  
   
 `

@@ -188,7 +188,7 @@ export default Header;
 
 const Wrapper = styled.div`
   .header-container{
-    width: 100vw;
+    width: 100%;
     height: 60px;
     background-color: var(--primary-color);
     margin-bottom: 40px;

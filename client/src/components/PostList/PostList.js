@@ -37,6 +37,8 @@ export default BlogList;
 const Wrapper = styled.div`
   width: 70%;
   height: max-content;
+  box-sizing: border-box;
+  margin-right: 18px;
   text-align: left;
 
   .blog-list-box{
@@ -65,6 +67,23 @@ const Wrapper = styled.div`
     }
   }
 
+  /* small desktop*/
+  @media (max-width: 1279px) and (min-width: 769px) {
+    width: 60%;
+
+  }
+
+  /* tablet large phone*/
+  @media (max-width: 768px) and (min-width: 481px) {
+    min-width: 100%;
+    margin-right: 0;
+  }
+
+  /* small phone */
+  @media (max-width: 480px) {
+    min-width: 100%;
+    margin-right: 0;
+  }
   
 
   
