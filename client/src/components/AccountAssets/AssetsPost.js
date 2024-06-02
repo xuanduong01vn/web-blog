@@ -80,11 +80,27 @@ const Wrapper = styled.div`
   /* tablet large phone*/
   @media (max-width: 768px) and (min-width: 481px) {
     padding: 0 20px 0 0;
+
+    .post-list-container{
+      margin-top: 20px;
+    }
+
+    .post-container-title{
+      display: none;
+    }
   }
 
   /* small phone */
   @media (max-width: 480px) {
-    padding: 0 20px 0 0;
+    padding: 0 20px;
+
+    .post-list-container{
+      margin-top: 20px;
+    }
+
+    .post-container-title{
+      display: none;
+    }
   }
 
 `

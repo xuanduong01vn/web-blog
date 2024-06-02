@@ -1,5 +1,9 @@
 import styled from "styled-components";
 import React, {useState, useEffect} from "react";
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { 
+  faChevronDown,
+ } from '@fortawesome/free-solid-svg-icons';
 
 function AssetsLayout(){
 
@@ -8,6 +12,20 @@ function AssetsLayout(){
   function clickItemNavbar(){
 
   }
+
+  const [openNavbar, setOpenNavbar]= useState("account-navbar");
+
+  const handleOpenNavbar =()=>{
+    openNavbar=="account-navbar"?setOpenNavbar("account-navbar-opened"):setOpenNavbar("account-navbar");
+  }
+
+  const onResizeWidthBrowser=()=>{
+    if(openNavbar=="account-navbar-opened"){
+      setOpenNavbar("account-navbar");
+    }
+  }
+
+  window.addEventListener("resize", onResizeWidthBrowser)
 
   const navbarItems=[
     {path:"/account/post", title: "Bài viết"},
@@ -23,7 +41,7 @@ function AssetsLayout(){
 
   return(
     <Wrapper>
-      <div className="account-navbar">
+      <div className={openNavbar}>
         <ul className="account-navbar-list">
           {
             navbarItems.map((navbarItem, index)=>{
@@ -37,6 +55,9 @@ function AssetsLayout(){
             })
           }
         </ul>
+        <div onClick={handleOpenNavbar} className="down-menu-btn">
+          <FontAwesomeIcon icon={faChevronDown} />
+        </div>
       </div>
     </Wrapper>
   )
@@ -93,7 +114,21 @@ const Wrapper = styled.div`
     display: block;
     font-weight: 800;
     box-sizing: border-box;
-    
+  }
+
+  .down-menu-btn{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    height: 32px;
+    width: 100%;
+    box-sizing: border-box;
+    display: none;
+
+    & svg{
+      height: 24px;
+    }
   }
 
   /* small desktop*/
@@ -104,12 +139,46 @@ const Wrapper = styled.div`
 
   /* tablet large phone*/
   @media (max-width: 768px) and (min-width: 481px) {
-    width: 140px;
+    width: 160px;
+
+
   }
 
   /* small phone */
   @media (max-width: 480px) {
-    width: 140px;
+    width: 100%;
+    position: absolute;
+    background-color: white; 
+    box-shadow: 0 0 10px var(--shadow-color);
+    /* top: -208px; */
+    /* top: -20px; */
+    top: -238px;
+    padding: 0;
+
+    .account-navbar{
+      position: absolute;
+      top: 32px;
+      background-color: white; 
+      box-shadow: 0 0 10px var(--shadow-color);
+    }
+
+    .account-navbar-opened{
+      position: absolute;
+      width: 100%;
+      box-sizing: border-box;
+      top: 202px;
+      background-color: white; 
+      box-shadow: 0 0 10px var(--shadow-color);
+
+
+      & svg{
+        transform: rotateX(180deg);
+      }
+    }
+
+    .down-menu-btn{
+      display: flex;
+    }
   }
 
 `
