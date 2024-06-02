@@ -1,9 +1,10 @@
 import styled from 'styled-components';
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faMagnifyingGlass,
           faPen,
-          faBell
+          faBell,
+          faXmark,
  } from '@fortawesome/free-solid-svg-icons';
 
  
@@ -12,12 +13,52 @@ function Header(){
 
   const [openPopUp, setOpenPopUp] = useState(true);
 
+  const [openInput, setOpenInput]= useState(false);
+  const [idSearchBox, setIdSearchBox]= useState("search-box");
+
+  const handleOpenSearchBox =()=>{
+    if(!openInput)
+      setOpenInput(true);
+  }
+
+  const handleCloseSearchBox =()=>{
+    if(openInput)
+      setOpenInput(false);
+  }
+
+  // let widthBrowser =  window.innerWidth;
+  // const checkBrowserWidth=()=>{
+  //   widthBrowser<=768?setOpenInput(false):setOpenInput(true);
+  // }
+
+  // let widthBrowser =useRef();
+  // const onChangeWidthBrowser=()=>{
+  //   widthBrowser.current=window.innerWidth;
+  //   widthBrowser.current<=768?setOpenInput("search-container-no-input"):setOpenInput("search-container");
+  // }
+  // window.addEventListener('resize', onChangeWidthBrowser);  
+
+
+  
+
+  useEffect(()=>{
+
+    
+    
+    const checkBrowserWidth=()=>{
+      //   widthBrowser<=768?setOpenInput(false):setOpenInput(true);
+      // }
+    }
+    
+
+  },)
+
   useEffect(() => {
     const userOpenPopUpBtn = document.querySelector(".user-bar.user-btn");
  
     const userPopUp = document.getElementById("user-pop-up");
     
-
+  
     function handleOpenPopUp(e){
       setOpenPopUp(true);
       console.log(e.target);
@@ -28,6 +69,8 @@ function Header(){
       userOpenPopUpBtn.removeEventListener('click', handleOpenPopUp);
     };
 
+    
+
     function handleClosePopUp(e){
       console.log(e.target);
       if(e.target!==userPopUp){
@@ -36,6 +79,8 @@ function Header(){
 
       
     }
+
+    
 
     // document.addEventListener('click', handleClosePopUp);
     
@@ -47,19 +92,27 @@ function Header(){
     return (    
         <Wrapper>
           <div className="header-container">
+            {openInput &&
+              <div className="header-search-bar">
+                <input type="text" className="header-search-box"  placeholder='Tìm kiếm trên QAx'/>
+                <button onClick={handleCloseSearchBox} id="search-cancel-btn">
+                  <FontAwesomeIcon icon={faXmark} className="search-cancel-icon" />
+                </button>
+              </div>
+            }
             <div className="header-bar">
               <a href="/" className="header-title">QAx</a>
               <div id="search-container">
-                <input id="search-box" type="text" placeholder='Tìm kiếm trên QAx'/>
-                <button id="search-btn">
-                  <FontAwesomeIcon icon={faMagnifyingGlass} className="search-icon" />
-                </button>
+                  <input id="search-box" type="text" placeholder='Tìm kiếm trên QAx'/>
+                  <button onClick={handleOpenSearchBox} id="search-btn">
+                    <FontAwesomeIcon icon={faMagnifyingGlass} className="search-icon" />
+                  </button>
               </div> 
-              <div id="sign-container">
+              {/* <div id="sign-container">
                 <a href="/login" id="sign-btn">
                   Đăng nhập/ Đăng ký
                 </a>
-              </div>
+              </div> */}
               <div className="user-container">
                 <div className="user-container-item">
                   <button className="new-blog-btn user-btn">
@@ -142,6 +195,44 @@ const Wrapper = styled.div`
     z-index: 98;
   }
 
+  .header-search-bar{
+    width: 100%;
+    position: absolute;
+    z-index: 101;
+    height: 60px;
+    display: flex;
+    box-sizing: border-box;
+  }
+
+  .header-search-box{
+    background-color: white;
+    text-align: left;
+    align-items: center;
+    border-radius: 0;
+    height: 100%;
+    width: 100%;
+    padding: 12px 38px 12px 24px;
+  }
+
+  #search-cancel-btn{
+    position: absolute;
+    right: 12px;
+    height: 36px;
+    width: 36px;
+    top: 50%;
+    transform: translateY(-50%);
+    z-index: 102;
+
+    & svg{
+      width: 100%;
+      height: 100%;
+      transition: var(--transition-time);
+    }
+  }
+
+  #search-cancel-btn:hover svg{
+    color: var(--shadow-color);
+  }
 
   .header-bar{
     width: var(--general-width);
@@ -150,6 +241,7 @@ const Wrapper = styled.div`
     justify-content: space-between;
     align-items: center;
     margin: 0 auto;
+    box-sizing: border-box;
   }
 
   .header-title{
@@ -165,37 +257,55 @@ const Wrapper = styled.div`
 
   #search-container{
     border-radius: 18px;
-    border: 2px solid var(--shadow-color);
-    width: 400px; 
-    background-color: white;
+    width: max-content; 
+    min-width: 36px;
+    height: 36px;
     display: flex;
     overflow: hidden;
+    box-sizing: border-box;
+    position: relative;
+    align-items: center;
   }
 
   #search-box{
+    border-radius: 18px;
+    border: 2px solid var(--shadow-color);
+    width: 400px; 
     outline: none;
-    border: none;
-    padding: 8px 0 8px 24px;
+    padding: 8px 36px 8px 24px;
     font-size: 16px;
-    width: 100%;
+    background-color: white;
+  }
+
+  #search-box-open{
+    width: 100%; 
+    outline: none;
+    padding: 8px 36px 8px 24px;
+    font-size: 16px;
+    background-color: white;
+  }
+
+  #search-container button{
+    position: absolute;
+    right: 0;
+    border: none;
+    height: 36px;
+    width: 36px;
+    background-color: transparent;
+  }
+
+  #search-container button svg{
+    height: 20px;
+    transition: var(--transition-time);
+  }
+
+  #search-container button:hover svg{
+    height: 20px;
+    color: var(--shadow-color);
   }
 
   #search-btn{
-    border: none;
-    background-color: white;
-    height: 34px;
-    width: 34px;
-    cursor: pointer; 
-  }
-
-  #search-btn:hover .search-icon{
-    color: var(--text-color);
-  }
-
-  .search-icon{
-    height: 20px;
-    color: var(--shadow-color);
-    transition: var(--transition-time);
+    display: block;
   }
 
   #sign-btn{
@@ -397,4 +507,60 @@ const Wrapper = styled.div`
     color: var(--hightlight-color);
     background-color: var(--primary-color);
   }
+
+  /* small desktop*/
+  @media (max-width: 1279px) and (min-width: 769px) {
+    .header-bar{
+      width: 100%;
+      padding: 0 12px;
+    }
+  }
+
+  /* tablet large phone*/
+  @media (max-width: 768px) and (min-width: 481px) {
+    .header-bar{
+      width: 100%;
+      padding: 0 12px;
+    }
+
+    .user-name{
+      display: none;
+    }
+
+    #search-container{
+      border-radius: 0;
+      width: 100%; 
+      height: 100%;
+      margin: 0 18px 0 auto;
+    }
+
+    #search-box{
+      display: none;
+    }
+
+  }
+
+  /* small phone */
+  @media (max-width: 480px) {
+    .header-bar{
+      width: 100%;
+      padding: 0 12px;
+    }
+
+    .user-name{
+      display: none;
+    }
+
+    #search-container{
+      border-radius: 0;
+      width: 100%; 
+      height: 100%;
+      margin: 0 18px 0 auto;
+    }
+
+    #search-box{
+      display: none;
+    }
+  }
+
 `

@@ -5,6 +5,8 @@
   --text-color: #373A40;
   --transition-time: 0.2s ease;
   --general-width: 1140px;
+  --general-small-width: 756px;
+  --general-tablet-width: 468px;
 }
 
 .App {

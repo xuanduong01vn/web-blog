@@ -24,14 +24,6 @@ function Footer(){
           <p className='year-present'>© 2024 xuanduong01vn</p>
         </div>
         <div className="footer-col">
-          <ul className="footer-list">
-            <li className="footer-item"> <a target="_blank" href="" className="footer-link">Chính sách</a></li>
-            <li className="footer-item"><a target="_blank" href="" className="footer-link">Quyền lợi</a></li>
-            <li className="footer-item"><a target="_blank" href="" className="footer-link">Đóng góp</a></li>
-            <li className="footer-item"><a target="_blank" href="" className="footer-link">Trợ giúp</a></li>
-          </ul>
-        </div>
-        <div className="footer-col">
         <ul className="footer-list">
             <li className="footer-item">
               <a target="_blank" href="https://www.facebook.com/xuanduong01vn" className="footer-link">
@@ -50,11 +42,20 @@ function Footer(){
             </li>
             <li className="footer-item">
               <a target="_blank" href="https://github.com/xuanduong01vn" className="footer-link">
-                <FontAwesomeIcon icon={faGithub} />https://github.com/xuanduong01vn
+                <FontAwesomeIcon icon={faGithub} />xuanduong01vn
               </a>
               </li>
           </ul>
         </div>
+        <div className="footer-col">
+          <ul className="footer-list">
+            <li className="footer-item"> <a target="_blank" href="" className="footer-link">Chính sách</a></li>
+            <li className="footer-item"><a target="_blank" href="" className="footer-link">Quyền lợi</a></li>
+            <li className="footer-item"><a target="_blank" href="" className="footer-link">Đóng góp</a></li>
+            <li className="footer-item"><a target="_blank" href="" className="footer-link">Trợ giúp</a></li>
+          </ul>
+        </div>
+        
       </div>
     </Wrapper>
   )
@@ -78,6 +79,7 @@ const Wrapper = styled.div`
     margin: 0 auto;
     display: flex;
     justify-content: space-between;
+    flex-wrap: wrap
   }
 
   .footer-col{
@@ -105,6 +107,7 @@ const Wrapper = styled.div`
     height: 40px;
     padding: 4px;
     box-sizing: border-box;
+    font-size: 16px;
   }
   
   
@@ -116,15 +119,53 @@ const Wrapper = styled.div`
     align-items: center;
     text-align: center;
     transition: var(--transition-time);
+    font-size: 16px;
 
     svg{
-      margin-right: 12px;
-      height: 24px;
+      margin-right: 8px;
+      height: 18px;
 
     }
 
     &:hover{
       color: var(--hightlight-color);
+    }
+  }
+
+  /* small desktop*/
+  @media (max-width: 1279px) and (min-width: 769px) {
+    .footer-container{
+      width: 100%;
+      padding: 0 12px;
+    }
+
+  }
+
+  /* tablet large phone*/
+  @media (max-width: 768px) and (min-width: 481px) {
+    .footer-container{
+      width: 100%;
+      padding: 0 12px;
+    }
+
+    .footer-col{
+      width: 50%;
+    }
+
+    .footer-col:first-child{
+      width: 100%;
+    }
+  }
+
+  /* small phone */
+  @media (max-width: 480px) {
+    .footer-container{
+      width: 100%;
+      padding: 0 12px;
+    }
+
+    .footer-col{
+      width: 100%;
     }
   }
 `
