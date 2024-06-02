@@ -16,7 +16,7 @@ function QuestionList(){
   return (
     <Wrapper>
       <div className="question-list-container">
-      <h2 className="question-container-title">Danh sách câu hỏi</h2>
+      <h2 className="question-container-title">Bài viết nổi bật</h2>
       {noQuestion&&
         <div className="blog-list-alert">
           <span>Chưa có câu hỏi nào</span>

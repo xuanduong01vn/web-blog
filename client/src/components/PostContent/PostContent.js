@@ -64,23 +64,21 @@ function PostContent(){
           </div>
           <div className="post-content-action">
             <p className="liked-action-ammount">6</p>
-            {!liked && 
+            {!liked ?
               <button onClick={likePost} className="post-content-action-btn">
                 <FontAwesomeIcon icon={faStar}/>
               </button>
-            }
-            {liked &&
+            :
               <button onClick={likePost} className="post-content-action-btn">
                 <FontAwesomeIcon icon={faStared}/>
               </button>
             }
             <p className="marked-action-ammount">6</p>
-            {!marked &&
+            {!marked ?
               <button onClick={markPost} className="post-content-action-btn">
                 <FontAwesomeIcon icon={faBookmark}/>
               </button>
-            }
-            {marked &&
+            :
               <button onClick={markPost} className="post-content-action-btn">
                 <FontAwesomeIcon icon={faBookmarked}/>
               </button>
@@ -131,16 +129,18 @@ function PostContent(){
 export default PostContent;
 
 const Wrapper = styled.div`
-  width: 100vw;
+  width: 100%;
   display: flex;
   justify-content: center;
   margin-top: 80px;
   padding-top: 40px;
   flex-wrap: wrap;
+  box-sizing: border-box;
 
   .post-content-container{
     width: var(--general-width);
     margin: 0 auto;
+    box-sizing: border-box;
   }
 
   .post-content-user{
@@ -198,6 +198,9 @@ const Wrapper = styled.div`
     color: var(--shadow-color);
     cursor: pointer;
 
+    &:hover{
+      color: var(--hightlight-color);
+    }
 
     svg{
       height: 60%;
@@ -302,6 +305,37 @@ const Wrapper = styled.div`
   .author-pop-up-link:hover{
     color: var(--hightlight-color);
     background-color: var(--primary-color);
+  }
+
+  /* small desktop*/
+  @media (max-width: 1279px) and (min-width: 769px) {
+    display: block;
+
+    .post-content-container{
+      width: 100%;
+      padding: 0 12px;
+    }
+
+  }
+
+  /* tablet large phone*/
+  @media (max-width: 768px) and (min-width: 481px) {
+    display: block;
+    
+    .post-content-container{
+      width: 100%;
+      padding: 0 12px;
+    }
+  }
+
+  /* small phone */
+  @media (max-width: 480px) {
+    display: block;
+    
+    .post-content-container{
+      width: 100%;
+      padding: 0 12px;
+    }
   }
 
 `

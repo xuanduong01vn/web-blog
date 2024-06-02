@@ -284,4 +284,32 @@ const Wrapper = styled.div`
     align-items: center;
   }
 
+  /* small desktop*/
+  @media (max-width: 1279px) and (min-width: 769px) {
+    .post-comment-container{
+      width: 100%;
+      padding: 0 12px;
+      box-sizing: border-box;
+    }
+
+  }
+
+  /* tablet large phone*/
+  @media (max-width: 768px) and (min-width: 481px) {
+    .post-comment-container{
+      width: 100%;
+      padding: 0 12px;
+      box-sizing: border-box;
+    }
+  }
+
+  /* small phone */
+  @media (max-width: 480px) {
+    .post-comment-container{
+      width: 100%;
+      padding: 0 12px;
+      box-sizing: border-box;
+    }
+  }
+
 `

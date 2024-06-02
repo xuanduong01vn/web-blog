@@ -42,6 +42,7 @@ export default AssetsPost;
 
 const Wrapper = styled.div`
   width: 100%;
+  box-sizing: border-box;
 
   .post-list-alert{
     width: 100%;
@@ -70,5 +71,20 @@ const Wrapper = styled.div`
     }
   }
 
+  /* small desktop*/
+  @media (max-width: 1279px) and (min-width: 769px) {
+    padding: 0 20px 0 0;
+
+  }
+
+  /* tablet large phone*/
+  @media (max-width: 768px) and (min-width: 481px) {
+    padding: 0 20px 0 0;
+  }
+
+  /* small phone */
+  @media (max-width: 480px) {
+    padding: 0 20px 0 0;
+  }
 
 `

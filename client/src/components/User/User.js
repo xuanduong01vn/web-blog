@@ -43,7 +43,7 @@ function UserLayout(){
         </div>
         <div className="user-content">
           <PostList/>
-          <QuestionList/>
+          {/* <QuestionList/> */}
         </div>
         
       </div>
@@ -55,12 +55,14 @@ function UserLayout(){
 export default UserLayout;
 
 const Wrapper = styled.div`
-  width: 100vw;
+  width: 100%;
   margin-top: 80px;
+  box-sizing: border-box;
 
   .user-layout{
     width: var(--general-width);
     margin: 0 auto;
+    box-sizing: border-box;
   }
 
   .user-info-container{
@@ -112,5 +114,30 @@ const Wrapper = styled.div`
 
   .user-content{
     display: flex;
+  }
+
+  /* small desktop*/
+  @media (max-width: 1279px) and (min-width: 769px) {
+    .user-layout{
+      width: 100%;
+      padding: 0 12px;
+    }
+
+  }
+
+  /* tablet large phone*/
+  @media (max-width: 768px) and (min-width: 481px) {
+    .user-layout{
+      width: 100%;
+      padding: 0 12px;
+    }
+  }
+
+  /* small phone */
+  @media (max-width: 480px) {
+    .user-layout{
+      width: 100%;
+      padding: 0 12px;
+    }
   }
 `

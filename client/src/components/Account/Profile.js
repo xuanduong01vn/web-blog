@@ -124,4 +124,29 @@ const Wrapper = styled.div`
     background-color: var(--hightlight-color);
   }
 
+  /* small desktop*/
+  @media (max-width: 1279px) and (min-width: 769px) {
+    .user-layout{
+      width: 100%;
+      padding: 0 12px;
+    }
+
+  }
+
+  /* tablet large phone*/
+  @media (max-width: 768px) and (min-width: 481px) {
+    .user-layout{
+      width: 100%;
+      padding: 0 12px;
+    }
+  }
+
+  /* small phone */
+  @media (max-width: 480px) {
+    .user-layout{
+      width: 100%;
+      padding: 0 12px;
+    }
+  }
+
 `

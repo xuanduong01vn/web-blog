@@ -46,6 +46,7 @@ const Wrapper = styled.div`
 
   .question-item-cover{
     width: 100%;
+    box-sizing: border-box;
   }
 
   .question-item-title{
@@ -100,6 +101,21 @@ const Wrapper = styled.div`
     & svg{
       margin-right: 4px;
     }
+  }
+  /* small desktop*/
+  @media (max-width: 1279px) and (min-width: 769px) {
+
+
+  }
+
+  /* tablet large phone*/
+  @media (max-width: 768px) and (min-width: 481px) {
+
+  }
+
+  /* small phone */
+  @media (max-width: 480px) {
+
   }
 
 `

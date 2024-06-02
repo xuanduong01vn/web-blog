@@ -12,7 +12,7 @@ function BlogList(){
   return(
     <Wrapper>
       <div id="blog-list-container">
-        <h2 className="blog-container-title">Danh sách bài viết</h2>
+        <h2 className="blog-container-title">Bài viết mới nhất</h2>
         {noBlog&&
           <div className="blog-list-alert">
             <span>Chưa có bài viết nào</span>

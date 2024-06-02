@@ -11,7 +11,7 @@ function AssetsLayout(){
 
   const navbarItems=[
     {path:"/account/post", title: "Bài viết"},
-    {path:"/account/post", title: "Câu hỏi"},
+    {path:"/account/post", title: "Thùng rác"},
     {path:"/account/marked", title: "Đã lưu"},
   ]
 
@@ -94,6 +94,22 @@ const Wrapper = styled.div`
     font-weight: 800;
     box-sizing: border-box;
     
+  }
+
+  /* small desktop*/
+  @media (max-width: 1279px) and (min-width: 769px) {
+
+
+  }
+
+  /* tablet large phone*/
+  @media (max-width: 768px) and (min-width: 481px) {
+    width: 140px;
+  }
+
+  /* small phone */
+  @media (max-width: 480px) {
+    width: 140px;
   }
 
 `

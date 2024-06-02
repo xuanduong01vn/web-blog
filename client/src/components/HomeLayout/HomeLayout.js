@@ -49,7 +49,7 @@ const Wrapper = styled.div`
   box-sizing: content-box;
   display: flex;
   justify-content: center;
-  min-height: 560px;
+  min-height: 640px;
   
   .home-content{
     margin-top: 80px;

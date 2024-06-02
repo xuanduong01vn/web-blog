@@ -12,7 +12,7 @@ function QuestionItem(){
   return(
     <Wrapper>
       <div className="question-item-cover">
-        <a href="" className="question-item-title">
+        <a href="/post" className="question-item-title">
           <h3>Cách tạo 1 project bằng Reactjs và Express</h3> 
           </a>
         <div className="question-item-user">
@@ -21,7 +21,7 @@ function QuestionItem(){
               xuanduong
             </a>
           </div>
-          <span className="uestion-item-author-ask"> đã hỏi lúc 20:00</span>
+          <span className="uestion-item-author-ask"> đã tạo lúc 20:00</span>
         </div>
         
         <div className="question-item-interact">

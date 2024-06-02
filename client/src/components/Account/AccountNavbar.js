@@ -47,6 +47,7 @@ export default AccountNavbar
 const Wrapper = styled.div`
   width: 280px;
   padding: 24px 20px 24px 0;
+  box-sizing: border-box;
 
   .account-navbar{
     width: 100%;
@@ -55,7 +56,7 @@ const Wrapper = styled.div`
 
   .account-navbar-title{
     padding: 0;
-    margin: 0;
+    margin-bottom: 16px;
     text-align: left;
   }
 
@@ -64,6 +65,7 @@ const Wrapper = styled.div`
     padding: 0;
     width: 100%;
     box-sizing: border-box;
+    margin: 0;
   }
 
   .account-navbar-item{
@@ -95,6 +97,40 @@ const Wrapper = styled.div`
     transition: var(--transition-time);
   }
 
-  
+  /* small desktop*/
+  @media (max-width: 1279px) and (min-width: 769px) {
+
+
+  }
+
+  /* tablet large phone*/
+  @media (max-width: 768px) and (min-width: 481px) {
+    width: 100%;
+    padding: 0;
+
+
+    .account-navbar-title{
+      display: none;
+    }
+
+    .account-navbar-list{
+      display: flex;
+    }
+  }
+
+  /* small phone */
+  @media (max-width: 480px) {
+    width: 100%;
+    padding: 0;
+
+    .account-navbar-title{
+      display: none;
+    }
+
+    .account-navbar-list{
+      display: flex;
+    }
+  }
+
 
 `
