@@ -104,7 +104,10 @@ function Header(){
               <a href="/" className="header-title">QAx</a>
               <div id="search-container">
                   <input id="search-box" type="text" placeholder='Tìm kiếm trên QAx'/>
-                  <button onClick={handleOpenSearchBox} id="search-btn">
+                  <button id="search-btn">
+                    <FontAwesomeIcon icon={faMagnifyingGlass} className="search-icon" />
+                  </button>
+                  <button onClick={handleOpenSearchBox} id="search-header-btn">
                     <FontAwesomeIcon icon={faMagnifyingGlass} className="search-icon" />
                   </button>
               </div> 
@@ -307,6 +310,10 @@ const Wrapper = styled.div`
   #search-btn{
     display: block;
   }
+
+  #search-header-btn{
+      display: none;
+    }
 
   #sign-btn{
     text-decoration: none;
@@ -534,6 +541,14 @@ const Wrapper = styled.div`
       margin: 0 18px 0 auto;
     }
 
+    #search-btn{
+      display: none;
+    }
+
+    #search-header-btn{
+      display: block;
+    }
+
     #search-box{
       display: none;
     }
@@ -556,6 +571,14 @@ const Wrapper = styled.div`
       width: 100%; 
       height: 100%;
       margin: 0 18px 0 auto;
+    }
+
+    #search-btn{
+      display: none;
+    }
+
+    #search-header-btn{
+      display: block;
     }
 
     #search-box{
