@@ -1,5 +1,7 @@
 import mongoose from "mongoose";
-import Account from "./accountModel.mjs";
+import AccountModel from "./accountModel.mjs";
+import TypePostModel from "./typePostModel.mjs";
+
 
 const postSchema = new mongoose.Schema({
   title: {
@@ -12,10 +14,11 @@ const postSchema = new mongoose.Schema({
   },
   idTypePost: {
     type: Number,
+    ref: TypePostModel,
   },
   idAuthor: {
     type: mongoose.Schema.Types.ObjectId,
-    ref: Account,
+    ref: AccountModel,
   },
   amountLiked:{
     type: Number,
@@ -28,7 +31,13 @@ const postSchema = new mongoose.Schema({
   },
   createAt:{
     type: Date,
-  }
+  },
+  listTag:{
+    type: Array,
+  },
+  isDeleted:{
+    type: Boolean,
+  },
 });
 
 

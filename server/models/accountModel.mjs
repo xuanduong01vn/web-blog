@@ -1,4 +1,5 @@
-import mongoose from "mongoose"
+import mongoose from "mongoose";
+import TypeAccount from "./typeAccountModel.mjs";
 
 const accountSchema = new mongoose.Schema({
   username:{
@@ -10,7 +11,8 @@ const accountSchema = new mongoose.Schema({
     require: true
   },
   idTypeAccount:{
-    type: Number,
+    type: mongoose.Schema.Types.Number,
+    ref: TypeAccount,
     require: true
   },
   birthday:{
@@ -32,6 +34,10 @@ const accountSchema = new mongoose.Schema({
   listMarked:{
     type: Array,
 
+  },
+  isDeleted:{
+    type: Boolean,
+    require: true
   },
 });
 
