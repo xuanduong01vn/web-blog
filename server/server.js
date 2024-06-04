@@ -1,9 +1,12 @@
 import mongoose from 'mongoose';
 import express from 'express';
 import bodyParser from 'body-parser';
-import postRouter from './routers/postRouter.js';
 import cors from 'cors';
 import morgan from 'morgan';
+
+import postRouter from './routers/postRouter.js';
+import accountController from './controllers/accountController.js';
+import accountRouter from './routers/accountRouter.js';
 
 
 const app = express();
@@ -26,6 +29,7 @@ app.use(cors("http://localhost:3000"));
 app.use(morgan("common"));
 
 app.use('/posts', postRouter);
+app.use('/accounts', accountRouter);
 
 
 app.listen(port, () => {

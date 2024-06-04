@@ -1,4 +1,4 @@
-import postModel from '../models/postModel.js';
+import postModel from '../models/postModel.mjs';
 
 import { APIfeatures } from '../lib/features.js';
 
