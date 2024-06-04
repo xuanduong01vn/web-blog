@@ -6,9 +6,7 @@ const accountController ={
   getPosts: async (req,res) =>{
     try{
       let features = new APIfeatures(accountModel.find(), req.query);
-
       const allAccounts = await features.query;
-
       res.status(200).json(allAccounts);
     }
     catch(err){

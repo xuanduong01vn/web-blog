@@ -9,7 +9,7 @@ const typePostSchema = new mongoose.Schema({
     type: String,
     require: true
   }
-})
+}, { collection: 'typePost' });
 
 
 let TypePost = mongoose.model('TypePost', typePostSchema);

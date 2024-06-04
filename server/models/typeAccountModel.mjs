@@ -9,7 +9,7 @@ const typeAccountSchema = new mongoose.Schema({
     type: String,
     require: true
   }
-})
+}, { collection: 'typeAccount' })
 
 
 let TypeAccount = mongoose.model('TypeAccount', typeAccountSchema);

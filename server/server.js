@@ -5,8 +5,12 @@ import cors from 'cors';
 import morgan from 'morgan';
 
 import postRouter from './routers/postRouter.js';
-import accountController from './controllers/accountController.js';
 import accountRouter from './routers/accountRouter.js';
+import typePostRouter from './routers/typePostRouter.js';
+import typeAccountRouter from './routers/typeAccountRouter.js';
+import tagRouter from './routers/tagRouter.js';
+import commentRouter from './routers/commentRouter.js';
+
 
 
 const app = express();
@@ -30,6 +34,10 @@ app.use(morgan("common"));
 
 app.use('/posts', postRouter);
 app.use('/accounts', accountRouter);
+app.use('/type-post', typePostRouter);
+app.use('/type-account', typeAccountRouter);
+app.use('/tags', tagRouter);
+app.use('/comments', commentRouter);
 
 
 app.listen(port, () => {
