@@ -12,37 +12,16 @@ function HeaderAdmin(){
 
   const [openPopUp, setOpenPopUp] = useState(true);
 
-  useEffect(() => {
-    const userOpenPopUpBtn = document.querySelector(".user-bar.user-btn");
- 
-    const userPopUp = document.getElementById("user-pop-up");
-    
+  const [namePopup, setNamePopup] = useState(null);
 
-    function handleOpenPopUp(e){
-      setOpenPopUp(true);
-      console.log(e.target);
+  function handleOpenPopUp(popup){
+    if(namePopup==popup){
+      setNamePopup(null);
     }
-
-    userOpenPopUpBtn.addEventListener('click', handleOpenPopUp);
-    return () => {
-      userOpenPopUpBtn.removeEventListener('click', handleOpenPopUp);
-    };
-
-    function handleClosePopUp(e){
-      console.log(e.target);
-      if(e.target!==userPopUp){
-        setOpenPopUp(false);
-      }
-
-      
+    else{
+      setNamePopup(popup);
     }
-
-    // document.addEventListener('click', handleClosePopUp);
-    
-
-    
-
-  }, []);
+  }
 
     return (    
         <Wrapper>
@@ -55,30 +34,24 @@ function HeaderAdmin(){
                   <FontAwesomeIcon icon={faMagnifyingGlass} className="search-icon" />
                 </button>
               </div> 
-              {/* <div id="sign-container">
-                <a href="/login" id="sign-btn">
-                  Đăng nhập/ Đăng ký
-                </a>
-              </div> */}
               <div className="user-container">
                 <div className="user-container-item">
                   <button className="new-blog-btn user-btn">
                     <FontAwesomeIcon icon={faPen} className='new-blog-icon user-container-icon'/>
-                    {openPopUp && <div className="header-pop-up new-blog-pop-up">
-                      <ul className='header-pop-up-list'>
-                        <li className='header-pop-up-item'>
-                          <a href="/create/post" className="header-pop-up-link create-blog">
-                            Tạo bài viết
-                          </a>
-                        </li>
-                        <li className='header-pop-up-item'>
-                          <a href="/create/question" className="header-pop-up-link create-question">
-                            Đặt câu hỏi
-                          </a>
-                        </li>
-                      </ul>
-                    </div>
-                    }
+                    <div className={namePopup=="create"?"header-pop-up-open":"header-pop-up"}>
+                        <ul className='header-pop-up-list'>
+                          <li className='header-pop-up-item'>
+                            <a href="/create/post" className="header-pop-up-link create-blog">
+                              Tạo bài viết
+                            </a>
+                          </li>
+                          <li className='header-pop-up-item'>
+                            <a href="/create/question" className="header-pop-up-link create-question">
+                              Đặt câu hỏi
+                            </a>
+                          </li>
+                        </ul>
+                      </div>
                   </button>
                 </div>
                 <div className="user-container-item">
@@ -94,7 +67,7 @@ function HeaderAdmin(){
                     <img src="https://www.vietnamfineart.com.vn/wp-content/uploads/2023/07/anh-avatar-dep-cho-con-gai-1.jpg" 
                     alt="user avatar" className="user-image"/>
                     <p className="user-name">username</p>
-                    {openPopUp && <div className="header-pop-up user-pop-up">
+                    <div className={namePopup=="user"?"header-pop-up-open":"header-pop-up"}>
                       <ul className='header-pop-up-list'>
                         <li className='header-pop-up-item'>
                           <a href="/account/profile" className="header-pop-up-link user-profile">
@@ -118,7 +91,6 @@ function HeaderAdmin(){
                         </li>
                       </ul>
                     </div>
-                    }
                   </button>
                 </div>
               </div>

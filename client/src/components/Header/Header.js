@@ -11,83 +11,31 @@ import { faMagnifyingGlass,
 
 function Header(){
 
-  const [openPopUp, setOpenPopUp] = useState(true);
+  const [openInput, setOpenInput] = useState(false);
+  const [namePopup, setNamePopup] = useState(null);
 
-  const [openInput, setOpenInput]= useState(false);
-  const [idSearchBox, setIdSearchBox]= useState("search-box");
-
+  //handle open search box in mobile screen
   const handleOpenSearchBox =()=>{
     if(!openInput)
       setOpenInput(true);
   }
-
+  //handle close search box in mobile screen
   const handleCloseSearchBox =()=>{
     if(openInput)
       setOpenInput(false);
   }
 
-  // let widthBrowser =  window.innerWidth;
-  // const checkBrowserWidth=()=>{
-  //   widthBrowser<=768?setOpenInput(false):setOpenInput(true);
-  // }
-
-  // let widthBrowser =useRef();
-  // const onChangeWidthBrowser=()=>{
-  //   widthBrowser.current=window.innerWidth;
-  //   widthBrowser.current<=768?setOpenInput("search-container-no-input"):setOpenInput("search-container");
-  // }
-  // window.addEventListener('resize', onChangeWidthBrowser);  
 
 
-  
-
-  useEffect(()=>{
-
-    
-    
-    const checkBrowserWidth=()=>{
-      //   widthBrowser<=768?setOpenInput(false):setOpenInput(true);
-      // }
+  function handleOpenPopUp(popup){
+    if(namePopup==popup){
+      setNamePopup(null);
     }
-    
-
-  },)
-
-  useEffect(() => {
-    const userOpenPopUpBtn = document.querySelector(".user-bar.user-btn");
- 
-    const userPopUp = document.getElementById("user-pop-up");
-    
-  
-    function handleOpenPopUp(e){
-      setOpenPopUp(true);
-      console.log(e.target);
+    else{
+      setNamePopup(popup);
     }
+  }
 
-    userOpenPopUpBtn.addEventListener('click', handleOpenPopUp);
-    return () => {
-      userOpenPopUpBtn.removeEventListener('click', handleOpenPopUp);
-    };
-
-    
-
-    function handleClosePopUp(e){
-      console.log(e.target);
-      if(e.target!==userPopUp){
-        setOpenPopUp(false);
-      }
-
-      
-    }
-
-    
-
-    // document.addEventListener('click', handleClosePopUp);
-    
-
-    
-
-  }, []);
 
     return (    
         <Wrapper>
@@ -118,23 +66,22 @@ function Header(){
               </div> */}
               <div className="user-container">
                 <div className="user-container-item">
-                  <button className="new-blog-btn user-btn">
+                  <button onClick={()=>handleOpenPopUp("create")}  className="new-blog-btn user-btn">
                     <FontAwesomeIcon icon={faPen} className='new-blog-icon user-container-icon'/>
-                    {openPopUp && <div className="header-pop-up new-blog-pop-up">
-                      <ul className='header-pop-up-list'>
-                        <li className='header-pop-up-item'>
-                          <a href="/create/post" className="header-pop-up-link create-blog">
-                            Tạo bài viết
-                          </a>
-                        </li>
-                        <li className='header-pop-up-item'>
-                          <a href="/create/question" className="header-pop-up-link create-question">
-                            Đặt câu hỏi
-                          </a>
-                        </li>
-                      </ul>
-                    </div>
-                    }
+                      <div className={namePopup=="create"?"header-pop-up-open":"header-pop-up"}>
+                        <ul className='header-pop-up-list'>
+                          <li className='header-pop-up-item'>
+                            <a href="/create/post" className="header-pop-up-link create-blog">
+                              Tạo bài viết
+                            </a>
+                          </li>
+                          <li className='header-pop-up-item'>
+                            <a href="/create/question" className="header-pop-up-link create-question">
+                              Đặt câu hỏi
+                            </a>
+                          </li>
+                        </ul>
+                      </div>
                   </button>
                 </div>
                 <div className="user-container-item">
@@ -146,11 +93,11 @@ function Header(){
                   </button>
                 </div>
                 <div className="user-container-item">
-                  <button className="user-bar user-btn">
+                  <button onClick={()=>handleOpenPopUp("user")} className="user-bar user-btn">
                     <img src="https://www.vietnamfineart.com.vn/wp-content/uploads/2023/07/anh-avatar-dep-cho-con-gai-1.jpg" 
                     alt="user avatar" className="user-image"/>
                     <p className="user-name">username</p>
-                    {openPopUp && <div className="header-pop-up user-pop-up">
+                      <div className={namePopup=="user"?"header-pop-up-open":"header-pop-up"}>
                       <ul className='header-pop-up-list'>
                         <li className='header-pop-up-item'>
                           <a href="/account/profile" className="header-pop-up-link user-profile">
@@ -174,7 +121,7 @@ function Header(){
                         </li>
                       </ul>
                     </div>
-                    }
+                    
                   </button>
                 </div>
               </div>
@@ -414,8 +361,8 @@ const Wrapper = styled.div`
     color: var(--text-color);
   }
 
-  
-  .header-pop-up{
+  .header-pop-up,
+  .header-pop-up-open{
     position: absolute;
     z-index: 99;
     top: calc(100%);
@@ -425,18 +372,21 @@ const Wrapper = styled.div`
     border: 1px solid var(--shadow-color);
     transition: var(--transition-time);
     transform-origin: 0 -12px;
-  }
-
-  .user-bar:hover > .user-pop-up{
-    transform: scaleY(100%) translateX(0);
-  }
-
-  .user-pop-up{
     right: 0;
+  }
+
+  
+  .header-pop-up{
     transform: scaleY(0%) translateX(0);
   }
 
-  .header-pop-up::before{
+  .header-pop-up-open{
+    transform: scaleY(100%) translateX(0);
+  }
+
+
+  .header-pop-up::before,
+  .header-pop-up-open::before{
     content: "";
     z-index: 100;
     display: block;
@@ -445,10 +395,11 @@ const Wrapper = styled.div`
     border-color: transparent transparent white transparent;
     position: absolute;
     top: -24px;
-    right: 24px;       
+    right: 10px;       
   }
 
-  .header-pop-up::after{
+  .header-pop-up::after,
+  .header-pop-up-open::after{
     content: "";
     z-index: 99;
     display: block;
@@ -457,26 +408,7 @@ const Wrapper = styled.div`
     border-color: transparent transparent var(--shadow-color) transparent;
     position: absolute;
     top: -26px;
-    right: 23px;       
-  }
-
-  .new-blog-pop-up{
-    right: 50%;
-    transform: scaleY(0%) translateX(50%);
-  }
-
-  .new-blog-btn:hover > .new-blog-pop-up{
-    transform: scaleY(100%) translateX(50%);
-  }
-
-  .new-blog-pop-up::before{
-    right: 50%;    
-    transform: translateX(50%);   
-  }
-
-  .new-blog-pop-up::after{
-    right: 50%;  
-    transform: translateX(50%);     
+    right: 9px;       
   }
 
   .header-pop-up-list{
