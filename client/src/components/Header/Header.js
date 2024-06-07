@@ -36,6 +36,12 @@ function Header(){
     }
   }
 
+  function handleOutsideClick(){
+    if(namePopup)
+      setNamePopup('');
+  };
+
+  // document.addEventListener('click', handleOutsideClick);
 
     return (    
         <Wrapper>

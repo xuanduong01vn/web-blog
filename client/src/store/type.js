@@ -1,0 +1,1 @@
+export const GET_WEB_QA = 'GET_WEB_QA';

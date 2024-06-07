@@ -5,11 +5,19 @@ import UserLayout from "../../components/User/User";
 import Footer from "../../components/Footer/Footer";
 
 function User(){
-  document.title="User";
+  
+
+  const [userFullname, setUserFullname] = useState('');
+  document.title=userFullname;
+
+  function handleUserName(fullname){
+    setUserFullname(fullname);
+  }
+
   return(
     <Wrapper>
       <Header/>
-      <UserLayout/>
+      <UserLayout onDataReceived={handleUserName}/>
       <Footer/>
     </Wrapper>
   )

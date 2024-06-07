@@ -1,48 +1,68 @@
 import React, {useEffect, useState} from "react";
 import styled from 'styled-components';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import {
-  faBookmark,
-  
-} from '@fortawesome/free-regular-svg-icons';
-import {
-  faBookmark as faBookmarked,
-  faStar,
-  faComment,
-} from '@fortawesome/free-solid-svg-icons';
-import PostList from "../PostList/PostList";
-import QuestionList from "../QuestionList/QuestionList";
+import { useParams } from "react-router-dom";
+import axios from 'axios';
 
-function UserLayout(){
+import PostList from "../PostList/PostList";
+
+function UserLayout(props){
+
+  const {onDataReceived} = props;
+  const { id } = useParams();
+
+  const [useData, setUseData ] = useState(null);
+
+
+  useEffect(()=>{
+    const getUserData = async ()=>{
+      try {
+        const response = await axios.get(`http://localhost:9999/accounts/${id}`);
+        return response.data;
+      } catch (err) {
+        console.log(err.message);
+        return {};
+      }
+    };
+
+    getUserData()
+    .then((data)=>{
+      setUseData(data);
+      onDataReceived(data.fullname);
+    })
+    .catch((err)=>{
+      console.log(err.message);
+    })
+  },[])
+
   return (
     <Wrapper>
       <div className="user-layout">
         <div className="user-info-container">
           <div className="user-info-person">
-            <img src="https://www.vietnamfineart.com.vn/wp-content/uploads/2023/07/anh-avatar-dep-cho-con-gai-1.jpg" 
-            alt="" className="user-info-avatar" />
+            <img src={useData?.avatar} alt="" className="user-info-avatar" />
             <div className="user-info-name">
-              <p className="user-info-fullname">Xuân Dương</p>
-              <p className="user-info-username">xuanduong</p>
+              <p className="user-info-fullname">{useData?.fullname}</p>
+              <p className="user-info-username">{useData?.username}</p>
             </div>
           </div>
           <div className="user-statistic">
             <div className="statistic-item">
               <span className="statistic-title">Số lượng bài viết </span>
-              <span className="statistic-ammount">8</span>
+              <span className="statistic-ammount">0</span>
             </div>
-            <div className="statistic-item">
+            {/* <div className="statistic-item">
               <span className="statistic-title">Số lượng câu hỏi </span>
               <span className="statistic-ammount">8</span>
-            </div>
+            </div> */}
             <div className="statistic-item">
               <span className="statistic-title">Số lượng đánh giá </span>
-              <span className="statistic-ammount">8</span>
+              <span className="statistic-ammount">0</span>
             </div>
           </div>
         </div>
         <div className="user-content">
-          <PostList/>
+          <h2 className="blog-container-title">Bài viết</h2>
+          <PostList idUser={id}/>
           {/* <QuestionList/> */}
         </div>
         
@@ -58,6 +78,7 @@ const Wrapper = styled.div`
   width: 100%;
   margin-top: 80px;
   box-sizing: border-box;
+  min-height: 560px;
 
   .user-layout{
     width: var(--general-width);
@@ -113,7 +134,7 @@ const Wrapper = styled.div`
   }
 
   .user-content{
-    display: flex;
+    
   }
 
   /* small desktop*/

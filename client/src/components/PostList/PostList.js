@@ -1,41 +1,96 @@
 import React, {useEffect, useState} from "react";
 import styled from 'styled-components';
+import axios from 'axios';
+import PostItem from "../PostItem/PostItem.js";
 
-import BlogItem from "../PostItem/PostItem";
 
+function PostList(props){
 
+  const { idUser } = props;
+  const [postList, setPostList] = useState(null);
+  const [authorList, setAuthorList] = useState(null);
 
-function BlogList(){
+  useEffect(()=>{
+    const getDataPost = async () => {
+      try {
+        const response = await axios.get("http://localhost:9999/posts/");
+        return response.data;
+      } catch (err) {
+        console.log("Error fetching posts:", err.message);
+        return [];
+      }
+    };
+    getDataPost()
+    .then((data) => {
+      if(idUser){
+        setPostList(data.filter((item)=>item.idAuthor==idUser));
+      }
+      else{
+        setPostList(data || []);
+      }
+    })
+    .catch((err)=>{
+      console.log(err.message);
+    });
+  },[]);  
 
-  const [noBlog,SetNoBlog] = useState(false);
+  
+  useEffect(()=>{
+    const getDataAuthor = async () => {
+      try {
+        const response = await axios.get("http://localhost:9999/accounts/");
+        return response.data;
+      } catch (err) {
+        console.log("Error fetching authors:", err.message);
+        return [];
+      }
+    };
+    getDataAuthor()
+    .then((data) => {
+      setAuthorList(data || []);
+    })
+    .catch((err)=>{
+      console.log(err.message);
+    });
+  },[]); 
+
+  let author=[];
+
+  if(authorList && postList){
+    author = authorList.filter(account => postList.some(post => post.idAuthor === account._id));
+  }
 
   return(
     <Wrapper>
       <div id="blog-list-container">
-        <h2 className="blog-container-title">Bài viết mới nhất</h2>
-        {noBlog&&
-          <div className="blog-list-alert">
-            <span>Chưa có bài viết nào</span>
-          </div>
-        }
-        {!noBlog &&
-          <ul className="blog-list-box">
-            <li className="blog-item">
-              <BlogItem/>
-            </li>
-            
-          </ul>
-        }
         
+          {postList && postList.length===0 &&
+          (  
+            <div className="blog-list-alert">
+              <span>Chưa có bài viết nào</span>
+            </div>
+          )}
+          {postList && postList.length>0 &&
+          (<ul className="blog-list-box">
+            {
+              postList.map((post, index)=>(
+                <li key={post._id || index} className="blog-item">
+                  <PostItem post={post} author={author.find(acc=>acc._id==post.idAuthor)}/>
+                </li>
+              )
+            )
+            }
+          </ul>
+          )}
       </div>
     </Wrapper>
   )
 }
 
-export default BlogList;
+export default PostList;
 
 const Wrapper = styled.div`
-  width: 70%;
+  width: 100%;
   height: max-content;
   box-sizing: border-box;
   margin-right: 18px;
@@ -69,7 +124,7 @@ const Wrapper = styled.div`
 
   /* small desktop*/
   @media (max-width: 1279px) and (min-width: 769px) {
-    width: 60%;
+
 
   }
 

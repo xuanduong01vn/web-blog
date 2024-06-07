@@ -1,5 +1,7 @@
 import styled from "styled-components";
 import React, {useState, useEffect } from "react";
+import axios from 'axios';
+import { useParams } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faStar,
@@ -13,8 +15,16 @@ import {
 import PostComment from "../PostComment/PostComment.js";
 
 
-function PostContent(){
+function PostContent(props){
 
+  let { id } = useParams();
+  
+  const {onDataReceived} = props;
+
+  const [postData, setPostData] = useState(null);
+  const [author, setAuthor] = useState(null);
+  const [amountLiked, setAmountLiked] = useState(0);
+  const [amountMarked, setAmountMarked] = useState(0);
   const closedPopUp={display: 'none'};
   const openedPopUp={display: 'absolute', zIndex: 99 };
 
@@ -23,26 +33,83 @@ function PostContent(){
   const [liked, setLiked] = useState(false);
   const [marked, setMarked] = useState(false);
 
-  function likePost(e){
-    if(liked==false)
-      setLiked(true);
-    else
-      setLiked(false);
+  useEffect(()=>{
+    const getDataPost = async () => {
+      try {
+        const response = await axios.get(`http://localhost:9999/posts/${id}`);
+        return response.data;
+      } catch (err) {
+        console.log(err.message);
+        return {};
+      }
+    };
+    getDataPost()
+    .then((data) => {
+      setPostData(data);
+      onDataReceived(data.title);
+      setAmountLiked(data.amountLiked || 0);
+      setAmountMarked(data.amountMarked || 0);
+    })
+    .catch((err)=>{
+      console.log(err.message);
+    });
+  },[onDataReceived])
+
+  useEffect(()=>{
+    if(postData && postData?.idAuthor){
+      const getAuthorPost = async () => {
+        try {
+          const response = await axios.get(`http://localhost:9999/accounts/${postData.idAuthor}`);
+          return response.data;
+        } catch (err) {
+          console.log(err.message);
+          return {};
+        }
+      };
+      getAuthorPost()
+      .then((data) => {
+        setAuthor(data);
+      })
+      .catch((err)=>{
+        console.log(err.message);
+      });
+    }
+    
+  },[postData])
+
+  //handle like post
+  function likePost(){
+    if(amountLiked!==null){
+      if(liked==false){
+        setAmountLiked(prev=>prev+1);
+        setLiked(true);
+      }
+      else{
+        setLiked(false);
+        setAmountLiked(prev=>prev-1);
+      }
+    }
   }
 
-  function markPost(e){
-    if(marked==false)
-      setMarked(true);
-    else
-      setMarked(false);
+  //handle mark post
+  function markPost(){
+    if(amountMarked!==null){
+      if(marked==false){
+        setAmountMarked(prev=>prev+1);
+        setMarked(true);
+      }
+      else{
+        setAmountMarked(prev=>prev-1);
+        setMarked(false);
+      }
+    }
   }
 
+  //handle open popup edit delete post
   const handleOpenPostPopUp=(e)=>{
     openPopUp.includes(" opened")
       ?setOpenPopUp("author-pop-up")
       :setOpenPopUp("author-pop-up opened");
-    console.log(e.target.className);
-
   }
 
   const handleClosePopUp=(e)=>{
@@ -52,18 +119,19 @@ function PostContent(){
 
   return(
     <Wrapper>
-      <div className="post-content-container">
+      {postData &&
+      (
+        <div className="post-content-container">
         <div className="post-content-user">
           <div className="post-content-author">
-            <img src="https://www.vietnamfineart.com.vn/wp-content/uploads/2023/07/anh-avatar-dep-cho-con-gai-1.jpg" 
-            alt="" className="post-author-avatar" />
+            <img src={author?.avatar} alt="" className="post-author-avatar" />
             <div className="post-content-created">
-              <a href="/user" className="post-author-name">xuanduong</a>
-              <p className="post-created-time">đã đăng lúc 2024</p>
+              <a href={`/user/${author?._id}`} className="post-author-name">{author?.username}</a>
+              <p className="post-created-time">đã đăng lúc {postData.createAt}</p>
             </div>
           </div>
           <div className="post-content-action">
-            <p className="liked-action-ammount">6</p>
+            <p className="liked-action-ammount">{amountLiked}</p>
             {!liked ?
               <button onClick={likePost} className="post-content-action-btn">
                 <FontAwesomeIcon icon={faStar}/>
@@ -73,7 +141,7 @@ function PostContent(){
                 <FontAwesomeIcon icon={faStared}/>
               </button>
             }
-            <p className="marked-action-ammount">6</p>
+            <p className="marked-action-ammount">{amountMarked}</p>
             {!marked ?
               <button onClick={markPost} className="post-content-action-btn">
                 <FontAwesomeIcon icon={faBookmark}/>
@@ -87,10 +155,10 @@ function PostContent(){
           </div>
         </div>
         <h1 className="post-content-title">
-            REAct basic hello world
+          {postData.title}
         </h1>
         <div className="author-action">
-          <button className="author-action-btn">
+          <button onClick={handleOpenPostPopUp} className="author-action-btn">
             <FontAwesomeIcon className="author-action-btn-icon" icon={faEllipsis} />
           </button>
             <div className={openPopUp}>
@@ -111,16 +179,13 @@ function PostContent(){
         </div>
         <div className="post-content-text">
           <p>
-          I. Thiết lập màu trong HTML:
-
-          1. Công cụ Just Color Picker
-
-          Color Picker hỗ trợ thiết kế đồ họa, webdesigner,... có thể xác định màu sắc, lấy mã màu nhanh chóng, lưu và chỉnh sửa các màu sắc, hoặc kết hợp các màu sắc lại với nhau. Để lấy mã màu bằng Color Picker, bạn di chuột đến bất cứ điểm ảnh nào để lấy được thông tin về điểm ảnh đó. Công cụ hỗ trợ tới 5 định dạng màu HTML, RGB, HEX, HSB/HSV và HSL. Vì thế chúng ta có thể chuyển đổi mã màu HTML, HEX, RGB sang các mã màu khác tương ứng.
-
-          Công cụ Color Picker hỗ trợ nhiều ngô
+            {postData.content}
           </p>
         </div>
       </div>
+      )
+      }
+      
       <PostComment/>
     </Wrapper>
   )

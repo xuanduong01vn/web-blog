@@ -1,6 +1,7 @@
-import styled from "styled-components";
-import React, {useEffect, useState} from "react";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import styled from 'styled-components';
+import React, {useEffect, useState} from 'react';
+import { useSelector} from 'react-redux';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {
   faEyeSlash,
   faEye,
@@ -14,6 +15,9 @@ function Login(){
   const [hidePassword, setHidePassword] = useState(false);
   const [typeInput, setTypeInput] = useState("password");
 
+  const[valueUsername, setValueUsername]=useState('');
+  const[valuePassword, setValuePassword]=useState('');
+
   function handleHidePassword(e){
     if(hidePassword==true){
       setHidePassword(false);
@@ -25,18 +29,37 @@ function Login(){
     }
   }
 
+  
+
+  let User={
+    username: valueUsername,
+    password: valuePassword
+  }
+
+  function onSubmit(){
+    console.log(User);
+  }
+
+  function listenValue(e){
+    console.log(e.target.value);
+  }
+
   return(
     <Wrapper>
       <div className="login-container">
         <h1 className="page-name">QAx</h1>
         <h3 className="page-title">Đăng nhập vào QAx</h3>
         <div className="input-item">
-          <input type="text" placeholder="Tên người dùng"
-          id="username-input" />
+          <input id="username-input"  type="text" placeholder="Tên người dùng"
+          onChange={(e)=>{
+            setValueUsername(e.target.value);
+          }} />
         </div>
         <div className="input-item">
-          <input type={typeInput} placeholder="Mật khẩu"
-          id="password-input" />
+          <input id="password-input" type={typeInput} placeholder="Mật khẩu" 
+           onChange={(e)=>{
+            setValuePassword(e.target.value);
+          }} />
           <button className="hide-password-btn" 
           onClick={handleHidePassword}>
             {hidePassword ?
@@ -48,7 +71,7 @@ function Login(){
         </div>
         
         
-        <a href="/" className="login-btn">Đăng nhập</a>
+        <button onClick={onSubmit} className="login-btn">Đăng nhập</button>
         <div className="other-action">
           <a href="/forgot-password" className="forgot-password-btn">Quên mật khẩu?</a>
           <a href="/register" className="register-btn">Tạo tài khoản</a>

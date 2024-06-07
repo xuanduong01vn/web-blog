@@ -29,9 +29,12 @@ function HomeLayout(){
         </div>
       </div> */}
       <div className="home-content-box">
-        {selectPost &&
-          <PostList/>
-        }
+        <div className="blog-container-col">
+          <h2 className="blog-container-title">Bài viết mới nhất</h2>
+            <PostList/>
+        </div>
+      
+        
         
         <QuestionList/>
       </div>
@@ -88,6 +91,9 @@ const Wrapper = styled.div`
     justify-content: space-between;
   }
 
+  .blog-container-col{
+    width: 70%;
+  }
 
   /* small desktop*/
   @media (max-width: 1279px) and (min-width: 769px) {
@@ -112,6 +118,10 @@ const Wrapper = styled.div`
       display: block;
     }
 
+    .blog-container-col{
+      width: 100%;
+    }
+
     .content-select-bar{
       display: flex;
     }
@@ -128,6 +138,10 @@ const Wrapper = styled.div`
       box-sizing: border-box;
       padding: 0 12px;
       display: block;
+    }
+
+    .blog-container-col{
+      width: 100%;
     }
 
     .content-select-bar{

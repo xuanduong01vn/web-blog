@@ -1,5 +1,6 @@
 import React, {useEffect, useState} from "react";
 import styled from 'styled-components';
+import propTypes from 'prop-types';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {
   faBookmark,
@@ -11,7 +12,46 @@ import {
   faComment,
 } from '@fortawesome/free-solid-svg-icons';
 
-function PostItem(){
+
+
+
+PostItem.propTypes={
+  post: propTypes.shape({
+    _id: propTypes.string.isRequired,
+    title: propTypes.string.isRequired,
+    idAuthor: propTypes.string.isRequired,
+    createAt: propTypes.string.isRequired,
+    amountLiked: propTypes.number,
+    amountMarked: propTypes.number,
+    amountComment: propTypes.number,
+  }).isRequired,
+  author: propTypes.shape({
+    _id: propTypes.string.isRequired,
+    username: propTypes.string.isRequired,
+    avatar: propTypes.string.isRequired,
+  }).isRequired,
+};
+
+PostItem.defaultProps={
+  post: {
+    _id: '',
+    title: '',
+    idAuthor: '',
+    createAt: '',
+    amountLiked: 0,
+    amountMarked: 0,
+    amountComment: 0,
+  },
+  author: {
+    _id: '',
+    username: '',
+    avatar: '',
+  },
+};
+
+function PostItem(props){
+
+  const { post, author } = props;
 
   const [marked, setMarked]=useState(false);
   function clickMark(e){
@@ -26,12 +66,12 @@ function PostItem(){
       <div className="post-item-cover">
         <div className="post-item-user">
           <div className="post-item-author">
-            <a href="/user" className="post-item-author-info">
-              <img src="https://www.vietnamfineart.com.vn/wp-content/uploads/2023/07/anh-avatar-dep-cho-con-gai-1.jpg" 
+            <a href={`/user/${author._id}`} className="post-item-author-info">
+              <img src={author.avatar} 
               alt="" className="post-author-avatar" />
-              <p className="post-author-name">xuanduong</p>
+              <p className="post-author-name">{author.username}</p>
             </a>
-            <span className="post-item-author-create"> đã đăng lúc 2022.2.3</span>
+            <span className="post-item-author-create"> đã đăng lúc {post.createAt}</span>
           </div>
           <div className="post-item-action">
             <button onClick={clickMark} className="add-blog post-item-btn">
@@ -40,19 +80,19 @@ function PostItem(){
             </button>
           </div>
         </div>
-        <a href="/post" className="post-item-title">
-          <h3>React basic basicReact basic basicReact basic basicReact basic basicReact basic basicReact basic basicReact basic basic</h3> 
+        <a href={`/post/${post._id}`} className="post-item-title">
+          <h3>{ post.title}</h3> 
         </a>
 
         <div className="post-item-interact">
           <div className="post-item-stars">
-            <FontAwesomeIcon icon={faStar} />6
+            <FontAwesomeIcon icon={faStar} />{post.amountLiked}
           </div>
           <div className="post-item-comments">
-            <FontAwesomeIcon icon={faComment} />6
+            <FontAwesomeIcon icon={faComment} />{post.amountComment}
           </div>
           <div className="post-item-marks">
-            <FontAwesomeIcon icon={faBookmarked} />8
+            <FontAwesomeIcon icon={faBookmarked} />{post.amountMarked}
           </div>
         </div>
       </div>

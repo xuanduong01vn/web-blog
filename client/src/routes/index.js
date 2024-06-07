@@ -14,12 +14,12 @@ import AddNewAdmin from '../pages/AddNewAdmin/AddNewAdmin.js';
 
 const routes=[
   {path: "/", component: Home},
-  {path: "/post", component: ReadPost},
+  {path: "/post/:id", component: ReadPost},
   {path: "/login", component: Login},
   {path: "/register", component: Register},
   {path: "/account/profile", component: Profile},
   {path: "/account/password", component: Password},
-  {path: "/user", component: User},
+  {path: "/user/:id", component: User},
   {path: "/account/post", component: AccountPost},
   {path: "/create/post", component: CreatePost},
   {path: "/dashboard", component: HomeAdmin},
