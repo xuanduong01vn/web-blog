@@ -54,7 +54,7 @@ function DashboardPost(){
   let author=[];
 
   if(authorList && postList){
-    author=postList.map(post=>post.idAuthor);
+    author = authorList.filter(account => postList.some(post => post.idAuthor === account._id));
     
   }
   console.log(postList);
@@ -77,66 +77,66 @@ function DashboardPost(){
         
         <table className="dashboard-post-table">
           <thead>
-            <th>
-              Tiêu đề bài viết
-            </th>
-            <th>
-              Tác giả
-            </th>
-            <th>
-              Trạng thái
-            </th>
-            <th>
-              
-            </th>
+            <tr>
+              <th>#</th>
+              <th>Tiêu đề bài viết</th>
+              <th>Tác giả</th>
+              <th>Trạng thái</th>
+              <th></th>
+            </tr>
           </thead>
+          <tbody>
 
+          
           {(statePost=="active") && (
             postList?.filter(post=>post.isDeleted==false).map((post,index) =>(
-              <tbody key={index}>
+              <tr key={index}>
+                <td>{index+1}</td>
                 <td>{post.title}</td>
-                <td>{author?.[index].username}</td>
+                <td>{author[index]?.username}</td>
                 <td>{post.isDeleted?`Đã xóa`:`Hoạt động`}</td>
                 <td>
                   <a href="" className='read-post-btn'>
                     Chi tiết
                   </a>
                 </td>
-              </tbody>
+              </tr>
             ) )
           )}
 
           {(statePost=="deleted") && (
             postList?.filter(post=>post.isDeleted==true).map((post,index) =>(
-              <tbody key={index}>
+              <tr key={index}>
+                <td>{index+1}</td>
                 <td>{post.title}</td>
-                <td>{author?.[index].username}</td>
+                <td>{author[index]?.username}</td>
                 <td>{post.isDeleted?`Đã xóa`:`Hoạt động`}</td>
                 <td>
                   <a href="" className='read-post-btn'>
                     Chi tiết
                   </a>
                 </td>
-              </tbody>
+              </tr>
             ) )
           )
           }
           {(statePost=="all") &&(
             postList?.map((post,index) =>(
-              <tbody key={index}>
+              <tr key={index}>
+                <td>{index+1}</td>
                 <td>{post.title}</td>
-                <td>{author?.[index].username}</td>
+                <td>{author[index]?.username}</td>
                 <td>{post.isDeleted?`Đã xóa`:`Hoạt động`}</td>
                 <td>
                   <a href="" className='read-post-btn'>
                     Chi tiết
                   </a>
                 </td>
-              </tbody>
+              </tr>
             ) )
           )
           }
-            
+          </tbody>
 
           
         </table>
@@ -216,7 +216,15 @@ const Wrapper = styled.div`
     background-color: var(--primary-color);
   }
 
+  tr td:first-child{
+    text-align: center;
+  }
+
   thead th:nth-child(1){
+    width: 32px;
+  }
+
+  thead th:nth-child(2){
     width: 50%;
   }
 

@@ -47,19 +47,19 @@ function DashboardTag(){
         
         <table className="dashboard-post-table">
           <thead>
-            <th>
-              Tên thẻ
-            </th>
-            <th>
-              Ngày tạo
-            </th>
-            <th>
-              
-            </th>
+            <tr>
+              <th>Tên thẻ</th>
+              <th>Ngày tạo</th>
+              <th></th>
+            </tr>
+            
           </thead>
+          <tbody>
+
+          
           {(stateTag=="active") && (
             tagList?.filter(tag=>tag.isDeleted==false).map((tag, index)=>(
-              <tbody key={index}>
+              <tr key={index}>
                 <td>{tag.nameTag}</td>
                 <td>{tag.createAt}</td>
                 <td>
@@ -67,12 +67,12 @@ function DashboardTag(){
                     Chi tiết
                   </button>
                 </td>
-              </tbody>
+              </tr>
             ))
           )}
           {(stateTag=="deleted") && (
             tagList?.filter(tag=>tag.isDeleted==true).map((tag, index)=>(
-              <tbody key={index}>
+              <tr key={index}>
                 <td>{tag.nameTag}</td>
                 <td>{tag.createAt}</td>
                 <td>
@@ -80,12 +80,12 @@ function DashboardTag(){
                     Chi tiết
                   </button>
                 </td>
-              </tbody>
+              </tr>
             ))
           )}
           {(stateTag=="all") && (
             tagList?.map((tag, index)=>(
-              <tbody key={index}>
+              <tr key={index}>
                 <td>{tag.nameTag}</td>
                 <td>{tag.createAt}</td>
                 <td>
@@ -93,10 +93,10 @@ function DashboardTag(){
                     Chi tiết
                   </button>
                 </td>
-              </tbody>
+              </tr>
             ))
           )}
-          
+          </tbody>
         </table>
       </div>
     </Wrapper>

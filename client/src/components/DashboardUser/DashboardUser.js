@@ -47,25 +47,20 @@ function DashboardUser(){
         
         <table className="dashboard-post-table">
           <thead>
-            <th>
-              Tên tài khoản
-            </th>
-            <th>
-              Tên hiển thị
-            </th>
-            <th>
-              Email
-            </th>
-            <th>
-              Ngày tạo
-            </th>
-            <th>
-              
-            </th>
+            <tr>
+              <th>Tên tài khoản</th>
+              <th>Tên hiển thị</th>
+              <th>Email</th>
+              <th> Ngày tạo</th>
+              <th></th>
+            </tr>
           </thead>
+          <tbody>
+
+          
           {(stateAccount=="active") && (
             adminList?.filter(acc=>acc.isDeleted==false).map((acc, index)=>(
-              <tbody key={index}>
+              <tr key={index}>
                 <td>@{acc.username} </td>
                 <td>{acc.fullname}</td>
                 <td>{acc.email}</td>
@@ -75,12 +70,12 @@ function DashboardUser(){
                     Chi tiết
                   </button>
                 </td>
-              </tbody>
+              </tr>
             ))
           )}
           {(stateAccount=="deleted") && (
             adminList?.filter(acc=>acc.isDeleted==true).map((acc, index)=>(
-              <tbody key={index}>
+              <tr key={index}>
                 <td>@{acc.username} </td>
                 <td>{acc.fullname}</td>
                 <td>{acc.email}</td>
@@ -90,12 +85,12 @@ function DashboardUser(){
                     Chi tiết
                   </button>
                 </td>
-              </tbody>
+              </tr>
             ))
           )}
           {(stateAccount=="all") && (
             adminList?.map((acc, index)=>(
-              <tbody key={index}>
+              <tr key={index}>
                 <td>@{acc.username} </td>
                 <td>{acc.fullname}</td>
                 <td>{acc.email}</td>
@@ -105,10 +100,10 @@ function DashboardUser(){
                     Chi tiết
                   </button>
                 </td>
-              </tbody>
+              </tr>
             ))
           )}
-          
+          </tbody>
         </table>
       </div>
     </Wrapper>
