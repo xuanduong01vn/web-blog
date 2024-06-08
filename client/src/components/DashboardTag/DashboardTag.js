@@ -2,27 +2,27 @@ import styled from 'styled-components';
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 
-function DashboardAdmin(){
-  const [adminList, setAdminList] = useState(null);
-  const [stateAccount, setStateAccount] = useState("all");
+function DashboardTag(){
+  const [tagList, setTagList] = useState(null);
+  const [stateTag, setStateTag] = useState("all");
 
-  function handleStateAccount(state){
-    setStateAccount(state);
+  function handleStateTag(state){
+    setStateTag(state);
   }
 
   useEffect(()=>{
-    const getDataAdmin = async () => {
+    const getDataTag = async () => {
       try {
-        const response = await axios.get("http://localhost:9999/accounts/?idTypeAccount=1");
+        const response = await axios.get("http://localhost:9999/tags");
         return response.data;
       } catch (err) {
         console.log("Error fetching authors:", err.message);
         return [];
       }
     };
-    getDataAdmin()
+    getDataTag()
     .then((data) => {
-      setAdminList(data || []);
+      setTagList(data || []);
     })
     .catch((err)=>{
       console.log(err.message);
@@ -33,28 +33,22 @@ function DashboardAdmin(){
     <Wrapper>
       <div className="dashboard-post-container">
         <div className="dashboard-add-new">
-          <h3>Quản lý quản trị viên</h3>
-          <a href="/dashboard/new-admin" target="_blank" className="dashboard-new-btn">Thêm mới</a>
+          <h3>Người dùng</h3>
+          {/* <a href="/dashboard/new-admin" target="_blank" className="dashboard-new-btn">Thêm mới</a> */}
         </div>
         
         <div className="dashboard-filter">
           <ul className="dashboard-filter-list">
-          <li onClick={()=>handleStateAccount("all")} className={stateAccount=="all"?"dashboard-filter-item active":"dashboard-filter-item"} >Tất cả</li>
-            <li onClick={()=>handleStateAccount("active")} className={stateAccount=="active"?"dashboard-filter-item active":"dashboard-filter-item"}>Đang hoạt động</li>
-            <li onClick={()=>handleStateAccount("deleted")} className={stateAccount=="deleted"?"dashboard-filter-item active":"dashboard-filter-item"}>Đã xóa</li>
+          <li onClick={()=>handleStateTag("all")} className={stateTag=="all"?"dashboard-filter-item active":"dashboard-filter-item"} >Tất cả</li>
+            <li onClick={()=>handleStateTag("active")} className={stateTag=="active"?"dashboard-filter-item active":"dashboard-filter-item"}>Đang hoạt động</li>
+            <li onClick={()=>handleStateTag("deleted")} className={stateTag=="deleted"?"dashboard-filter-item active":"dashboard-filter-item"}>Đã xóa</li>
           </ul>
         </div>
         
         <table className="dashboard-post-table">
           <thead>
             <th>
-              Tên tài khoản
-            </th>
-            <th>
-              Tên hiển thị
-            </th>
-            <th>
-              Email
+              Tên thẻ
             </th>
             <th>
               Ngày tạo
@@ -63,13 +57,11 @@ function DashboardAdmin(){
               
             </th>
           </thead>
-          {(stateAccount=="active") && (
-            adminList?.filter(acc=>acc.isDeleted==false).map((acc, index)=>(
+          {(stateTag=="active") && (
+            tagList?.filter(tag=>tag.isDeleted==false).map((tag, index)=>(
               <tbody key={index}>
-                <td>@{acc.username} </td>
-                <td>{acc.fullname}</td>
-                <td>{acc.email}</td>
-                <td>{acc.createAt}</td>
+                <td>{tag.nameTag}</td>
+                <td>{tag.createAt}</td>
                 <td>
                   <button className='detail-item-btn'>
                     Chi tiết
@@ -78,13 +70,11 @@ function DashboardAdmin(){
               </tbody>
             ))
           )}
-          {(stateAccount=="deleted") && (
-            adminList?.filter(acc=>acc.isDeleted==true).map((acc, index)=>(
+          {(stateTag=="deleted") && (
+            tagList?.filter(tag=>tag.isDeleted==true).map((tag, index)=>(
               <tbody key={index}>
-                <td>@{acc.username} </td>
-                <td>{acc.fullname}</td>
-                <td>{acc.email}</td>
-                <td>{acc.createAt}</td>
+                <td>{tag.nameTag}</td>
+                <td>{tag.createAt}</td>
                 <td>
                   <button className='detail-item-btn'>
                     Chi tiết
@@ -93,13 +83,11 @@ function DashboardAdmin(){
               </tbody>
             ))
           )}
-          {(stateAccount=="all") && (
-            adminList?.map((acc, index)=>(
+          {(stateTag=="all") && (
+            tagList?.map((tag, index)=>(
               <tbody key={index}>
-                <td>@{acc.username} </td>
-                <td>{acc.fullname}</td>
-                <td>{acc.email}</td>
-                <td>{acc.createAt}</td>
+                <td>{tag.nameTag}</td>
+                <td>{tag.createAt}</td>
                 <td>
                   <button className='detail-item-btn'>
                     Chi tiết
@@ -115,7 +103,7 @@ function DashboardAdmin(){
   )
 }
 
-export default DashboardAdmin;
+export default DashboardTag;
 
 const Wrapper = styled.div`
   width: 100%;

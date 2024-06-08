@@ -1,25 +1,77 @@
 import styled from 'styled-components';
-import React, { useEffect, useState } from 'react';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faMagnifyingGlass,
-          faPen,
-          faBell
- } from '@fortawesome/free-solid-svg-icons';
+import React, { useEffect, useState, useRef } from 'react';
+import axios from 'axios';
 
 function DashboardPost(){
+
+
+  const [postList, setPostList] = useState(null);
+  const [authorList, setAuthorList] = useState(null);
+  const [statePost, setStatePost] = useState("all");
+
+  function handleStatePost(state){
+    setStatePost(state);
+  }
+
+  useEffect(()=>{
+    const getDataPost = async () => {
+      try {
+        const response = await axios.get(`http://localhost:9999/posts/`);
+        return response.data;
+      } catch (err) {
+        console.log("Error fetching posts:", err.message);
+        return [];
+      }
+    };
+    getDataPost()
+    .then((data) => {
+        setPostList(data || []);
+    })
+    .catch((err)=>{
+      console.log(err.message);
+    });
+  },[]);  
+
+  useEffect(()=>{
+    const getDataAuthor = async () => {
+      try {
+        const response = await axios.get("http://localhost:9999/accounts/");
+        return response.data;
+      } catch (err) {
+        console.log("Error fetching authors:", err.message);
+        return [];
+      }
+    };
+    getDataAuthor()
+    .then((data) => {
+      setAuthorList(data || []);
+    })
+    .catch((err)=>{
+      console.log(err.message);
+    });
+  },[]); 
+
+  let author=[];
+
+  if(authorList && postList){
+    author=postList.map(post=>post.idAuthor);
+    
+  }
+  console.log(postList);
+
   return (
     <Wrapper>
       <div className="dashboard-post-container">
       <div className="dashboard-add-new">
           <h3>Quản lý bài viết</h3>
-          <a href="" target="_blank" className="dashboard-new-btn">Thêm mới</a>
+          {/* <a href="" target="_blank" className="dashboard-new-btn">Thêm mới</a> */}
         </div>
         
         <div className="dashboard-filter">
           <ul className="dashboard-filter-list">
-            <li className="dashboard-filter-item active">Tất cả</li>
-            <li className="dashboard-filter-item">Đang hoạt động</li>
-            <li className="dashboard-filter-item">Đã xóa</li>
+            <li onClick={()=>handleStatePost("all")} className={statePost=="all"?"dashboard-filter-item active":"dashboard-filter-item"} >Tất cả</li>
+            <li onClick={()=>handleStatePost("active")} className={statePost=="active"?"dashboard-filter-item active":"dashboard-filter-item"}>Đang hoạt động</li>
+            <li onClick={()=>handleStatePost("deleted")} className={statePost=="deleted"?"dashboard-filter-item active":"dashboard-filter-item"}>Đã xóa</li>
           </ul>
         </div>
         
@@ -38,22 +90,55 @@ function DashboardPost(){
               
             </th>
           </thead>
-          <tbody>
-            <td>
-              React basic
-            </td>
-            <td>
-              Xuân dương
-            </td>
-            <td>
-              Công khai
-            </td>
-            <td>
-              <button className='read-post-btn'>
-                Chi tiết
-              </button>
-            </td>
-          </tbody>
+
+          {(statePost=="active") && (
+            postList?.filter(post=>post.isDeleted==false).map((post,index) =>(
+              <tbody key={index}>
+                <td>{post.title}</td>
+                <td>{author?.[index].username}</td>
+                <td>{post.isDeleted?`Đã xóa`:`Hoạt động`}</td>
+                <td>
+                  <a href="" className='read-post-btn'>
+                    Chi tiết
+                  </a>
+                </td>
+              </tbody>
+            ) )
+          )}
+
+          {(statePost=="deleted") && (
+            postList?.filter(post=>post.isDeleted==true).map((post,index) =>(
+              <tbody key={index}>
+                <td>{post.title}</td>
+                <td>{author?.[index].username}</td>
+                <td>{post.isDeleted?`Đã xóa`:`Hoạt động`}</td>
+                <td>
+                  <a href="" className='read-post-btn'>
+                    Chi tiết
+                  </a>
+                </td>
+              </tbody>
+            ) )
+          )
+          }
+          {(statePost=="all") &&(
+            postList?.map((post,index) =>(
+              <tbody key={index}>
+                <td>{post.title}</td>
+                <td>{author?.[index].username}</td>
+                <td>{post.isDeleted?`Đã xóa`:`Hoạt động`}</td>
+                <td>
+                  <a href="" className='read-post-btn'>
+                    Chi tiết
+                  </a>
+                </td>
+              </tbody>
+            ) )
+          )
+          }
+            
+
+          
         </table>
       </div>
     </Wrapper>

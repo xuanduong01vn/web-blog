@@ -2,7 +2,7 @@ import styled from 'styled-components';
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 
-function DashboardAdmin(){
+function DashboardUser(){
   const [adminList, setAdminList] = useState(null);
   const [stateAccount, setStateAccount] = useState("all");
 
@@ -13,7 +13,7 @@ function DashboardAdmin(){
   useEffect(()=>{
     const getDataAdmin = async () => {
       try {
-        const response = await axios.get("http://localhost:9999/accounts/?idTypeAccount=1");
+        const response = await axios.get("http://localhost:9999/accounts/?idTypeAccount=2");
         return response.data;
       } catch (err) {
         console.log("Error fetching authors:", err.message);
@@ -33,8 +33,8 @@ function DashboardAdmin(){
     <Wrapper>
       <div className="dashboard-post-container">
         <div className="dashboard-add-new">
-          <h3>Quản lý quản trị viên</h3>
-          <a href="/dashboard/new-admin" target="_blank" className="dashboard-new-btn">Thêm mới</a>
+          <h3>Người dùng</h3>
+          {/* <a href="/dashboard/new-admin" target="_blank" className="dashboard-new-btn">Thêm mới</a> */}
         </div>
         
         <div className="dashboard-filter">
@@ -115,7 +115,7 @@ function DashboardAdmin(){
   )
 }
 
-export default DashboardAdmin;
+export default DashboardUser;
 
 const Wrapper = styled.div`
   width: 100%;

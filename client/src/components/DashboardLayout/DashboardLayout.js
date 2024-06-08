@@ -15,18 +15,20 @@ import {
 
  function DashboardLayout(){
 
-  const [openedLowMenu, setOpenedLowMenu] = useState(true);
-  const [openMenuIcon, setOpenMenuIcon] = useState("opened-menu-icon");
+  const [openedLowMenu, setOpenedLowMenu] = useState(null);
+  const [openMenuIcon, setOpenMenuIcon] = useState('opened-menu-icon');
 
-  const [openedLowMenus, setOpenedLowMenus] = useState({
-
-  });
 
   const handleOpenLowMenu = (menu) => {
-    setOpenedLowMenus((prevState) => ({
-      ...prevState,
-      [menu]: !prevState[menu],
-    }));
+    if(openedLowMenu==menu)
+      {
+        setOpenedLowMenu(null);
+      }
+      else{
+        setOpenedLowMenu(menu);
+      }
+    
+    
   };
 
   // const handleOpenLowMenu=(e)=>{
@@ -44,30 +46,30 @@ import {
     <Wrapper>
       <ul className="top-menu">
       <li className="top-menu-item">
-        <a href="/dashboard/tags" className="menu-item-link">
+        <a href="/dashboard/" className="menu-item-link">
           <FontAwesomeIcon icon={faHouse} />Tổng quan
         </a>
       </li>
         <li className="top-menu-item">
           <button onClick={() => handleOpenLowMenu('posts')} className="top-menu-down">
               <FontAwesomeIcon icon={faFile} />Bài viết
-            <span className={openMenuIcon} >
+            <span className={openedLowMenu=='posts'?'opened-menu-icon opened':'opened-menu-icon'} >
               <FontAwesomeIcon icon={faChevronDown} />
             </span>
             
           </button>
-          {openedLowMenu &&
+          {openedLowMenu=='posts' &&
             <ul className="low-menu">
             <li className="low-menu-item">
               <a href="/dashboard/posts" className="menu-item-link">
               <FontAwesomeIcon icon={faPen} />Bài viết
               </a>
             </li>
-            <li className="low-menu-item">
+            {/* <li className="low-menu-item">
               <a href="/dashboard/questions" className="menu-item-link">
               <FontAwesomeIcon icon={faQuestion} />Câu hỏi
               </a>
-            </li>
+            </li> */}
           </ul>
           }
           
@@ -75,12 +77,12 @@ import {
         <li className="top-menu-item">
           <button  onClick={() => handleOpenLowMenu('account')} className="top-menu-down">
               <FontAwesomeIcon icon={faAddressCard} />Tài khoản
-            <span className={openMenuIcon}>
+            <span className={openedLowMenu=='account'?'opened-menu-icon opened':'opened-menu-icon'}>
               <FontAwesomeIcon icon={faChevronDown} />
             </span>
             
           </button>
-          {openedLowMenu &&
+          {openedLowMenu=='account' &&
             <ul className="low-menu">
             <li className="low-menu-item">
               <a href="/dashboard/admins" className="menu-item-link">
@@ -88,7 +90,7 @@ import {
               </a>
             </li>
             <li className="low-menu-item">
-              <a href="/dashboard/uers" className="menu-item-link">
+              <a href="/dashboard/users" className="menu-item-link">
               <FontAwesomeIcon icon={faUser} />Người dùng
               </a>
             </li>

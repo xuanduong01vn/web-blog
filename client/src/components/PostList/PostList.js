@@ -22,11 +22,11 @@ function PostList(props){
     };
     getDataPost()
     .then((data) => {
-      if(idUser){
-        setPostList(data.filter((item)=>item.idAuthor==idUser));
+      if(!idUser){
+        setPostList(data || []);
       }
       else{
-        setPostList(data || []);
+        setPostList(data.filter((item)=>item.idAuthor==idUser));
       }
     })
     .catch((err)=>{
@@ -34,7 +34,6 @@ function PostList(props){
     });
   },[]);  
 
-  
   useEffect(()=>{
     const getDataAuthor = async () => {
       try {

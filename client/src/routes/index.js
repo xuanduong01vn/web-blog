@@ -10,6 +10,8 @@ import CreatePost from '../pages/CreatePost/CreatePost.js';
 import HomeAdmin from '../pages/HomeAdmin/HomeAdmin.js';
 import DashboardPost from '../pages/DashboardPost/DashboardPost.js';
 import DashboardAdmin from '../pages/DashboardAdmin/DashboardAdmin.js';
+import DashboardUser from '../pages/DashboardUser/DashboardUser.js';
+import PageDashboardTag from '../pages/DashboardTag/DashboardTag.js';
 import AddNewAdmin from '../pages/AddNewAdmin/AddNewAdmin.js';
 
 const routes=[
@@ -26,8 +28,8 @@ const routes=[
   {path: "/dashboard/posts", component: DashboardPost},
   {path: "/dashboard/admins", component: DashboardAdmin},
   {path: "/dashboard/new-admin", component: AddNewAdmin},
-  {path: "/dashboard/users", component: CreatePost},
-  {path: "/dashboard/tags", component: CreatePost},
+  {path: "/dashboard/users", component: DashboardUser},
+  {path: "/dashboard/tags", component: PageDashboardTag},
 
 ]
 

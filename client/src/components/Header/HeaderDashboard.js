@@ -11,7 +11,6 @@ import { faMagnifyingGlass,
 function HeaderAdmin(){
 
   const [openPopUp, setOpenPopUp] = useState(true);
-
   const [namePopup, setNamePopup] = useState(null);
 
   function handleOpenPopUp(popup){
@@ -36,9 +35,9 @@ function HeaderAdmin(){
               </div> 
               <div className="user-container">
                 <div className="user-container-item">
-                  <button className="new-blog-btn user-btn">
+                  <button onClick={()=>handleOpenPopUp("create")}  className="new-blog-btn user-btn">
                     <FontAwesomeIcon icon={faPen} className='new-blog-icon user-container-icon'/>
-                    <div className={namePopup=="create"?"header-pop-up-open":"header-pop-up"}>
+                      <div className={namePopup=="create"?"header-pop-up-open":"header-pop-up"}>
                         <ul className='header-pop-up-list'>
                           <li className='header-pop-up-item'>
                             <a href="/create/post" className="header-pop-up-link create-blog">
@@ -63,11 +62,11 @@ function HeaderAdmin(){
                   </button>
                 </div>
                 <div className="user-container-item">
-                  <button className="user-bar user-btn">
+                  <button onClick={()=>handleOpenPopUp("user")} className="user-bar user-btn">
                     <img src="https://www.vietnamfineart.com.vn/wp-content/uploads/2023/07/anh-avatar-dep-cho-con-gai-1.jpg" 
                     alt="user avatar" className="user-image"/>
                     <p className="user-name">username</p>
-                    <div className={namePopup=="user"?"header-pop-up-open":"header-pop-up"}>
+                      <div className={namePopup=="user"?"header-pop-up-open":"header-pop-up"}>
                       <ul className='header-pop-up-list'>
                         <li className='header-pop-up-item'>
                           <a href="/account/profile" className="header-pop-up-link user-profile">
@@ -91,6 +90,7 @@ function HeaderAdmin(){
                         </li>
                       </ul>
                     </div>
+                    
                   </button>
                 </div>
               </div>
@@ -104,9 +104,7 @@ export default HeaderAdmin;
 
 const Wrapper = styled.div`
   .header-container{
-    width: 100vw;
-    padding: 0 24px;
-    box-sizing: border-box;
+    width: 100%;
     height: 60px;
     background-color: var(--primary-color);
     margin-bottom: 40px;
@@ -116,14 +114,53 @@ const Wrapper = styled.div`
     z-index: 98;
   }
 
+  .header-search-bar{
+    width: 100%;
+    position: absolute;
+    z-index: 101;
+    height: 60px;
+    display: flex;
+    box-sizing: border-box;
+  }
+
+  .header-search-box{
+    background-color: white;
+    text-align: left;
+    align-items: center;
+    border-radius: 0;
+    height: 100%;
+    width: 100%;
+    padding: 12px 38px 12px 24px;
+  }
+
+  #search-cancel-btn{
+    position: absolute;
+    right: 12px;
+    height: 36px;
+    width: 36px;
+    top: 50%;
+    transform: translateY(-50%);
+    z-index: 102;
+
+    & svg{
+      width: 100%;
+      height: 100%;
+      transition: var(--transition-time);
+    }
+  }
+
+  #search-cancel-btn:hover svg{
+    color: var(--shadow-color);
+  }
 
   .header-bar{
-    width: 100%;
+    width: var(--general-width);
     height: 100%;
     display: flex;
     justify-content: space-between;
     align-items: center;
     margin: 0 auto;
+    box-sizing: border-box;
   }
 
   .header-title{
@@ -139,38 +176,60 @@ const Wrapper = styled.div`
 
   #search-container{
     border-radius: 18px;
-    border: 2px solid var(--shadow-color);
-    width: 400px; 
-    background-color: white;
+    width: max-content; 
+    min-width: 36px;
+    height: 36px;
     display: flex;
     overflow: hidden;
+    box-sizing: border-box;
+    position: relative;
+    align-items: center;
   }
 
   #search-box{
+    border-radius: 18px;
+    border: 2px solid var(--shadow-color);
+    width: 400px; 
     outline: none;
-    border: none;
-    padding: 8px 0 8px 24px;
+    padding: 8px 36px 8px 24px;
     font-size: 16px;
-    width: 100%;
+    background-color: white;
+  }
+
+  #search-box-open{
+    width: 100%; 
+    outline: none;
+    padding: 8px 36px 8px 24px;
+    font-size: 16px;
+    background-color: white;
+  }
+
+  #search-container button{
+    position: absolute;
+    right: 0;
+    border: none;
+    height: 36px;
+    width: 36px;
+    background-color: transparent;
+  }
+
+  #search-container button svg{
+    height: 20px;
+    transition: var(--transition-time);
+  }
+
+  #search-container button:hover svg{
+    height: 20px;
+    color: var(--shadow-color);
   }
 
   #search-btn{
-    border: none;
-    background-color: white;
-    height: 34px;
-    width: 34px;
-    cursor: pointer; 
+    display: block;
   }
 
-  #search-btn:hover .search-icon{
-    color: var(--text-color);
-  }
-
-  .search-icon{
-    height: 20px;
-    color: var(--shadow-color);
-    transition: var(--transition-time);
-  }
+  #search-header-btn{
+      display: none;
+    }
 
   #sign-btn{
     text-decoration: none;
@@ -271,8 +330,8 @@ const Wrapper = styled.div`
     color: var(--text-color);
   }
 
-  
-  .header-pop-up{
+  .header-pop-up,
+  .header-pop-up-open{
     position: absolute;
     z-index: 99;
     top: calc(100%);
@@ -282,18 +341,21 @@ const Wrapper = styled.div`
     border: 1px solid var(--shadow-color);
     transition: var(--transition-time);
     transform-origin: 0 -12px;
-  }
-
-  .user-bar:hover > .user-pop-up{
-    transform: scaleY(100%) translateX(0);
-  }
-
-  .user-pop-up{
     right: 0;
+  }
+
+  
+  .header-pop-up{
     transform: scaleY(0%) translateX(0);
   }
 
-  .header-pop-up::before{
+  .header-pop-up-open{
+    transform: scaleY(100%) translateX(0);
+  }
+
+
+  .header-pop-up::before,
+  .header-pop-up-open::before{
     content: "";
     z-index: 100;
     display: block;
@@ -302,10 +364,11 @@ const Wrapper = styled.div`
     border-color: transparent transparent white transparent;
     position: absolute;
     top: -24px;
-    right: 24px;       
+    right: 10px;       
   }
 
-  .header-pop-up::after{
+  .header-pop-up::after,
+  .header-pop-up-open::after{
     content: "";
     z-index: 99;
     display: block;
@@ -314,26 +377,7 @@ const Wrapper = styled.div`
     border-color: transparent transparent var(--shadow-color) transparent;
     position: absolute;
     top: -26px;
-    right: 23px;       
-  }
-
-  .new-blog-pop-up{
-    right: 50%;
-    transform: scaleY(0%) translateX(50%);
-  }
-
-  .new-blog-btn:hover > .new-blog-pop-up{
-    transform: scaleY(100%) translateX(50%);
-  }
-
-  .new-blog-pop-up::before{
-    right: 50%;    
-    transform: translateX(50%);   
-  }
-
-  .new-blog-pop-up::after{
-    right: 50%;  
-    transform: translateX(50%);     
+    right: 9px;       
   }
 
   .header-pop-up-list{
@@ -371,4 +415,5 @@ const Wrapper = styled.div`
     color: var(--hightlight-color);
     background-color: var(--primary-color);
   }
+
 `
