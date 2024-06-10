@@ -13,6 +13,19 @@ function Header(){
 
   const [openInput, setOpenInput] = useState(false);
   const [namePopup, setNamePopup] = useState(null);
+  const [searchText, setSearchText] = useState("");
+
+  const inputRef = useRef();
+
+  console.log(searchText);
+
+  function handleSearchClick(text){
+
+  }
+
+  function onChangeValue(value){
+    console.log(value);
+  }
 
   //handle open search box in mobile screen
   const handleOpenSearchBox =()=>{
@@ -48,7 +61,9 @@ function Header(){
           <div className="header-container">
             {openInput &&
               <div className="header-search-bar">
-                <input type="text" className="header-search-box"  placeholder='Tìm kiếm trên QAx'/>
+                <input type="text" className="header-search-box" 
+                placeholder='Tìm kiếm trên QAx'
+                />
                 <button onClick={handleCloseSearchBox} id="search-cancel-btn">
                   <FontAwesomeIcon icon={faXmark} className="search-cancel-icon" />
                 </button>
@@ -57,7 +72,11 @@ function Header(){
             <div className="header-bar">
               <a href="/" className="header-title">QAx</a>
               <div id="search-container">
-                  <input id="search-box" type="text" placeholder='Tìm kiếm trên QAx'/>
+                  <input id="search-box" type="text" placeholder='Tìm kiếm trên QAx'
+                  value = {searchText} ref={inputRef}
+                  onChange={e=>{setSearchText(e.target.value) 
+                    console.log(searchText);
+                  }}/>
                   <button id="search-btn">
                     <FontAwesomeIcon icon={faMagnifyingGlass} className="search-icon" />
                   </button>

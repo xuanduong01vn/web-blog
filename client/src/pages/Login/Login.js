@@ -1,6 +1,7 @@
 import styled from 'styled-components';
 import React, {useEffect, useState} from 'react';
-import { useSelector} from 'react-redux';
+import axios from 'axios';
+import { Navigate ,useNavigate } from "react-router-dom";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {
   faEyeSlash,
@@ -14,9 +15,43 @@ function Login(){
 
   const [hidePassword, setHidePassword] = useState(false);
   const [typeInput, setTypeInput] = useState("password");
+  const [sameEmail, setSameEmail] = useState(false);
+  const [samePassword, setSamePassword] = useState(false);
+  const [valueUsername, setValueUsername]=useState('');
+  const [valuePassword, setValuePassword]=useState('');
+  // const [navigate, setNavigate] = useState(null);
+  var [inputValue, setInputValue] = useState({
+    username: '',
+    email: '',
+    password: '',
+    confirmPassword: '',
+  });
 
-  const[valueUsername, setValueUsername]=useState('');
-  const[valuePassword, setValuePassword]=useState('');
+  const navigate = useNavigate();
+
+
+  function onChangeValue(e){
+    const {name, value} = e.target;
+      setInputValue({
+        ...inputValue,
+        [name]: value.trim(),
+      });
+      // func(e.target.value.trim());  
+  };
+
+  function clearInput(){
+    setInputValue({
+      username: '',
+      email: '',
+      password: '',
+      confirmPassword: '',
+    })
+  };
+
+  var newInputAccount={
+    password: inputValue.password,
+    email: inputValue.email,
+  };
 
   function handleHidePassword(e){
     if(hidePassword==true){
@@ -29,37 +64,45 @@ function Login(){
     }
   }
 
-  
-
-  let User={
-    username: valueUsername,
-    password: valuePassword
+  function handleLogin(){
+    setSamePassword(inputValue.password != inputValue.confirmPassword);
+    if(inputValue.password.length>=6 && inputValue.email.trim().length>0){
+      axios.post(`http://localhost:9999/accounts/login/`,newInputAccount)
+      .then(res=>{
+        console.log(res.data);
+        if(res.data=="Username and password are required"){
+        }
+        else if(res.data.message=="Login thành công"){
+          navigate(res.data.account==1 ?`/dashboard`:`/` );
+        }
+        else if(res.data.message=="Login thất bại"){
+        }
+        else 
+        // (res.data!=="Tài khoản đã tồn tại" && res.data!=="Email đã tồn tại") 
+        {
+          clearInput();
+        }
+        
+      })
+      
+    }
+    
   }
-
-  function onSubmit(){
-    console.log(User);
-  }
-
-  function listenValue(e){
-    console.log(e.target.value);
-  }
-
   return(
     <Wrapper>
       <div className="login-container">
         <h1 className="page-name">QAx</h1>
         <h3 className="page-title">Đăng nhập vào QAx</h3>
         <div className="input-item">
-          <input id="username-input"  type="text" placeholder="Tên người dùng"
-          onChange={(e)=>{
-            setValueUsername(e.target.value);
-          }} />
+          <input name="email" id="email-input" type="text" placeholder="Email"
+          value={inputValue.email}
+          onChange = {e=> onChangeValue(e)}/>
+          {inputValue.email=="" && (<span className="warning-box">Không được để trống email</span>)}
         </div>
         <div className="input-item">
-          <input id="password-input" type={typeInput} placeholder="Mật khẩu" 
-           onChange={(e)=>{
-            setValuePassword(e.target.value);
-          }} />
+          <input name="password" id="password-input" type={typeInput} placeholder="Mật khẩu" 
+           value={inputValue.password}
+           onChange = {e=> onChangeValue(e)}/>
           <button className="hide-password-btn" 
           onClick={handleHidePassword}>
             {hidePassword ?
@@ -68,10 +111,11 @@ function Login(){
               <FontAwesomeIcon icon={faEyeSlash} />
             }
           </button>
+          {inputValue.password=="" && (<span className="warning-box">Không được để trống mật khẩu</span>)}
         </div>
         
         
-        <button onClick={onSubmit} className="login-btn">Đăng nhập</button>
+        <button onClick={()=>handleLogin()} className="login-btn">Đăng nhập</button>
         <div className="other-action">
           <a href="/forgot-password" className="forgot-password-btn">Quên mật khẩu?</a>
           <a href="/register" className="register-btn">Tạo tài khoản</a>
@@ -138,6 +182,14 @@ const Wrapper =styled.div`
     border: none;
     background-color: transparent;
     color: var(--shadow-color);
+  }
+
+  .warning-box{
+    position: absolute;
+    top:100%;
+    color: red;
+    display: block;
+    font-size: 14px;
   }
 
   .login-btn{

@@ -1,6 +1,7 @@
 import styled from "styled-components";
 import React, {useEffect, useState} from "react";
 import axios from 'axios';
+import { Navigate , useNavigate} from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faEyeSlash,
@@ -19,6 +20,7 @@ function Register(){
   const [legitPass, setLegitPass] = useState(true);
   const [hidePassword, setHidePassword] = useState(false);
   const [typeInput, setTypeInput] = useState("password");
+  const navigate= useNavigate();
 
   var [inputValue, setInputValue] = useState({
     username: '',
@@ -111,6 +113,8 @@ function Register(){
         else 
         // (res.data!=="Tài khoản đã tồn tại" && res.data!=="Email đã tồn tại") 
         {
+
+          navigate(`/login`);
           clearInput();
           setSameAccount(false);
           setSameEmail(false);
