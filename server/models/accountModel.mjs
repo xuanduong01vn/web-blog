@@ -6,39 +6,41 @@ const accountSchema = new mongoose.Schema({
     type: String,
     require: true
   },
-  fullname:{
+  password:{
     type: String,
     require: true
+  },
+  fullname:{
+    type: String,
   },
   idTypeAccount:{
     type: mongoose.Schema.Types.Number,
     ref: TypeAccount,
-    require: true
   },
   birthday:{
     type: Date,
-    require: true
   },
   createAt:{
     type: Date,
-    require: true
+  },
+  avatar:{
+    type: String,
   },
   email:{
     type: String,
-    require: true
   },
   listLiked:{
     type: Array,
-    
   },
   listMarked:{
     type: Array,
-
   },
   isDeleted:{
     type: Boolean,
-    require: true
   },
+}, 
+{
+  versionKey: false // loại bỏ __v khỏi các tài liệu
 });
 
 let Account = mongoose.model('Account', accountSchema);

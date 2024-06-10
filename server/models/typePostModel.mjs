@@ -9,7 +9,11 @@ const typePostSchema = new mongoose.Schema({
     type: String,
     require: true
   }
-}, { collection: 'typePost' });
+}, 
+{ collection: 'typePost' }, 
+{
+  versionKey: false // loại bỏ __v khỏi các tài liệu
+});
 
 
 let TypePost = mongoose.model('TypePost', typePostSchema);

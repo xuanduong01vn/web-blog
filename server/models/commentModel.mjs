@@ -24,6 +24,9 @@ const commentSchema = new mongoose.Schema({
   createAt:{
     type: Date,
   },
+}, 
+{
+  versionKey: false // loại bỏ __v khỏi các tài liệu
 });
 
 

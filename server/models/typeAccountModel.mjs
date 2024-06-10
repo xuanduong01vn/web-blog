@@ -9,7 +9,11 @@ const typeAccountSchema = new mongoose.Schema({
     type: String,
     require: true
   }
-}, { collection: 'typeAccount' })
+}, 
+{ collection: 'typeAccount' }, 
+{
+  versionKey: false // loại bỏ __v khỏi các tài liệu
+})
 
 
 let TypeAccount = mongoose.model('TypeAccount', typeAccountSchema);
