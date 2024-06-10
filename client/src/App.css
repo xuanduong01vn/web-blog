@@ -45,3 +45,11 @@ ul{
   list-style: none;
   padding: 0;
 }
+
+.red-asterisk{
+  color: red;
+}
+
+.success-alert{
+  color: rgb(18, 151, 0);
+}
