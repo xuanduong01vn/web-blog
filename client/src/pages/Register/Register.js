@@ -29,9 +29,16 @@ function Register(){
 
   function onChangeValue(e){
     const {name, value} = e.target;
+      if(sameAccount==true && e.target.name=="username" && e.target.value!= (inputValue.username)){
+        setSameAccount(false);
+      }
+      if(sameEmail==true && e.target.name=="email" && e.target.value!= (inputValue.email)){
+        setSameEmail(false);
+      }
       if(e.target.name=="password"){
         setLegitPass(e.target.value.trim().length>=6);
       }
+
       setInputValue({
         ...inputValue,
         [name]: value.trim(),
@@ -86,15 +93,14 @@ function Register(){
     createAt = `${nowTime.getHours()+7}:${nowTime.getMinutes()} ${nowTime.getDate()}/${nowTime.getMonth()+1}/${nowTime.getFullYear()}`;
     newInputAccount.createAt=createAt;
     setSamePassword(inputValue.password != inputValue.confirmPassword);
-    console.log(inputValue);
     if(inputValue.password.length>=6 && inputValue.confirmPassword!="" && inputValue.password == inputValue.confirmPassword && inputValue.username!="" && inputValue.email!="" && checked){
       axios.post(`http://localhost:9999/accounts/`,newInputAccount)
       .then(res=>{
         console.log(res.data);
         if(res.data=="Username and password are required"){
-
+          
         }
-        if(res.data=="Tài khoản đã tồn tại"){
+        else if(res.data=="Tài khoản đã tồn tại"){
           setSameAccount(true);
           setSameEmail(false);
         }
