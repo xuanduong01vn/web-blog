@@ -1,5 +1,6 @@
 import styled from "styled-components";
 import React, {useEffect, useState} from "react";
+import axios from 'axios';
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faEyeSlash,
@@ -9,10 +10,62 @@ import {
 function Register(){
 
   document.title='Register';
+
+  const [samePassword, setSamePassword] = useState(null);
+  const [sameAccount, setSameAccount] = useState(false);
+  const [sameEmail, setSameEmail] = useState(false);
+  const [checked, setChecked] = useState(false);
+  const [success, setSuccess]= useState(false);
+  const [legitPass, setLegitPass] = useState(true);
   const [hidePassword, setHidePassword] = useState(false);
   const [typeInput, setTypeInput] = useState("password");
 
-  function handleHidePassword(e){
+  var [inputValue, setInputValue] = useState({
+    username: '',
+    email: '',
+    password: '',
+    confirmPassword: '',
+  })
+
+  function onChangeValue(e){
+    const {name, value} = e.target;
+      if(e.target.name=="password"){
+        setLegitPass(e.target.value.trim().length>=6);
+      }
+      setInputValue({
+        ...inputValue,
+        [name]: value.trim(),
+      });
+      // func(e.target.value.trim());  
+  }
+
+  function clearInput(){
+    setInputValue({
+      username: '',
+      email: '',
+      password: '',
+      confirmPassword: '',
+    })
+  };
+
+  var nowTime = new Date();
+  var createAt;
+
+  var newInputAccount={
+    username: inputValue.username,
+    password: inputValue.password,
+    email: inputValue.email,
+    fullname: "",
+    idTypeAccount: 2,
+    birthday: "",
+    createAt: "",
+    avatar: "",
+    listLiked: [],
+    listMarked: [],
+    isDeleted: false
+  };
+
+  function handleHidePassword(){
     if(hidePassword==true){
       setHidePassword(false);
       setTypeInput('password');
@@ -23,26 +76,70 @@ function Register(){
     }
   }
 
+
+  function onChecked(){
+    setChecked(!checked?true:false);
+    console.log(checked);
+  }
+
+  function handleRegister(){
+    createAt = `${nowTime.getHours()+7}:${nowTime.getMinutes()} ${nowTime.getDate()}/${nowTime.getMonth()+1}/${nowTime.getFullYear()}`;
+    newInputAccount.createAt=createAt;
+    setSamePassword(inputValue.password != inputValue.confirmPassword);
+    console.log(inputValue);
+    if(inputValue.password.length>=6 && inputValue.confirmPassword!="" && inputValue.password == inputValue.confirmPassword && inputValue.username!="" && inputValue.email!="" && checked){
+      axios.post(`http://localhost:9999/accounts/`,newInputAccount)
+      .then(res=>{
+        console.log(res.data);
+        if(res.data=="Username and password are required"){
+
+        }
+        if(res.data=="Tài khoản đã tồn tại"){
+          setSameAccount(true);
+          setSameEmail(false);
+        }
+        else if(res.data=="Email đã tồn tại"){
+          setSameAccount(false);
+          setSameEmail(true);
+        }
+        else 
+        // (res.data!=="Tài khoản đã tồn tại" && res.data!=="Email đã tồn tại") 
+        {
+          clearInput();
+          setSameAccount(false);
+          setSameEmail(false);
+          setChecked(false);
+        }
+        
+      })
+      
+    }
+    
+  }
+
   return(
     <Wrapper>
       <div className="login-container">
         <h1 className="page-name">QAx</h1>
         <h3 className="page-title">Tạo tài khoản QAx</h3>
         <div className="input-item">
-          <input type="text" placeholder="Tên của bạn"
-          id="user-fullname-input" />
+          <input name="username" type="text" placeholder="Tên người dùng" id="username-input" 
+          value={inputValue.username}
+          onChange = {e=> onChangeValue(e)}/>
+          {sameAccount && (<span className="warning-box">Tên tài khoản này đã được sử dụng</span>)}
+          {inputValue.username=="" && (<span className="warning-box">Không được để trống tên tài khoản</span>)}
         </div>
         <div className="input-item">
-          <input type="text" placeholder="Tên người dùng"
-          id="username-input" />
+          <input  name="email" type="text" placeholder="Email người dùng" id="email-input" 
+          value={inputValue.email}
+          onChange = {e=> onChangeValue(e)}/>
+          {sameEmail && (<span className="warning-box">Email này đã được sử dụng</span>)}
+          {inputValue.email=="" && (<span className="warning-box">Không được để trống email</span>)}
         </div>
         <div className="input-item">
-          <input type="text" placeholder="Email người dùng"
-          id="email-input" />
-        </div>
-        <div className="input-item">
-          <input type={typeInput} placeholder="Mật khẩu"
-          id="password-input" />
+          <input name="password" type={typeInput} placeholder="Mật khẩu" id="password-input" 
+          value={inputValue.password}
+          onChange = {e=> onChangeValue(e)}/>
           <button className="hide-password-btn" 
           onClick={handleHidePassword}>
             {hidePassword ?
@@ -51,10 +148,12 @@ function Register(){
               <FontAwesomeIcon icon={faEyeSlash} />
             }
           </button>
+          {!legitPass && (<span className="warning-box">Mật khẩu phải có ít nhất 6 ký tự</span>)}
         </div>
         <div className="input-item">
-          <input type={typeInput} placeholder="Xác nhận mật khẩu"
-          id="confirm-password-input" />
+          <input name="confirmPassword" type={typeInput} placeholder="Xác nhận mật khẩu" id="confirm-password-input" 
+          value={inputValue.confirmPassword}
+          onChange = {e=> onChangeValue(e)}/>
           <button className="hide-password-btn" 
           onClick={handleHidePassword}>
             {hidePassword ?
@@ -63,12 +162,15 @@ function Register(){
               <FontAwesomeIcon icon={faEyeSlash} />
             }
           </button>
+          {samePassword && (<span className="warning-box">Mật khẩu không khớp</span>)}
         </div>
         <div className="agree-policy">
-          <input className="agree-policy-input" type="checkbox" />
+          <input className="agree-policy-input" type="checkbox" checked={checked} onChange={onChecked}/>
           <span>Tôi đồng ý với các điều khoản</span>
         </div>
-        <a href='/login' className="register-btn">Đăng ký</a>
+        <a onClick={handleRegister} 
+        // href='/login' 
+        className="register-btn">Đăng ký</a>
         
       </div>
     </Wrapper>
@@ -132,6 +234,14 @@ const Wrapper =styled.div`
     border: none;
     background-color: transparent;
     color: var(--shadow-color);
+  }
+
+  .warning-box{
+    position: absolute;
+    top:100%;
+    color: red;
+    display: block;
+    font-size: 14px;
   }
 
   .agree-policy{
