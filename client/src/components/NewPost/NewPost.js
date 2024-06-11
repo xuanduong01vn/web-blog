@@ -10,10 +10,17 @@ function NewPost(){
   const [allTag, setAllTag] = useState([]);
   const [listTag, setListTag] = useState([]);
   const [tempListTag, setTempListTag] = useState([]);
+  const [firstLoad, setFirstLoad] = useState(true);
   const [inputValue, setInputValue] = useState({
     title: '',
     content: '',
     tag: '',
+  });
+
+  const [newTag, setNewTag] = useState({
+    nameTag: '',
+    createAt: '',
+    isDeleted: false,
   });
 
   useEffect(()=>{
@@ -29,7 +36,7 @@ function NewPost(){
     .then((data)=>{
       setAllTag(data);
     })
-  },[]);
+  },[inputValue.tag]);
 
   
 
@@ -49,12 +56,16 @@ function NewPost(){
   }
 
   if(inputValue.tag.trim().length>0){
-    findingTags = allTag?.filter(tag=>tag.nameTag.toLowerCase().includes(inputValue.tag));
+    findingTags = allTag?.filter(tag=>tag.nameTag.toLowerCase().includes(inputValue.tag.trim()));
   }
 
   function handleClickTag(e){
     if(!tempListTag.includes(e.target.innerText)){
       setTempListTag([...tempListTag,e.target.innerText]);
+      setInputValue({
+        ...inputValue,
+        tag: '',
+      })
     }
   }
 
@@ -63,16 +74,102 @@ function NewPost(){
     setTempListTag(newTempListTag);
   }
 
-  console.log(tempListTag);
+  useEffect(() => {
+    if(!firstLoad){
+      const inputField = document.querySelector('.new-post-tags-input');
+      inputField.focus();
+    }else{
+      setFirstLoad(false);
+    }
+  }, [tempListTag]);
 
+  function clearInput(){
+    setInputValue({
+      title: '',
+      content: '',
+      tag: '',
+      })
+    setTempListTag([]);  
+    setNewTag({
+      nameTag: '',
+      createAt: '',
+      isDeleted: false,
+    })
+  };
 
-  useEffect(()=>{
-    setTempListTag(tempListTag);
-  },[tempListTag])  
+  var nowTime = new Date();
+  var createAt;
+
+  var newInputPost={
+    title: inputValue.title,
+    content: inputValue.content,
+    listTag: listTag,
+    amountLiked: 0,
+    amountMarked: 0,
+    amountComment: 0,
+    idAuthor: "66669b9c646d48fe74ba397b",
+    createAt: "",
+    idTypePost: 1,
+    isDeleted: false,
+  };
+
+  const navigate= useNavigate();
+
+  function handleKeyDown(e){
+    if(e.key=="Enter"){
+      setTempListTag([
+        ...tempListTag,
+        e.target.value.trim(),
+      ])
+      setInputValue({
+        ...inputValue,
+        tag: '',
+      })
+
+    }
+  }
 
   function handlePublish(){
-    if(inputValue.title.trim().length>0)
-      console.log(inputValue);
+    
+    console.log(newInputPost);
+    if(inputValue.title.trim().length>0){
+      createAt = `${nowTime.getHours()+7}:${nowTime.getMinutes()} ${nowTime.getDate()}/${nowTime.getMonth()+1}/${nowTime.getFullYear()}`;
+      newInputPost.createAt=createAt;
+
+      // var newTags = tempListTag.filter(tag=>!allTag.map(t=>t.nameTag).includes(tag));
+      // var newTagsId = allTag.filter(tag=>tempListTag.includes(tag.nameTag)).map(tag=>tag._id);
+      tempListTag.forEach(tag=>{
+        console.log(tag);
+        console.log(newTag);
+        axios.post(`http://localhost:9999/tags/`,{
+          ...newTag,
+          nameTag: tag,
+          createAt: createAt,
+        })
+        .then(res=>{
+          console.log(res.data);
+          clearInput();    
+        })
+        .catch(err=>{
+          console.log(err.message);
+        })
+      });
+      
+      newInputPost.listTag=tempListTag;
+
+      axios.post(`http://localhost:9999/posts/`,newInputPost)
+      .then(res=>{
+        console.log(res.data);
+        // navigate(`/`);
+        clearInput();    
+        setActiveBtn('new-post-button');   
+        setListTag([]);
+        setFirstLoad(true); 
+      })
+      .catch(err=>{
+        console.log(err.message);
+      })
+    } 
   }
 
   return (
@@ -94,7 +191,7 @@ function NewPost(){
               {tempListTag.map((tag,index)=>(
                 <li className="temporary-tag-item" key={index}>
                   {tag}
-                  <button name={tag} onClick={e=>handleCancelTag(e)}>x</button>
+                  <span name={tag} onClick={e=>handleCancelTag(e)}>x</span>
                 </li>
               ))}
             </ul>
@@ -102,6 +199,7 @@ function NewPost(){
             <input autoComplete="off" type="text" className="new-post-tags-input" placeholder="Gắn thẻ"
               value={inputValue.tag} name='tag'
               onChange={e=>onChangeValue(e)}
+              onKeyDown={e=>handleKeyDown(e)}
             />
           </div>
           {inputValue.tag.trim().length>0 && findingTags.length>0 && (
@@ -177,8 +275,10 @@ const Wrapper = styled.div`
     margin-left: 4px;
     display: flex;
     align-items: center;
+    width: max-content;
 
-    & button{
+
+    & span{
       margin-left: 4px;
       cursor: pointer;
       height: 14px;
@@ -189,7 +289,7 @@ const Wrapper = styled.div`
       display: flex;
     }
 
-    & button:hover{
+    & span:hover{
       background-color: var(--shadow-color); 
     }
   }
