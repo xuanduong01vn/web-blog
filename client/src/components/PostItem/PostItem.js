@@ -21,6 +21,7 @@ PostItem.propTypes={
     title: propTypes.string.isRequired,
     idAuthor: propTypes.string.isRequired,
     createAt: propTypes.string.isRequired,
+    listTag: propTypes.array,
     amountLiked: propTypes.number,
     amountMarked: propTypes.number,
     amountComment: propTypes.number,
@@ -38,6 +39,7 @@ PostItem.defaultProps={
     title: '',
     idAuthor: '',
     createAt: '',
+    listTag: [],
     amountLiked: 0,
     amountMarked: 0,
     amountComment: 0,
@@ -83,7 +85,11 @@ function PostItem(props){
         <a href={`/post/${post._id}`} className="post-item-title">
           <h3>{ post.title}</h3> 
         </a>
-
+        <ul className="post-tags">
+          {post.listTag.map((tag, index)=>(
+            <li key={index} className="post-tags-item">#{tag}</li>
+          ))}
+        </ul>
         <div className="post-item-interact">
           <div className="post-item-stars">
             <FontAwesomeIcon icon={faStar} />{post.amountLiked}
@@ -181,6 +187,17 @@ const Wrapper = styled.div`
     &:hover h3{
       color: var(--hightlight-color);
     }
+  }
+
+  .post-tags{
+    display: flex;
+  }
+
+  .post-tags-item{
+    margin-right: 4px;
+    font-size: 14px;
+    opacity: 0.6;
+    color: var(--hightlight-color);
   }
 
   .post-item-interact{
