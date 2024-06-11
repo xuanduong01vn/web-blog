@@ -156,6 +156,9 @@ function PostContent(props){
         </div>
         <h1 className="post-content-title">
           {postData.title}
+            {postData.listTag.map((tag, index)=>(
+              <span key={index} className="post-tags-item">#{tag}</span>
+            ))}
         </h1>
         <div className="author-action">
           <button onClick={handleOpenPostPopUp} className="author-action-btn">
@@ -277,6 +280,13 @@ const Wrapper = styled.div`
 
   .post-content-title{
     text-align: left;
+    display: flex;
+  }
+
+  .post-tags-item{
+    margin-left: 12px;
+    opacity: 0.4;
+    color: var(--hightlight-color);
   }
 
   .author-action{
