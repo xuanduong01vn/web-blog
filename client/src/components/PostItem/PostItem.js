@@ -155,7 +155,7 @@ const Wrapper = styled.div`
     margin: 0;
     font-size: 14px;
     display: flex;
-    text-align: center;
+    text-align: left;
     align-items: center;
   }
 
@@ -212,6 +212,13 @@ const Wrapper = styled.div`
 
     & svg{
       margin-right: 4px;
+    }
+  }
+
+
+  @media (max-width: 480px) {
+    .post-item-author{
+      display: block;
     }
   }
 `

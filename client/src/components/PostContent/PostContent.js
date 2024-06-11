@@ -156,9 +156,6 @@ function PostContent(props){
         </div>
         <h1 className="post-content-title">
           {postData.title}
-            {postData.listTag.map((tag, index)=>(
-              <span key={index} className="post-tags-item">#{tag}</span>
-            ))}
         </h1>
         <div className="author-action">
           <button onClick={handleOpenPostPopUp} className="author-action-btn">
@@ -185,6 +182,11 @@ function PostContent(props){
             {postData.content}
           </p>
         </div>
+        <span className="post-tags-item">
+        {postData.listTag.map((tag)=>(
+              `#${tag}`
+            ))}
+        </span>
       </div>
       )
       }
@@ -284,8 +286,9 @@ const Wrapper = styled.div`
   }
 
   .post-tags-item{
-    margin-left: 12px;
-    opacity: 0.4;
+    margin-right: 12px;
+    opacity: 0.6;
+    font-size: 18px;
     color: var(--hightlight-color);
   }
 

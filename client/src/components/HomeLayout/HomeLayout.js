@@ -55,7 +55,7 @@ const Wrapper = styled.div`
   min-height: 640px;
   
   .home-content{
-    margin-top: 80px;
+    margin-top: 60px;
     width: var(--general-width);
   }
 
@@ -107,10 +107,6 @@ const Wrapper = styled.div`
 
   /* tablet large phone*/
   @media (max-width: 768px) and (min-width: 481px) {
-    .home-content{
-      margin-top: 60px;
-    }
-
     .home-content-box{
       width: 100%;
       box-sizing: border-box;
@@ -129,9 +125,6 @@ const Wrapper = styled.div`
 
   /* small phone */
   @media (max-width: 480px) {
-    .home-content{
-      margin-top: 60px;
-    }
 
     .home-content-box{
       width: 100%;
