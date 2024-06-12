@@ -3,6 +3,7 @@ import express from 'express';
 import bodyParser from 'body-parser';
 import cors from 'cors';
 import morgan from 'morgan';
+import 'dotenv/config';
 
 import postRouter from './routers/postRouter.js';
 import accountRouter from './routers/accountRouter.js';
@@ -14,12 +15,13 @@ import commentRouter from './routers/commentRouter.js';
 
 
 const app = express();
-const port = 3001;
+const port = 9999;
 
-mongoose.connect("mongodb+srv://xuanduong01vn:xd123456@cluster0.rgrpavy.mongodb.net/webQA?retryWrites=true&w=majority&appName=Cluster0",{
+mongoose.connect(`mongodb+srv://${process.env.MONGO_USERNAME}:${process.env.MONGO_PASSWORD}@${process.env.MONGO_CLUSTER}/${process.env.MONGO_DB}?${process.env.MONGO_OPTIONS}`,{
   maxPoolSize:50,
   wtimeoutMS:2500,
-  useNewUrlParser:true
+  useNewUrlParser:true,
+  useUnifiedTopology: true,
   })
   .then(() => {
     console.log('Database connected successfully!');
@@ -29,7 +31,8 @@ mongoose.connect("mongodb+srv://xuanduong01vn:xd123456@cluster0.rgrpavy.mongodb.
 });
 
 app.use(bodyParser.json());
-app.use(cors("http://localhost:3000"));
+app.use(bodyParser.urlencoded({ extended: true }));
+app.use(cors("http://localhost:3001"));
 app.use(morgan("common"));
 
 app.use('/posts', postRouter);

@@ -8,9 +8,19 @@ const tagController ={
       const allTags = await features.query;
       res.status(200).json(allTags);
     } catch (err) {
-      res.status(200).json(err.message);
+      res.status(500).json(err.message);
     }
-  }
+  },
+  addTag: async(req,res)=>{
+    try {
+      const newTag = await TagModel(req.body);
+      const saveTag = await newTag.save();
+      res.status(200).json(saveTag);
+    } catch (err) {
+      res.status(500).json(err.message);
+    }
+  },
+  
 };
 
 export default tagController;

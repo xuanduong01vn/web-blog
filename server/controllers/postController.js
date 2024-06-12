@@ -39,7 +39,11 @@ const postController ={
     try {
       const post = await postModel.findById(req.params.id);
       await post.updateOne({ $set: req.body });
-      res.status(200).json("Updated successfully!");
+      const updatedPost = await postModel.findById(req.params.id);
+      res.status(200).json({
+        message: "Updated successfully!",
+        data: updatedPost,
+      });
     } catch (err) {
       res.status(500).json(err.message);
     }

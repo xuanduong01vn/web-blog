@@ -26,8 +26,8 @@ const postSchema = new mongoose.Schema({
   amountMarked: {
     type: Number,
   },
-  isDeleted:{
-    type: Boolean,
+  amountComment: {
+    type: Number,
   },
   createAt:{
     type: Date,
