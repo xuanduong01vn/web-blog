@@ -2,6 +2,8 @@ import styled from "styled-components";
 import React, {useState, useEffect, createContext } from "react";
 import axios from 'axios';
 import { useParams } from "react-router-dom";
+import { format } from 'date-fns';
+import { vi } from 'date-fns/locale';
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faStar,
@@ -21,8 +23,8 @@ function PostContent(props){
   
   const {onDataReceived, onDeletePost} = props;
 
-  const [postData, setPostData] = useState(null);
-  const [author, setAuthor] = useState(null);
+  const [postData, setPostData] = useState({});
+  const [author, setAuthor] = useState({});
   const [amountLiked, setAmountLiked] = useState(0);
   const [amountMarked, setAmountMarked] = useState(0);
   const closedPopUp={display: 'none'};
@@ -55,7 +57,7 @@ function PostContent(props){
     .catch((err)=>{
       console.log(err.message);
     });
-  },[onDataReceived])
+  },[postData])
 
   useEffect(()=>{
     if(postData && postData?.idAuthor){
@@ -117,6 +119,19 @@ function PostContent(props){
   const handleClosePopUp=(e)=>{
   }
 
+  var timeCreated;
+  const now = new Date();
+
+  if(postData.createAt?.length>0){
+    if(now.getFullYear()== new Date(postData.createAt).getFullYear()){
+      timeCreated= format(new Date(postData.createAt), 'EEEE, dd MMMM, HH:mm', { locale: vi });
+    }
+    else{
+      timeCreated= format(new Date(postData.createAt), 'EEEE, dd MMMM yyyy, HH:mm', { locale: vi });
+    }
+  }
+  
+
   document.addEventListener("click",handleClosePopUp)
 
   return(
@@ -129,11 +144,11 @@ function PostContent(props){
             <img src={author?.avatar} alt="" className="post-author-avatar" />
             <div className="post-content-created">
               <a href={`/user/${author?._id}`} className="post-author-name">{author?.username}</a>
-              <p className="post-created-time">đã đăng lúc {postData.createAt}</p>
+              <p className="post-created-time">đã đăng lúc {timeCreated}</p>
             </div>
           </div>
           <div className="post-content-action">
-            <p className="liked-action-ammount">{amountLiked}</p>
+            <p className="liked-action-ammount">{postData.amountLiked}</p>
             {!liked ?
               <button onClick={likePost} className="post-content-action-btn">
                 <FontAwesomeIcon icon={faStar}/>
@@ -143,7 +158,7 @@ function PostContent(props){
                 <FontAwesomeIcon icon={faStared}/>
               </button>
             }
-            <p className="marked-action-ammount">{amountMarked}</p>
+            <p className="marked-action-ammount">{postData.amountMarked}</p>
             {!marked ?
               <button onClick={markPost} className="post-content-action-btn">
                 <FontAwesomeIcon icon={faBookmark}/>
@@ -191,7 +206,7 @@ function PostContent(props){
           </p>
         </div>
         <span className="post-tags-item">
-        {postData.listTag.map((tag)=>(
+        {postData.listTag?.map((tag)=>(
               `#${tag} `
             ))}
         </span>

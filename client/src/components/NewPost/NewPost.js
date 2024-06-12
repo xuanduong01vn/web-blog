@@ -97,9 +97,6 @@ function NewPost(){
     })
   };
 
-  var nowTime = new Date();
-  var createAt;
-
   var newInputPost={
     title: inputValue.title,
     content: inputValue.content,
@@ -108,7 +105,7 @@ function NewPost(){
     amountMarked: 0,
     amountComment: 0,
     idAuthor: "66669b9c646d48fe74ba397b",
-    createAt: "",
+    createAt: new Date(),
     idTypePost: 1,
     isDeleted: false,
   };
@@ -133,15 +130,14 @@ function NewPost(){
     
     console.log(newInputPost);
     if(inputValue.title.trim().length>0){
-      createAt = `${nowTime.getHours()+7}:${nowTime.getMinutes()} ${nowTime.getDate()}/${nowTime.getMonth()+1}/${nowTime.getFullYear()}`;
-      newInputPost.createAt=createAt;
+      newInputPost.createAt=new Date();
 
       // var newTags = tempListTag.filter(tag=>!allTag.map(t=>t.nameTag).includes(tag));
       // var newTagsId = allTag.filter(tag=>tempListTag.includes(tag.nameTag)).map(tag=>tag._id);
       tempListTag.forEach(tag=>{
         axios.post(`http://localhost:9999/tags/`,{
           nameTag: tag,
-          createAt: createAt,
+          createAt: new Date(),
           isDeleted: false,
         })
         .then(res=>{
@@ -158,7 +154,7 @@ function NewPost(){
       axios.post(`http://localhost:9999/posts/`,newInputPost)
       .then(res=>{
         console.log(res.data);
-        // navigate(`/`);
+        navigate(`/`);
         clearInput();    
         setActiveBtn('new-post-button');   
         setListTag([]);

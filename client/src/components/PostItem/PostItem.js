@@ -1,6 +1,8 @@
 import React, {useEffect, useState} from "react";
 import styled from 'styled-components';
 import propTypes from 'prop-types';
+import { format } from 'date-fns';
+import { vi } from 'date-fns/locale';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {
   faBookmark,
@@ -63,6 +65,16 @@ function PostItem(props){
       setMarked(false);
   }
 
+  var timeCreated;
+  const now = new Date();
+  if(now.getFullYear()== new Date(post.createAt).getFullYear()){
+    timeCreated= format(new Date(post.createAt), 'EEEE, dd MMMM, HH:mm', { locale: vi });
+  }
+  else{
+    timeCreated= format(new Date(post.createAt), 'EEEE, dd MMMM yyyy, HH:mm', { locale: vi });
+  }
+
+
   return(
     <Wrapper>
       <div className="post-item-cover">
@@ -73,7 +85,7 @@ function PostItem(props){
               alt="" className="post-author-avatar" />
               <p className="post-author-name">{author.username}</p>
             </a>
-            <span className="post-item-author-create"> đã đăng lúc {post.createAt}</span>
+            <span className="post-item-author-create">{timeCreated}</span>
           </div>
           <div className="post-item-action">
             <button onClick={clickMark} className="add-blog post-item-btn">

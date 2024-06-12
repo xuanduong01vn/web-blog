@@ -92,7 +92,7 @@ const Wrapper = styled.div`
     position: fixed;
     width: 100%;
     height: 100%;
-    background-color: rgba(0,0,0, 0.1);
+    background-color: rgba(0,0,0, 0.2);
     z-index: 999;
     top:0;
     left: 0;
@@ -105,7 +105,8 @@ const Wrapper = styled.div`
   .pop-up-container{
     background-color: white;
     border-radius: 8px;
-    padding: 8px 12px;
+    padding: 24px;
+    box-shadow: 0 0 10px var(--text-color);
   }
 
   .btn-list{

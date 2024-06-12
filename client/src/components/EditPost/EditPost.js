@@ -27,7 +27,7 @@ function EditPost(props){
 
   const [newTag, setNewTag] = useState({
     nameTag: '',
-    createAt: '',
+    createAt: new Date(),
     isDeleted: false,
   });
 
@@ -148,14 +148,10 @@ function EditPost(props){
 
     }
   }
-  var nowTime = new Date();
-  var createAt;
 
   function handleUpdate(){
     
     console.log(newInputPost);
-      createAt = `${nowTime.getHours()+7}:${nowTime.getMinutes()} ${nowTime.getDate()}/${nowTime.getMonth()+1}/${nowTime.getFullYear()}`;
-
 
       var newTags = tempListTag.filter(tag=>!allTag.map(t=>t.nameTag).includes(tag));
       // var newTagsId = allTag.filter(tag=>tempListTag.includes(tag.nameTag)).map(tag=>tag._id);
@@ -163,7 +159,7 @@ function EditPost(props){
       newTags.forEach(tag=>{
         axios.post(`http://localhost:9999/tags/`,{
           nameTag: tag,
-          createAt: createAt,
+          createAt: new Date(),
           isDeleted: false,
         })
         .then(res=>{
@@ -180,7 +176,7 @@ function EditPost(props){
       axios.put(`http://localhost:9999/posts/${id}`,newInputPost)
       .then(res=>{
         console.log(res.data);
-        // navigate(`/`);
+        navigate(`/post/${id}`);
         clearInput();    
         setListTag([]);
         setFirstLoad(true); 
