@@ -17,8 +17,6 @@ function Header(){
 
   const inputRef = useRef();
 
-  console.log(searchText);
-
   function handleSearchClick(text){
 
   }

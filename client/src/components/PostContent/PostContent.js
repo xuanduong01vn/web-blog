@@ -19,7 +19,7 @@ function PostContent(props){
 
   let { id } = useParams();
   
-  const {onDataReceived} = props;
+  const {onDataReceived, onDeletePost} = props;
 
   const [postData, setPostData] = useState(null);
   const [author, setAuthor] = useState(null);
@@ -46,7 +46,9 @@ function PostContent(props){
     getDataPost()
     .then((data) => {
       setPostData(data);
-      onDataReceived(data.title);
+      onDataReceived({
+        title: data.title,
+        id: data._id});
       setAmountLiked(data.amountLiked || 0);
       setAmountMarked(data.amountMarked || 0);
     })
@@ -169,7 +171,13 @@ function PostContent(props){
                   </a>
                 </li>
                 <li className='author-pop-up-item'>
-                  <a href="/user" className="author-pop-up-link">
+                  <a className="author-pop-up-link" 
+                  onClick={()=>{
+                    setOpenPopUp("author-pop-up");
+                    onDeletePost({
+                    classParent: 'page-container blur',
+                    classChild: 'delete-post-popup',
+                  })}}>
                     Xóa bài viết
                   </a>
                 </li>

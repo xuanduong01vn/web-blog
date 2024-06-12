@@ -177,18 +177,18 @@ function EditPost(props){
       
       newInputPost.listTag=tempListTag;
 
-      // axios.put(`http://localhost:9999/posts/${id}`,newInputPost)
-      // .then(res=>{
-      //   console.log(res.data);
-      //   // navigate(`/`);
-      //   clearInput();    
-      //   setListTag([]);
-      //   setFirstLoad(true); 
-      //   navigate(`/post/${id}`);
-      // })
-      // .catch(err=>{
-      //   console.log(err.message);
-      // })
+      axios.put(`http://localhost:9999/posts/${id}`,newInputPost)
+      .then(res=>{
+        console.log(res.data);
+        // navigate(`/`);
+        clearInput();    
+        setListTag([]);
+        setFirstLoad(true); 
+        navigate(`/post/${id}`);
+      })
+      .catch(err=>{
+        console.log(err.message);
+      })
   }
 
   return (
