@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import React, {useState, useEffect } from "react";
+import React, {useState, useEffect, createContext } from "react";
 import axios from 'axios';
 import { useParams } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -164,7 +164,7 @@ function PostContent(props){
             <div className={openPopUp}>
               <ul className='author-pop-up-list'>
                 <li className='author-pop-up-item'>
-                  <a href="/edit/author" className="author-pop-up-link">
+                  <a href={`/post/${postData._id}/edit`} className="author-pop-up-link">
                     Sửa bài viết
                   </a>
                 </li>
@@ -184,7 +184,7 @@ function PostContent(props){
         </div>
         <span className="post-tags-item">
         {postData.listTag.map((tag)=>(
-              `#${tag}`
+              `#${tag} `
             ))}
         </span>
       </div>
@@ -320,6 +320,7 @@ const Wrapper = styled.div`
     transform: scaleY(0%) translateX(50%);
     transform-origin: 0 -12px;
     position: absolute;
+    z-index: 50;
   }
 
   .author-pop-up.opened{
@@ -394,6 +395,25 @@ const Wrapper = styled.div`
       padding: 0 12px;
     }
 
+    .author-pop-up{
+      right: 0;
+      transform: scaleY(0%) translateX(0);
+    }
+
+    .author-pop-up.opened{
+      transform: scaleY(100%) translateX(0);
+    }
+
+    .author-pop-up::before{
+      content: "";
+      right: 16px;
+    }
+
+    .author-pop-up::after{
+      content: "";
+      right: 16px;  
+    }
+
   }
 
   /* tablet large phone*/
@@ -404,6 +424,25 @@ const Wrapper = styled.div`
       width: 100%;
       padding: 0 12px;
     }
+
+    .author-pop-up{
+      right: 0;
+      transform: scaleY(0%) translateX(0);
+    }
+
+    .author-pop-up.opened{
+      transform: scaleY(100%) translateX(0);
+    }
+
+    .author-pop-up::before{
+      content: "";
+      right: 16px;
+    }
+
+    .author-pop-up::after{
+      content: "";
+      right: 16px;  
+    }
   }
 
   /* small phone */
@@ -413,6 +452,25 @@ const Wrapper = styled.div`
     .post-content-container{
       width: 100%;
       padding: 0 12px;
+    }
+
+    .author-pop-up{
+      right: 0;
+      transform: scaleY(0%) translateX(0);
+    }
+
+    .author-pop-up.opened{
+      transform: scaleY(100%) translateX(0);
+    }
+
+    .author-pop-up::before{
+      content: "";
+      right: 16px;
+    }
+
+    .author-pop-up::after{
+      content: "";
+      right: 16px;  
     }
   }
 

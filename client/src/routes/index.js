@@ -13,6 +13,7 @@ import DashboardAdmin from '../pages/DashboardAdmin/DashboardAdmin.js';
 import DashboardUser from '../pages/DashboardUser/DashboardUser.js';
 import PageDashboardTag from '../pages/DashboardTag/DashboardTag.js';
 import AddNewAdmin from '../pages/AddNewAdmin/AddNewAdmin.js';
+import UpdatePost from '../pages/UpdatePost/UpdatePost.js';
 
 const routes=[
   {path: "/", component: Home},
@@ -30,6 +31,7 @@ const routes=[
   {path: "/dashboard/new-admin", component: AddNewAdmin},
   {path: "/dashboard/users", component: DashboardUser},
   {path: "/dashboard/tags", component: PageDashboardTag},
+  {path: "/post/:id/edit", component: UpdatePost},
 
 ]
 

@@ -1,12 +1,15 @@
-import React, {useEffect, useState} from 'react';
-import { Navigate, useNavigate } from 'react-router-dom';
+import React, {useEffect, useState, createContext} from 'react';
+import { Navigate, useNavigate, useParams } from 'react-router-dom';
 import axios from 'axios';
 import styled from 'styled-components';
 
 
-function NewPost(){
+function EditPost(props){
 
-  const [activeBtn, setActiveBtn] = useState('new-post-button');
+  const { onReceivedTitle } = props;
+
+  const [datapost, setDatapost] = useState(null);
+  const [activeBtn, setActiveBtn] = useState('new-post-button active');
   const [allTag, setAllTag] = useState([]);
   const [listTag, setListTag] = useState([]);
   const [tempListTag, setTempListTag] = useState([]);
@@ -16,6 +19,11 @@ function NewPost(){
     content: '',
     tag: '',
   });
+  const navigate= useNavigate();
+  var findingTags=[];
+  var newTempListTag=[];
+
+  const {id}=useParams();
 
   const [newTag, setNewTag] = useState({
     nameTag: '',
@@ -23,6 +31,34 @@ function NewPost(){
     isDeleted: false,
   });
 
+  useEffect(()=>{
+    const getDataPost = async ()=>{
+      try {
+        const response = await axios.get(`http://localhost:9999/posts/${id}`);
+        return response.data;
+      } catch (err) {
+        console.log(err.message);
+      }
+    }
+    getDataPost()
+    .then(data=>{
+      setDatapost(data);
+      onReceivedTitle(data.title);
+      setInputValue({
+        ...inputValue,
+        title: data.title,
+        content: data.content,
+      })
+      setTempListTag([
+        ...tempListTag.concat(data.listTag)
+      ])
+    })
+    .catch(err=>{
+      console.log(err.message);
+    })
+  },[]);
+
+  //lấy danh sách tag
   useEffect(()=>{
     const getDataTag = async ()=>{
       try {
@@ -38,16 +74,8 @@ function NewPost(){
     })
   },[inputValue.tag]);
 
-  
-
-  var findingTags=[];
-
   function onChangeValue(e){
     const {name, value} = e.target;
-    if(e.target.name == 'title'){
-      setActiveBtn(e.target.value.trim().length>0?'new-post-button active':'new-post-button');
-    }
-      
     setInputValue({
       ...inputValue,
       [name]: value,
@@ -55,10 +83,12 @@ function NewPost(){
     
   }
 
+  //lọc ra những tag có chứa ký tự nhập vào
   if(inputValue.tag.trim().length>0){
-    findingTags = allTag?.filter(tag=>tag.nameTag?.toLowerCase().includes(inputValue.tag.trim()));
+    findingTags = allTag?.filter(tag=>tag.nameTag.toLowerCase().includes(inputValue.tag.trim()));
   }
 
+  //hàm chọn tag đã lọc ra ở trên
   function handleClickTag(e){
     if(!tempListTag.includes(e.target.innerText)){
       setTempListTag([...tempListTag,e.target.innerText]);
@@ -69,8 +99,10 @@ function NewPost(){
     }
   }
 
+  
+
   function handleCancelTag(e){
-    const newTempListTag = tempListTag.filter(tag=>tag!=e.target.getAttribute('data-name'));
+    newTempListTag = tempListTag.filter(tag=>tag!=e.target.getAttribute('data-name'));
     setTempListTag(newTempListTag);
   }
 
@@ -97,23 +129,11 @@ function NewPost(){
     })
   };
 
-  var nowTime = new Date();
-  var createAt;
-
   var newInputPost={
     title: inputValue.title,
     content: inputValue.content,
     listTag: listTag,
-    amountLiked: 0,
-    amountMarked: 0,
-    amountComment: 0,
-    idAuthor: "66669b9c646d48fe74ba397b",
-    createAt: "",
-    idTypePost: 1,
-    isDeleted: false,
   };
-
-  const navigate= useNavigate();
 
   function handleKeyDown(e){
     if(e.key=="Enter"){
@@ -128,17 +148,19 @@ function NewPost(){
 
     }
   }
+  var nowTime = new Date();
+  var createAt;
 
-  function handlePublish(){
+  function handleUpdate(){
     
     console.log(newInputPost);
-    if(inputValue.title.trim().length>0){
       createAt = `${nowTime.getHours()+7}:${nowTime.getMinutes()} ${nowTime.getDate()}/${nowTime.getMonth()+1}/${nowTime.getFullYear()}`;
-      newInputPost.createAt=createAt;
 
-      // var newTags = tempListTag.filter(tag=>!allTag.map(t=>t.nameTag).includes(tag));
+
+      var newTags = tempListTag.filter(tag=>!allTag.map(t=>t.nameTag).includes(tag));
       // var newTagsId = allTag.filter(tag=>tempListTag.includes(tag.nameTag)).map(tag=>tag._id);
-      tempListTag.forEach(tag=>{
+      console.log(newTags);
+      newTags.forEach(tag=>{
         axios.post(`http://localhost:9999/tags/`,{
           nameTag: tag,
           createAt: createAt,
@@ -155,19 +177,18 @@ function NewPost(){
       
       newInputPost.listTag=tempListTag;
 
-      axios.post(`http://localhost:9999/posts/`,newInputPost)
-      .then(res=>{
-        console.log(res.data);
-        // navigate(`/`);
-        clearInput();    
-        setActiveBtn('new-post-button');   
-        setListTag([]);
-        setFirstLoad(true); 
-      })
-      .catch(err=>{
-        console.log(err.message);
-      })
-    } 
+      // axios.put(`http://localhost:9999/posts/${id}`,newInputPost)
+      // .then(res=>{
+      //   console.log(res.data);
+      //   // navigate(`/`);
+      //   clearInput();    
+      //   setListTag([]);
+      //   setFirstLoad(true); 
+      //   navigate(`/post/${id}`);
+      // })
+      // .catch(err=>{
+      //   console.log(err.message);
+      // })
   }
 
   return (
@@ -211,7 +232,7 @@ function NewPost(){
         
         
         <div className="new-post-action">
-          <button onClick={handlePublish} className={activeBtn}>Xuất bản</button>
+          <button onClick={handleUpdate} className={activeBtn}>Lưu</button>
         </div>
 
         <div className="new-post-item">
@@ -228,7 +249,7 @@ function NewPost(){
   )
 }
 
-export default NewPost;
+export default EditPost;
 
 const Wrapper = styled.div`
   width: 100%;
@@ -338,11 +359,14 @@ const Wrapper = styled.div`
     padding: 12px 16px;
     border-radius: 8px;
     transition: var(--transition-time);
-    cursor: default;
   }
 
   .new-post-button.active{
     background-color: var(--hightlight-color);
+    color: white;
+    padding: 12px 16px;
+    border-radius: 8px;
+    transition: var(--transition-time);
     cursor: pointer;
   }
 
