@@ -13,6 +13,7 @@ import {
   faStar as faStared,
   faBookmark as faBookmarked,
   faEllipsis,
+  faMound,
 } from "@fortawesome/free-solid-svg-icons";
 import PostComment from "../PostComment/PostComment.js";
 
@@ -21,7 +22,7 @@ function PostContent(props){
 
   let { id } = useParams();
   
-  const {onDataReceived, onDeletePost} = props;
+  const {onDataReceived, onDeletePost, onIsDeleted} = props;
 
   const [postData, setPostData] = useState({});
   const [author, setAuthor] = useState({});
@@ -50,14 +51,15 @@ function PostContent(props){
       setPostData(data);
       onDataReceived({
         title: data.title,
-        id: data._id});
-      setAmountLiked(data.amountLiked || 0);
-      setAmountMarked(data.amountMarked || 0);
+        id: data._id,
+        isDeleted: data.isDeleted,});
+      setAmountLiked(data.amountLiked);
+      setAmountMarked(data.amountMarked);
     })
     .catch((err)=>{
       console.log(err.message);
     });
-  },[postData])
+  },[onIsDeleted])
 
   useEffect(()=>{
     if(postData && postData?.idAuthor){
@@ -78,19 +80,18 @@ function PostContent(props){
         console.log(err.message);
       });
     }
-    
   },[postData])
 
   //handle like post
   function likePost(){
     if(amountLiked!==null){
       if(liked==false){
-        setAmountLiked(prev=>prev+1);
+        setAmountLiked(amountLiked+1);
         setLiked(true);
       }
       else{
         setLiked(false);
-        setAmountLiked(prev=>prev-1);
+        setAmountLiked(amountLiked-1);
       }
     }
   }
@@ -99,11 +100,11 @@ function PostContent(props){
   function markPost(){
     if(amountMarked!==null){
       if(marked==false){
-        setAmountMarked(prev=>prev+1);
+        setAmountMarked(amountMarked+1);
         setMarked(true);
       }
       else{
-        setAmountMarked(prev=>prev-1);
+        setAmountMarked(amountMarked-1);
         setMarked(false);
       }
     }
@@ -132,89 +133,99 @@ function PostContent(props){
   }
   
 
-  document.addEventListener("click",handleClosePopUp)
+  document.addEventListener("click",handleClosePopUp);
+
+  console.log(postData.isDeleted);
 
   return(
     <Wrapper>
-      {postData &&
-      (
-        <div className="post-content-container">
-        <div className="post-content-user">
-          <div className="post-content-author">
-            <img src={author?.avatar} alt="" className="post-author-avatar" />
-            <div className="post-content-created">
-              <a href={`/user/${author?._id}`} className="post-author-name">{author?.username}</a>
-              <p className="post-created-time">đã đăng lúc {timeCreated}</p>
+      {(postData.isDeleted === true)
+          ?(
+            <div className="post-content-not-found">
+              <h1 className="alert-not-found">Bài viết không còn tồn tại!</h1>
             </div>
-          </div>
-          <div className="post-content-action">
-            <p className="liked-action-ammount">{postData.amountLiked}</p>
-            {!liked ?
-              <button onClick={likePost} className="post-content-action-btn">
-                <FontAwesomeIcon icon={faStar}/>
-              </button>
-            :
-              <button onClick={likePost} className="post-content-action-btn">
-                <FontAwesomeIcon icon={faStared}/>
-              </button>
-            }
-            <p className="marked-action-ammount">{postData.amountMarked}</p>
-            {!marked ?
-              <button onClick={markPost} className="post-content-action-btn">
-                <FontAwesomeIcon icon={faBookmark}/>
-              </button>
-            :
-              <button onClick={markPost} className="post-content-action-btn">
-                <FontAwesomeIcon icon={faBookmarked}/>
-              </button>
-            } 
-            
-          </div>
-        </div>
-        <h1 className="post-content-title">
-          {postData.title}
-        </h1>
-        <div className="author-action">
-          <button onClick={handleOpenPostPopUp} className="author-action-btn">
-            <FontAwesomeIcon className="author-action-btn-icon" icon={faEllipsis} />
-          </button>
-            <div className={openPopUp}>
-              <ul className='author-pop-up-list'>
-                <li className='author-pop-up-item'>
-                  <a href={`/post/${postData._id}/edit`} className="author-pop-up-link">
-                    Sửa bài viết
-                  </a>
-                </li>
-                <li className='author-pop-up-item'>
-                  <a className="author-pop-up-link" 
-                  onClick={()=>{
-                    setOpenPopUp("author-pop-up");
-                    onDeletePost({
-                    classParent: 'page-container blur',
-                    classChild: 'delete-post-popup',
-                  })}}>
-                    Xóa bài viết
-                  </a>
-                </li>
-              </ul>
+          )
+        :(postData.isDeleted === false)
+          ?(
+            <div className="post-content-all">
+              <div className="post-content-container">
+                <div className="post-content-user">
+                  <div className="post-content-author">
+                    <img src={author?.avatar} alt="" className="post-author-avatar" />
+                    <div className="post-content-created">
+                      <a href={`/user/${author?._id}`} className="post-author-name">{author?.username}</a>
+                      <p className="post-created-time">đã đăng lúc {timeCreated}</p>
+                    </div>
+                  </div>
+                  <div className="post-content-action">
+                    <p className="liked-action-ammount">{amountLiked}</p>
+                    {!liked ?
+                      <button onClick={likePost} className="post-content-action-btn">
+                        <FontAwesomeIcon icon={faStar}/>
+                      </button>
+                    :
+                      <button onClick={likePost} className="post-content-action-btn">
+                        <FontAwesomeIcon icon={faStared}/>
+                      </button>
+                    }
+                    <p className="marked-action-ammount">{amountMarked}</p>
+                    {!marked ?
+                      <button onClick={markPost} className="post-content-action-btn">
+                        <FontAwesomeIcon icon={faBookmark}/>
+                      </button>
+                    :
+                      <button onClick={markPost} className="post-content-action-btn">
+                        <FontAwesomeIcon icon={faBookmarked}/>
+                      </button>
+                    } 
+                    
+                  </div>
+                </div>
+                <h1 className="post-content-title">
+                  {postData.title}
+                </h1>
+                <div className="author-action">
+                  <button onClick={handleOpenPostPopUp} className="author-action-btn">
+                    <FontAwesomeIcon className="author-action-btn-icon" icon={faEllipsis} />
+                  </button>
+                    <div className={openPopUp}>
+                      <ul className='author-pop-up-list'>
+                        <li className='author-pop-up-item'>
+                          <a href={`/post/${postData._id}/edit`} className="author-pop-up-link">
+                            Sửa bài viết
+                          </a>
+                        </li>
+                        <li className='author-pop-up-item'>
+                          <a className="author-pop-up-link" 
+                          onClick={()=>{
+                            setOpenPopUp("author-pop-up");
+                            onDeletePost({
+                            classParent: 'page-container blur',
+                            classChild: 'delete-post-popup',
+                          })}}>
+                            Xóa bài viết
+                          </a>
+                        </li>
+                      </ul>
+                    </div>
+  
+                </div>
+                <div className="post-content-text">
+                  <p>
+                    {postData.content}
+                  </p>
+                </div>
+                <span className="post-tags-item">
+                {postData.listTag?.map((tag)=>(
+                      `#${tag} `
+                    ))}
+                </span>
+              </div>
+              <PostComment/>
             </div>
-
-        </div>
-        <div className="post-content-text">
-          <p>
-            {postData.content}
-          </p>
-        </div>
-        <span className="post-tags-item">
-        {postData.listTag?.map((tag)=>(
-              `#${tag} `
-            ))}
-        </span>
-      </div>
-      )
+            )
+        :(<div className="post-content-not-found"></div>) 
       }
-      
-      <PostComment/>
     </Wrapper>
   )
 }
@@ -230,9 +241,22 @@ const Wrapper = styled.div`
   flex-wrap: wrap;
   box-sizing: border-box;
 
-  .post-content-container{
+  .post-content-not-found{
+    height: 520px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .post-content-all{
     width: var(--general-width);
-    margin: 0 auto;
+    margin: 0;
+    box-sizing: border-box;
+  }
+
+  .post-content-container{
+    width: 100%;
+    margin: 0;
     box-sizing: border-box;
   }
 
@@ -413,7 +437,7 @@ const Wrapper = styled.div`
   @media (max-width: 1279px) and (min-width: 769px) {
     display: block;
 
-    .post-content-container{
+    .post-content-all{
       width: 100%;
       padding: 0 12px;
     }
@@ -443,7 +467,7 @@ const Wrapper = styled.div`
   @media (max-width: 768px) and (min-width: 481px) {
     display: block;
     
-    .post-content-container{
+    .post-content-all{
       width: 100%;
       padding: 0 12px;
     }
@@ -472,7 +496,7 @@ const Wrapper = styled.div`
   @media (max-width: 480px) {
     display: block;
     
-    .post-content-container{
+    .post-content-all{
       width: 100%;
       padding: 0 12px;
     }

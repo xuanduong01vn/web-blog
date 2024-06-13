@@ -8,11 +8,13 @@ function User(){
   
 
   const [userFullname, setUserFullname] = useState('');
-  document.title=userFullname;
+  
 
   function handleUserName(fullname){
     setUserFullname(fullname);
   }
+
+  document.title=userFullname;
 
   return(
     <Wrapper>

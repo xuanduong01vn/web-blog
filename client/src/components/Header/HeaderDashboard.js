@@ -75,7 +75,7 @@ function HeaderAdmin(){
                         </li>
                         <li className='header-pop-up-item'>
                           <a href="/user" className="header-pop-up-link blog-manage">
-                            Tổng quan
+                            Hoạt động của bạn
                           </a>
                         </li>
                         <li className='header-pop-up-item'>

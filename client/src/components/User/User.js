@@ -10,7 +10,9 @@ function UserLayout(props){
   const {onDataReceived} = props;
   const { id } = useParams();
 
-  const [useData, setUseData ] = useState(null);
+  const [useData, setUseData ] = useState({});
+  const [userPost, setUserPost] = useState(0);
+  const [userLiked, setUserLiked] = useState(0);
 
 
   useEffect(()=>{
@@ -23,16 +25,34 @@ function UserLayout(props){
         return {};
       }
     };
-
     getUserData()
-    .then((data)=>{
-      setUseData(data);
-      onDataReceived(data.fullname);
+    .then((res)=>{
+      setUseData(res);
+      onDataReceived(res.fullname || res.username);
     })
     .catch((err)=>{
       console.log(err.message);
     })
   },[])
+
+  useEffect(()=>{
+    const getUserPost = async(req, res)=>{
+      try {
+        const res= await axios.get(`http://localhost:9999/posts/?isDeleted=false&idAuthor=${id}`);
+        return res.data;
+      } catch (err) {
+        console.log(err.message);
+      }
+    };
+    getUserPost()
+    .then(res=>{
+      setUserPost(res.length);
+    })
+    .catch(err=>{
+      console.log(err.message);
+    })
+  },[useData]);
+  console.log(userPost);
 
   return (
     <Wrapper>
@@ -48,15 +68,15 @@ function UserLayout(props){
           <div className="user-statistic">
             <div className="statistic-item">
               <span className="statistic-title">Số lượng bài viết </span>
-              <span className="statistic-ammount">0</span>
+              <span className="statistic-ammount">{userPost}</span>
             </div>
             {/* <div className="statistic-item">
               <span className="statistic-title">Số lượng câu hỏi </span>
               <span className="statistic-ammount">8</span>
             </div> */}
             <div className="statistic-item">
-              <span className="statistic-title">Số lượng đánh giá </span>
-              <span className="statistic-ammount">0</span>
+              <span className="statistic-title">Tổng số lượt yêu thích </span>
+              <span className="statistic-ammount">{userLiked}</span>
             </div>
           </div>
         </div>

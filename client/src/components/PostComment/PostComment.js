@@ -108,7 +108,7 @@ export default PostComment;
 const Wrapper = styled.div`
 
   .post-comment-container{
-    width: var(--general-width);
+    width: 100%;
     border-top: 1px solid var(--shadow-color);
     text-align: left;
   }
@@ -286,30 +286,18 @@ const Wrapper = styled.div`
 
   /* small desktop*/
   @media (max-width: 1279px) and (min-width: 769px) {
-    .post-comment-container{
-      width: 100%;
-      padding: 0 12px;
-      box-sizing: border-box;
-    }
+    
 
   }
 
   /* tablet large phone*/
   @media (max-width: 768px) and (min-width: 481px) {
-    .post-comment-container{
-      width: 100%;
-      padding: 0 12px;
-      box-sizing: border-box;
-    }
+
   }
 
   /* small phone */
   @media (max-width: 480px) {
-    .post-comment-container{
-      width: 100%;
-      padding: 0 12px;
-      box-sizing: border-box;
-    }
+
   }
 
 `

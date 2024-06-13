@@ -11,6 +11,7 @@ function ReadPost(){
   const [post, setPost] = useState({
     title: "",
     id: "",
+    isDeleted: "",
   });
   const [classPopup, setClassPopup] = useState({
     classParent: "page-container",
@@ -41,7 +42,11 @@ function ReadPost(){
     })
     .then(res=>{
       console.log(res.data);
-      navigate('/')
+      setPost({
+        ...post,
+        isDeleted: true,
+      })
+      handleCancelDelete();
     })
     .catch(err=>{
       console.log(err.message);
@@ -62,7 +67,7 @@ function ReadPost(){
           </div>
         </div>
         <Header/>
-        <PostContent onDataReceived={handlePost} onDeletePost={handleOpenPopup}/>
+        <PostContent onDataReceived={handlePost} onDeletePost={handleOpenPopup} onIsDeleted={post.isDeleted}/>
         <Footer/>
       </div>
     </Wrapper>

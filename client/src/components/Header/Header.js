@@ -129,7 +129,7 @@ function Header(){
                         </li>
                         <li className='header-pop-up-item'>
                           <a href="/user" className="header-pop-up-link blog-manage">
-                            Tổng quan
+                            Trang hoạt động
                           </a>
                         </li>
                         <li className='header-pop-up-item'>
