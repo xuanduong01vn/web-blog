@@ -52,7 +52,6 @@ function UserLayout(props){
       console.log(err.message);
     })
   },[useData]);
-  console.log(userPost);
 
   return (
     <Wrapper>

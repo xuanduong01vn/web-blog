@@ -23,7 +23,6 @@ function PostContent(props){
   let { id } = useParams();
   
   const {onDataReceived, onDeletePost, onIsDeleted} = props;
-
   const [postData, setPostData] = useState({});
   const [author, setAuthor] = useState({});
   const [amountLiked, setAmountLiked] = useState(0);
@@ -125,17 +124,14 @@ function PostContent(props){
 
   if(postData.createAt?.length>0){
     if(now.getFullYear()== new Date(postData.createAt).getFullYear()){
-      timeCreated= format(new Date(postData.createAt), 'EEEE, dd MMMM, HH:mm', { locale: vi });
+      timeCreated= format(new Date(postData.createAt), 'EEEE, dd MMM, HH:mm', { locale: vi });
     }
     else{
-      timeCreated= format(new Date(postData.createAt), 'EEEE, dd MMMM yyyy, HH:mm', { locale: vi });
+      timeCreated= format(new Date(postData.createAt), 'EEEE, dd MMM yyyy, HH:mm', { locale: vi });
     }
   }
   
-
   document.addEventListener("click",handleClosePopUp);
-
-  console.log(postData.isDeleted);
 
   return(
     <Wrapper>
@@ -221,7 +217,7 @@ function PostContent(props){
                     ))}
                 </span>
               </div>
-              <PostComment/>
+              <PostComment post={postData}/>
             </div>
             )
         :(<div className="post-content-not-found"></div>) 

@@ -1,7 +1,7 @@
-import ProfileSection from "../../components/Account/Profile";
-import Header from "../../components/Header/Header";
-import Footer from "../../components/Footer/Footer";
-import AccountNavbar from "../../components/Account/AccountNavbar";
+import ProfileSection from "../../components/Account/Profile.js";
+import Header from "../../components/Header/Header.js";
+import Footer from "../../components/Footer/Footer.js";
+import AccountNavbar from "../../components/Account/AccountNavbar.js";
 import styled from "styled-components";
 import React, { useEffect, useState } from "react";
 

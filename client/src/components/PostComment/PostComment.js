@@ -1,29 +1,147 @@
 import styled from "styled-components";
 import React, {useEffect, useState } from "react";
+import axios from 'axios';
+import { format } from 'date-fns';
+import { vi } from 'date-fns/locale';
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faComment 
 } from "@fortawesome/free-regular-svg-icons";
 
-import PostReply from "./PostReply.js";
+import CommentItem from "./CommentItem.js";
 
-function PostComment(e){
-  const [activeReply, setActiveReply]=useState(false);
+function PostComment(props){
 
-  function openReplyBox(e){
-    if(activeReply==false)
-      setActiveReply(true);
-    console.log(e.target);
+  const {post}= props;
+  const [inputComment, setInputComment] = useState('');
+  const [amountCmt, setAmountCmt] = useState(post.amountComment);
+  const [listComment, setListComment] = useState([]);
+  const [listUser, setListUser] = useState([]);
+  const [valueComment, setValueComment] = useState({
+    content: '',
+    idUser: '66669b9c646d48fe74ba397b',
+    idPost: post._id,
+    createAt: new Date(),
+    idParent: '',
+    isDeleted: false,
+  });
+
+  console.log(amountCmt);
+
+  useEffect(()=>{
+    const getComments = async(req,res)=>{
+      try {
+        const response = await axios.get(`http://localhost:9999/comments?idPost=${post._id}&idParent=${""}&sort=asc`);
+        return response.data;
+      } catch (err) {
+        console.log(err.message);
+      }
+    }
+    getComments()
+    .then(data=>{
+      setListComment(data);
+    })
+    .catch(err=>{
+      console.log(err.message);
+    })
+  },[amountCmt]);
+
+  useEffect(()=>{
+    const getUsers = async(req,res)=>{
+      try {
+        const response = await axios.get(`http://localhost:9999/accounts`);
+        return response.data;
+      } catch (err) {
+        console.log(err.message);
+      }
+    }
+    getUsers()
+    .then(data=>{
+      setListUser(data);
+    })
+    .catch(err=>{
+      console.log(err.message);
+    })
+  },[]);
+
+  function getInfoUser(id){
+    return listUser.find(user=>user._id==id)
   }
 
-  function closeReplyBox(e){
-      setActiveReply(false);
+  function onChangeInput(e){
+    setInputComment(e.target.value);
+    setValueComment({
+      ...valueComment,
+      content: e.target.value.trim(),
+    })
+  }
+
+  function cancelComment(){
+    setInputComment('');
+  }
+
+  function postComment(){
+    if(inputComment.trim().length>0){
+      setValueComment({
+        ...valueComment,
+        content: inputComment.trim(),
+      })
+      axios.post(`http://localhost:9999/comments`,valueComment)
+      .then(res=>{
+        cancelComment();
+        setValueComment({
+          ...valueComment,
+          content: '',
+        })
+      })
+      .catch(err=>{
+        console.log(err.message);
+      })
+
+      axios.put(`http://localhost:9999/posts/${post._id}`,{amountComment: amountCmt+1})
+      .then(res=>{
+        console.log(res.data);
+        setAmountCmt(res.data.data.amountComment);
+      })
+      .catch(err=>{
+        console.log(err.message);
+      })
+    }
+  }
+
+  function handleDeleteComment(idCmt){
+    axios.put(`http://localhost:9999/comments/${idCmt}`,{isDeleted: true})
+    .then(res=>{
+      setValueComment(res.data.data);
+      let index =listComment.findIndex(cmt=>cmt._id==idCmt);
+      listComment.splice(index, 1, valueComment);
+      console.log(listComment);
+      setListComment(listComment);
+      setValueComment({
+        content: '',
+        idUser: '66669b9c646d48fe74ba397b',
+        idPost: post._id,
+        createAt: new Date(),
+        idParent: '',
+        isDeleted: false,
+      });
+    })
+    .catch(err=>{
+      console.log(err.message);
+    })
+
+    axios.put(`http://localhost:9999/posts/${post._id}`,{amountComment: listComment.filter(cmt=>cmt.isDeleted==false).length-1})
+    .then(res=>{
+      console.log(res.data);
+    })
+    .catch(err=>{
+      console.log(err.message);
+    })
   }
 
   return(
     <Wrapper>
       <div className="post-comment-container">
-        <h3>Chưa có bình luận nào</h3>
         <div className="post-comment-alert">
           <FontAwesomeIcon icon={faComment}/>
           <p>Đăng nhập để bình luận</p>
@@ -34,70 +152,28 @@ function PostComment(e){
             alt="" className="comment-current-user-avatar" />
             <p className="comment-current-user-name">xuanduong</p>
           </div>
-          <input className="comment-type-box" type="text" placeholder="Viết bình luận..."/>
-          <button className="comment-send-btn active">Bình luận</button>
-          <button className="comment-send-btn">Hủy</button>
+          <textarea className="comment-type-box" type="text" placeholder="Viết bình luận..."
+          value ={inputComment}
+          onChange={onChangeInput}/>
+          <button onClick={postComment} className="comment-send-btn active">Bình luận</button>
+          <button onClick={cancelComment} className="comment-send-btn">Hủy</button>
         </div>
-        <ul className="post-comment-list">
-          <li className="post-comment-item">
-            <div className="comment-item-created">
-              <img src="https://www.vietnamfineart.com.vn/wp-content/uploads/2023/07/anh-avatar-dep-cho-con-gai-1.jpg" 
-              alt="" className="comment-item-user-avatar" />
-              <div className="comment-item-user-created">
-                <a href="/user" className="comment-item-username">xuanduong</a>
-                <span className="comment-item-created-time"> bình luận lúc 2024</span>
-              </div>
-            </div>
-            <div className="comment-item-content">
-              <p>Hay đấy</p>
-            </div>
-            <div className="comment-item-action">
-              <button className="comment-item-btn active"
-              onClick={openReplyBox}>
-                Trả lời
-              </button>
-              <button className="comment-item-btn">
-                Sửa
-              </button>
-              <button className="comment-item-btn">
-                Xóa
-              </button>
-            </div>
-            {activeReply && <PostReply openReply={closeReplyBox}/>}
+        {listComment.length==0
+        ?(<h3>Chưa có bình luận nào</h3>)
+        :(listComment.length>0)?
+          (
+            <ul className="post-comment-list">
+              {listComment.map(comment=>(
+                <CommentItem post={amountCmt} comment={comment} 
+                author={getInfoUser(comment.idUser)}
+                deleteComment={()=>{handleDeleteComment(comment._id)}}/>
+              ))}
             
-            <ul className="post-reply-list">
-              <li className="post-reply-item">
-                <div className="reply-item-created">
-                  <img src="https://www.vietnamfineart.com.vn/wp-content/uploads/2023/07/anh-avatar-dep-cho-con-gai-1.jpg" 
-                  alt="" className="reply-item-user-avatar" />
-                  <div className="reply-item-user-created">
-                    <a href="/user" className="reply-item-username">xuanduong</a>
-                    <span className="reply-item-created-time"> bình luận lúc 2024</span>
-                  </div>
-                </div>
-                <div className="reply-item-content">
-                  <p>Hay đấy</p>
-                </div>
-                <div className="reply-item-action">
-                  <button className="reply-item-btn active"
-                  onClick={openReplyBox}>
-                    Trả lời
-                  </button>
-                  <button className="reply-item-btn">
-                    Sửa
-                  </button>
-                  <button className="reply-item-btn">
-                    Xóa
-                  </button>
-                </div>
-                {activeReply && <PostReply openReply={closeReplyBox}/>}
-              </li>
+          </ul>
+          )
+          :(<h3> </h3>)
+        }
 
-
-            </ul>
-            
-          </li>
-        </ul>
       </div>
     </Wrapper>
   )
@@ -121,6 +197,7 @@ const Wrapper = styled.div`
     justify-content: center;
     border-radius: 8px;
     padding: 12px 0;
+    margin-top: 12px;
 
     svg{
       margin-right: 12px;
@@ -134,6 +211,8 @@ const Wrapper = styled.div`
     padding: 12px;
     box-sizing: border-box;
     text-align: right;
+    margin-top: 12px;
+    
   }
 
   .comment-current-user{
@@ -158,9 +237,11 @@ const Wrapper = styled.div`
     border-radius: 4px;
     outline: none;
     padding: 8px;
-    min-height: 36px;
-    width: 100%;
+    min-height: 60px;
+    min-width: 100%;
     box-sizing: border-box;
+    resize: none;
+    height: max-content;
   }      
   
   .comment-send-btn{
@@ -188,101 +269,6 @@ const Wrapper = styled.div`
     width: 100%;
   }
 
-  .post-comment-item{
-    border: 1px solid var(--shadow-color);
-    border-radius: 8px;
-    outline: none;
-    padding: 12px;
-    width: 100%;
-    box-sizing: border-box;
-  }
-
-  .comment-item-created{
-    display: flex;
-    align-items: center;
-  }
-
-  .comment-item-user-avatar,
-  .reply-item-user-avatar{
-    height: 36px; 
-    width: 36px;
-    border-radius: 50%;
-    margin-right: 12px;
-  }
-
-  .comment-item-user-created,
-  .reply-item-user-created{
-    text-align: left;
-  }
-
-  .comment-item-username,
-  .reply-item-username{
-    color: var(--hightlight-color);
-    font-weight: 600;
-
-    &:hover{
-      text-decoration: underline;
-    }
-  }
-
-  .comment-item-created-time,
-  .reply-item-created-time{
-    margin: 0;
-    font-size: 14px;
-  }
-
-  .comment-item-content p,
-  .reply-item-content p{
-    text-align: left;
-    font-size: 18px;
-    margin: 4px 0;
-  }
-
-  .comment-item-action,
-  .reply-item-action{
-    display: flex ;
-  }
-
-  .comment-item-btn,
-  .reply-item-btn{
-    background: none;
-    border: none;
-    outline: none;
-    cursor: pointer;
-    padding: 4px 0;
-    margin-right: 12px;
-  }
-
-  .comment-item-btn:hover,
-  .reply-item-btn:hover{
-    color: var(--hightlight-color);
-  }
-
-  .comment-item-btn.active,
-  .reply-item-btn.active{
-    color: var(--hightlight-color);
-  }
-
-  .post-reply-list{
-    list-style: none;
-    padding: 0 0 0 36px;
-    margin-top: 12px;
-    width: 100%;
-    box-sizing: border-box;
-  }
-
-  .post-reply-item{
-    border-top: 1px solid var(--shadow-color);
-    outline: none;
-    padding: 12px 0;
-    width: 100%;
-    box-sizing: border-box;
-  }
-
-  .reply-item-created{
-    display: flex;
-    align-items: center;
-  }
 
   /* small desktop*/
   @media (max-width: 1279px) and (min-width: 769px) {

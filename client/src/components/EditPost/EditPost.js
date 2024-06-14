@@ -98,9 +98,7 @@ function EditPost(props){
       })
     }
   }
-
   
-
   function handleCancelTag(e){
     newTempListTag = tempListTag.filter(tag=>tag!=e.target.getAttribute('data-name'));
     setTempListTag(newTempListTag);

@@ -1,10 +1,70 @@
-import styled from "styled-components";
-import React, {useState, useEffect} from "react";
+import styled from 'styled-components';
+import React, {useState, useEffect} from 'react';
+import axios from 'axios';
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCamera,
 } from '@fortawesome/free-solid-svg-icons';
 
 function Profile(){
+
+  const id ="66669b9c646d48fe74ba397b";
+  const [user, setUser] = useState({
+    username: '',
+    email: '',
+    birthday: null,
+    fullname: '',
+  });
+  const [inputValue, setInputValue] = useState({
+    fullname:'',
+    birthday:'',
+  })
+
+
+
+  useEffect(()=>{
+    const getUser = async(req,res )=>{
+      try {
+        const response = await axios.get(`http://localhost:9999/accounts/${id}`);
+        return response.data;
+      } catch (err) {
+        console.log(err.message);
+      }
+    };
+    getUser()
+    .then(res=>{
+      setUser(res);
+      setInputValue({
+        ...inputValue,
+        fullname: res.fullname,
+      })
+    })
+    .catch(err=>{
+      console.log(err.message);
+    })
+  },
+  []);
+
+  function onChangeValue(e){
+    const {name, value}=e.target;
+    setInputValue({
+      ...inputValue,
+      [name]: value,
+    })
+  }
+
+  console.log(inputValue);
+
+  function handleUPdateProfile(){
+    axios.put(`http://localhost:9999/accounts/${id}`,inputValue)
+    .then(res=>{
+      console.log(res.data);
+    })
+    .catch(err=>{
+      console.log(err.message);
+    })
+  }
+
+
   return(
     <Wrapper>
       <h2 className="profile-container-title">Thông tin cá nhân</h2>
@@ -18,29 +78,36 @@ function Profile(){
         </div>
         <div className="profile-item">
           <label htmlFor="">Tên tài khoản</label>
-          <input type="text" id="profile-username" className="profile-input" disabled value={"xuanduong"}/>
+          <input type="text" id="profile-username" className="profile-input" disabled value={user.username}/>
         </div>
         <div className="profile-item">
           <label htmlFor="profile-fullname">
             <span className="red-asterisk">* </span>Tên hiển thị
           </label>
-          <input type="text" id="profile-fullname" className="profile-input" value={"xuanduong"}/>
+          <input name="fullname" type="text" id="profile-fullname" className="profile-input" 
+          value={inputValue.fullname}
+          onChange={e=>{onChangeValue(e)}}/>
         </div>
         <div className="profile-item">
           <label htmlFor="profile-email">
           <span className="red-asterisk">* </span>Email
         </label>
-          <input type="text" id="profile-email" className="profile-input" value={"xuanduong"}/>
+          <input name="email" type="text" id="profile-email" disabled className="profile-input" 
+          value={user.email}
+          onChange={onChangeValue}/>
         </div>
         <div className="profile-item">
           <label htmlFor="profile-birthday">
           <span className="red-asterisk">* </span>Ngày sinh
         </label>
-          <input type="text" id="profile-birthday" className="profile-input" value={"xuanduong"}/>
+
+          {/* <input data-name="birthday" type="text" id="profile-birthday" className="profile-input" 
+          value={user.birthday}
+          onChange={e=>{onChangeValue(e)}}/> */}
         </div>
         <div className="profile-action">
           <button className="profile-btn">Hủy</button>
-          <button className="profile-btn active">Lưu</button>
+          <button onClick={handleUPdateProfile} className="profile-btn active">Lưu</button>
         </div>
         
       </div>

@@ -128,7 +128,6 @@ function NewPost(){
 
   function handlePublish(){
     
-    console.log(newInputPost);
     if(inputValue.title.trim().length>0){
       newInputPost.createAt=new Date();
 

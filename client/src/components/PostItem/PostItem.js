@@ -17,41 +17,41 @@ import {
 
 
 
-PostItem.propTypes={
-  post: propTypes.shape({
-    _id: propTypes.string.isRequired,
-    title: propTypes.string.isRequired,
-    idAuthor: propTypes.string.isRequired,
-    createAt: propTypes.string.isRequired,
-    listTag: propTypes.array,
-    amountLiked: propTypes.number,
-    amountMarked: propTypes.number,
-    amountComment: propTypes.number,
-  }).isRequired,
-  author: propTypes.shape({
-    _id: propTypes.string.isRequired,
-    username: propTypes.string.isRequired,
-    avatar: propTypes.string.isRequired,
-  }).isRequired,
-};
+// PostItem.propTypes={
+//   post: propTypes.shape({
+//     _id: propTypes.string.isRequired,
+//     title: propTypes.string.isRequired,
+//     idAuthor: propTypes.string.isRequired,
+//     createAt: propTypes.string.isRequired,
+//     listTag: propTypes.array,
+//     amountLiked: propTypes.number,
+//     amountMarked: propTypes.number,
+//     amountComment: propTypes.number,
+//   }).isRequired,
+//   author: propTypes.shape({
+//     _id: propTypes.string.isRequired,
+//     username: propTypes.string.isRequired,
+//     avatar: propTypes.string.isRequired,
+//   }).isRequired,
+// };
 
-PostItem.defaultProps={
-  post: {
-    _id: '',
-    title: '',
-    idAuthor: '',
-    createAt: '',
-    listTag: [],
-    amountLiked: 0,
-    amountMarked: 0,
-    amountComment: 0,
-  },
-  author: {
-    _id: '',
-    username: '',
-    avatar: '',
-  },
-};
+// PostItem.defaultProps={
+//   post: {
+//     _id: '',
+//     title: '',
+//     idAuthor: '',
+//     createAt: '',
+//     listTag: [],
+//     amountLiked: 0,
+//     amountMarked: 0,
+//     amountComment: 0,
+//   },
+//   author: {
+//     _id: '',
+//     username: '',
+//     avatar: '',
+//   },
+// };
 
 function PostItem(props){
 
@@ -68,10 +68,10 @@ function PostItem(props){
   var timeCreated;
   const now = new Date();
   if(now.getFullYear()== new Date(post.createAt).getFullYear()){
-    timeCreated= format(new Date(post.createAt), 'EEEE, dd MMMM, HH:mm', { locale: vi });
+    timeCreated= format(new Date(post.createAt), 'EEEE, dd MMM, HH:mm', { locale: vi });
   }
   else{
-    timeCreated= format(new Date(post.createAt), 'EEEE, dd MMMM yyyy, HH:mm', { locale: vi });
+    timeCreated= format(new Date(post.createAt), 'EEEE, dd MMM yyyy, HH:mm', { locale: vi });
   }
 
 
@@ -80,19 +80,19 @@ function PostItem(props){
       <div className="post-item-cover">
         <div className="post-item-user">
           <div className="post-item-author">
-            <a href={`/user/${author._id}`} className="post-item-author-info">
+            <a href={`/user/${author?._id}`} className="post-item-author-info">
               <img src={author.avatar} 
               alt="" className="post-author-avatar" />
               <p className="post-author-name">{author.username}</p>
             </a>
             <span className="post-item-author-create">{timeCreated}</span>
           </div>
-          <div className="post-item-action">
+          {/* <div className="post-item-action">
             <button onClick={clickMark} className="add-blog post-item-btn">
               {!marked && <FontAwesomeIcon className="post-item-btn-mark" icon={faBookmark} />}
               {marked && <FontAwesomeIcon className="post-item-btn-marked" icon={faBookmarked} />}
             </button>
-          </div>
+          </div> */}
         </div>
         <a href={`/post/${post._id}`} className="post-item-title">
           <h3>{ post.title}</h3> 

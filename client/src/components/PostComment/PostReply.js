@@ -1,13 +1,70 @@
 import React, { useEffect, useState } from "react";
 import styled from "styled-components";
+import axios from 'axios';
 
-function PostReply({openReply}){
+function PostReply(props){
+
+  const {parent, openReply, author, post, onLoad} = props;
   const [activeReply, setActiveReply]=useState(true);
-
+  const [inputComment, setInputComment] = useState('');
+  const [valueComment, setValueComment] = useState({
+    content: '',
+    idUser: '66669b9c646d48fe74ba397b',
+    idPost: parent.idPost,
+    createAt: new Date(),
+    idParent: parent._id,
+    isDeleted: false,
+  });
   
-  function closeReplyBox(e){
+  function closeReplyBox(){
       openReply(false);
   }
+
+  function onChangeInput(e){
+    setInputComment(e.target.value);
+    setValueComment({
+      ...valueComment,
+      content: e.target.value.trim(),
+    })
+  }
+
+  function cancelComment(){
+    setInputComment('');
+  }
+
+  function postComment(){
+    if(inputComment.trim().length>0){
+      setValueComment({
+        ...valueComment,
+        content: inputComment.trim(),
+      })
+      axios.post(`http://localhost:9999/comments`,valueComment)
+      .then(res=>{
+        openReply(false);
+        cancelComment();
+        setValueComment({
+          ...valueComment,
+          content: '',
+        });
+
+      })
+      .catch(err=>{
+        console.log(err.message);
+      })
+
+      onLoad(post.amountComment+1);
+
+      axios.put(`http://localhost:9999/posts/${parent.idPost}`,{amountComment: (post.amountComment + 1)})
+      .then(res=>{
+        console.log(res.data);
+      })
+      .catch(err=>{
+        console.log(err.message);
+      })
+    }
+  }
+  
+
 
   return (
     <Wrapper>
@@ -17,8 +74,12 @@ function PostReply({openReply}){
           alt="" className="reply-current-user-avatar" />
           <p className="reply-current-user-name">xuanduong</p>
         </div>
-        <input className="reply-type-box" type="text" placeholder="Viết bình luận..."/>
-        <button className="reply-send-btn active">Bình luận</button>
+        <input className="reply-type-box" type="text" placeholder="Viết bình luận..."
+          autoFocus
+          value={inputComment}
+          onChange={onChangeInput}/>
+        <button className={inputComment.trim().length>0?"reply-send-btn active":"reply-send-btn hide"}
+          onClick={()=>{postComment()}}>Bình luận</button>
         <button className="reply-send-btn" onClick={closeReplyBox}>Hủy</button>
       </div>
       
@@ -87,6 +148,15 @@ const Wrapper = styled.div`
 
   .reply-send-btn.active{
     background-color: var(--hightlight-color);
+  }
+
+  .reply-send-btn.hide{
+    background-color: var(--shadow-color);
+    cursor: default;
+
+    &:hover{
+      opacity: 1;
+    }
   }
 
   .reply-item-user-avatar{
