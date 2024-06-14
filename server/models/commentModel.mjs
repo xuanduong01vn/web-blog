@@ -7,16 +7,15 @@ const commentSchema = new mongoose.Schema({
     type: String,
     required: true
   },
-  idTypePost: {
-    type: Number,
-    ref: PostModel,
+  idPost: {
+    type: String,
   },
-  idAuthor: {
+  idUser: {
     type: mongoose.Schema.Types.ObjectId,
     ref: AccountModel,
   },
   idParent:{
-    type: Number,
+    type: String,
   },
   isDeleted:{
     type: Boolean,

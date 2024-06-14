@@ -4,7 +4,10 @@ import { APIfeatures } from '../lib/features.js';
 const typeAccountController ={
   getTypeAccounts: async (req, res)=>{
     try {
-      let features = new APIfeatures(typeAccountModel.find(), req.query);
+      let features = new APIfeatures(typeAccountModel.find(), req.query)
+        .sorting()
+        .searching()
+        .filtering();
       const allTypeAccounts = await features.query;
       res.status(200).json(allTypeAccounts);
     } catch (error) {

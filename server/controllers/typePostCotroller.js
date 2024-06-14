@@ -4,7 +4,10 @@ import { APIfeatures } from '../lib/features.js';
 const typePostController = {
   getTypePosts: async (req, res)=>{
     try{
-      let features = new APIfeatures(typePostModel.find(), req.query);
+      let features = new APIfeatures(typePostModel.find(), req.query)
+        .sorting()
+        .searching()
+        .filtering();
       const allTypePosts = await features.query;
       res.status(200).json(allTypePosts);
     }

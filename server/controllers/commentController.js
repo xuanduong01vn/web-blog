@@ -4,7 +4,10 @@ import { APIfeatures } from '../lib/features.js';
 const commentController={
   getAllComments: async(req, res)=>{
     try {
-      let features= new APIfeatures(CommentModel.find(), req.query);
+      let features= new APIfeatures(CommentModel.find(), req.query)
+        .sorting()
+        .searching()
+        .filtering();
       const allComments = await features.query;
       res.status(200).json(allComments);
     } catch (err) {

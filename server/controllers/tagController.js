@@ -4,7 +4,10 @@ import { APIfeatures } from '../lib/features.js';
 const tagController ={
   getAllTags: async(req,res) =>{
     try {
-      let features= new APIfeatures(TagModel.find(), req.query);
+      let features= new APIfeatures(TagModel.find(), req.query)
+        .sorting()
+        .searching()
+        .filtering();
       const allTags = await features.query;
       res.status(200).json(allTags);
     } catch (err) {
