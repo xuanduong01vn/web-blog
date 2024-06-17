@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import React, {useEffect, useState } from "react";
+import React, {useEffect, useState, useRef } from "react";
 import axios from 'axios';
 import { format } from 'date-fns';
 import { vi } from 'date-fns/locale';
@@ -9,12 +9,9 @@ import PostReply from "./PostReply";
 function CommentItem(props){
 
   const {comment, author, deleteComment, post, openReply} =props;
-  const [amountCmt, setAmountCmt] = useState(post);
   const [classInput, setClassInput] = useState('');
   const [isDeletedPost, setIsDeletedPost]=useState(comment.isDeleted);
-  
   const [inputComment, setInputComment] = useState('');
-  const [listUser, setListUser] =useState([]);
   const [valueComment, setValueComment] = useState({
     content: '',
     idUser: '66669b9c646d48fe74ba397b',
@@ -24,45 +21,12 @@ function CommentItem(props){
     isDeleted: false,
   });
 
-  
-
-  console.log(amountCmt);
-
-  //hàm reload lại danh sách reply
-  function onReloadReplies(amount){
-    setAmountCmt(amount);
-  }
-
   //khi 
   useEffect(()=>{
     if(comment.content.lenght>0){
       setInputComment(comment.content);
     }
   },[comment.content.lenght]);
-
-  //lấy danh sách tài khoản
-  useEffect(()=>{
-    const getUsers = async(req,res)=>{
-      try {
-        const response = await axios.get(`http://localhost:9999/accounts`);
-        return response.data;
-      } catch (err) {
-        console.log(err.message);
-      }
-    }
-    getUsers()
-    .then(data=>{
-      setListUser(data);
-    })
-    .catch(err=>{
-      console.log(err.message);
-    })
-  },[]);
-
-  //lấy ra thông tin tài khoản
-  function getInfoUser(id){
-    return listUser.find(user=>user._id==id)
-  }
 
   //mở input tạo mới reply
   function openReplyBox(e){
@@ -87,11 +51,21 @@ function CommentItem(props){
     }
   }
 
+  const textareaRef = useRef(null);
   //mở input sửa comment
   function onEditComment(id){
     setClassInput(id);
     setInputComment(comment.content);
   }
+
+  useEffect(() => {
+    if (classInput !== null && textareaRef.current) {
+      // Đặt tiêu điểm vào textarea và đặt vị trí con trỏ vào cuối văn bản
+      textareaRef.current.focus();
+      const length = textareaRef.current.value.length;
+      textareaRef.current.setSelectionRange(length, length);
+    }
+  }, [classInput, inputComment]);
 
   //xử lý sửa comment
   function handleEditComment(idCmt){
@@ -106,8 +80,6 @@ function CommentItem(props){
       })
     }
   }
-
-  console.log(isDeletedPost);
 
   return(
     <Wrapper>
@@ -138,6 +110,7 @@ function CommentItem(props){
           <div className="comment-item-content">
             {classInput==comment._id 
             ?(<textarea autoFocus 
+              ref={textareaRef}
               className="comment-content-box"
               value={inputComment}
               onChange={e=>onChangeValue(e)}
@@ -175,17 +148,6 @@ function CommentItem(props){
               </div>
             )
           }
-          
-          {/* {activeReply && 
-            <PostReply 
-            parent={comment} 
-            openReply={closeReplyBox} 
-            author={author}
-            post={amountCmt}
-            />} */}
-          
-          
-          
         </div>
       )  
       }

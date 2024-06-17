@@ -28,8 +28,6 @@ function PostComment(props){
     isDeleted: false,
   });
 
-  console.log(amountCmt);
-
   //lấy danh sách comment của bài viết
   useEffect(()=>{
     const getComments = async(req,res)=>{
@@ -164,8 +162,6 @@ function PostComment(props){
       console.log(err.message);
     })
   }
-
-  console.log(listComment);
 
   //Xử lý mở input trả lời cmt
   function handleOpenReply(param){
