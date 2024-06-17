@@ -14,9 +14,6 @@ import {
   faComment,
 } from '@fortawesome/free-solid-svg-icons';
 
-
-
-
 // PostItem.propTypes={
 //   post: propTypes.shape({
 //     _id: propTypes.string.isRequired,
@@ -81,9 +78,9 @@ function PostItem(props){
         <div className="post-item-user">
           <div className="post-item-author">
             <a href={`/user/${author?._id}`} className="post-item-author-info">
-              <img src={author.avatar} 
+              <img src={author?.avatar} 
               alt="" className="post-author-avatar" />
-              <p className="post-author-name">{author.username}</p>
+              <p className="post-author-name">{author?.username}</p>
             </a>
             <span className="post-item-author-create">{timeCreated}</span>
           </div>

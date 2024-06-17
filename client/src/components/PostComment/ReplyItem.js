@@ -20,14 +20,14 @@ function ReplyItem(props){
     isDeleted: false,
   });
 
-  function openReplyBox(e){
-    if(activeReply==false)
-      setActiveReply(true);
-  }
+  // function openReplyBox(e){
+  //   if(activeReply==false)
+  //     setActiveReply(true);
+  // }
 
-  function closeReplyBox(e){
-      setActiveReply(false);
-  }
+  // function closeReplyBox(e){
+  //     setActiveReply(false);
+  // }
 
   const now = new Date();
   function formatTime(time){  
@@ -43,7 +43,7 @@ function ReplyItem(props){
 
   return(
     <Wrapper>
-      <li className="post-reply-item">
+      <div className="reply-item">
         <div className="reply-item-created">
           <img src={user?.avatar} 
           alt="avatar" className="reply-item-user-avatar" />
@@ -57,7 +57,8 @@ function ReplyItem(props){
         </div>
         <div className="reply-item-action">
           <button className="reply-item-btn active"
-          onClick={openReplyBox}>
+          // onClick={openReplyBox}
+          >
             Trả lời
           </button>
           <button className="reply-item-btn">
@@ -67,8 +68,8 @@ function ReplyItem(props){
             Xóa
           </button>
         </div>
-        {activeReply && <PostReply openReply={closeReplyBox}/>}
-      </li>
+        {/* {activeReply && <PostReply openReply={closeReplyBox}/>} */}
+      </div>
     </Wrapper>
   )
 }

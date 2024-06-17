@@ -4,20 +4,23 @@ import axios from 'axios';
 
 function PostReply(props){
 
-  const {parent, openReply, author, post, onLoad} = props;
+  const {parent, closeReply, author, post, onLoad} = props;
+  const [amountCmt, setAmountCmt] = useState(post?.amountComment);
   const [activeReply, setActiveReply]=useState(true);
   const [inputComment, setInputComment] = useState('');
   const [valueComment, setValueComment] = useState({
     content: '',
     idUser: '66669b9c646d48fe74ba397b',
-    idPost: parent.idPost,
+    idPost: post?._id,
     createAt: new Date(),
-    idParent: parent._id,
+    idParent: parent?._id,
     isDeleted: false,
   });
+
+  
   
   function closeReplyBox(){
-      openReply(false);
+    closeReply('');
   }
 
   function onChangeInput(e){
@@ -38,9 +41,10 @@ function PostReply(props){
         ...valueComment,
         content: inputComment.trim(),
       })
+
       axios.post(`http://localhost:9999/comments`,valueComment)
       .then(res=>{
-        openReply(false);
+        closeReply('');
         cancelComment();
         setValueComment({
           ...valueComment,
@@ -52,11 +56,12 @@ function PostReply(props){
         console.log(err.message);
       })
 
-      onLoad(post.amountComment+1);
+      onLoad(amountCmt + 1);
 
-      axios.put(`http://localhost:9999/posts/${parent.idPost}`,{amountComment: (post.amountComment + 1)})
+      axios.put(`http://localhost:9999/posts/${parent.idPost}`,{amountComment: amountCmt + 1})
       .then(res=>{
         console.log(res.data);
+        setAmountCmt(res.data.data.amountComment)
       })
       .catch(err=>{
         console.log(err.message);
@@ -64,6 +69,7 @@ function PostReply(props){
     }
   }
   
+console.log(amountCmt);
 
 
   return (
@@ -77,9 +83,11 @@ function PostReply(props){
         <input className="reply-type-box" type="text" placeholder="Viết bình luận..."
           autoFocus
           value={inputComment}
-          onChange={onChangeInput}/>
+          onChange={onChangeInput}
+          />
         <button className={inputComment.trim().length>0?"reply-send-btn active":"reply-send-btn hide"}
-          onClick={()=>{postComment()}}>Bình luận</button>
+          onClick={()=>{postComment()}}
+          >Bình luận</button>
         <button className="reply-send-btn" onClick={closeReplyBox}>Hủy</button>
       </div>
       

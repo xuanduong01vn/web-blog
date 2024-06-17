@@ -1,7 +1,7 @@
 import styled from "styled-components";
 import React, {useEffect, useState } from "react";
 import axios from 'axios';
-import { format } from 'date-fns';
+import { format, longFormatters } from 'date-fns';
 import { vi } from 'date-fns/locale';
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
@@ -9,14 +9,17 @@ import {
 } from "@fortawesome/free-regular-svg-icons";
 
 import CommentItem from "./CommentItem.js";
+import ReplyItem from "./ReplyItem.js";
+import PostReply from "./PostReply.js";
 
 function PostComment(props){
 
   const {post}= props;
   const [inputComment, setInputComment] = useState('');
-  const [amountCmt, setAmountCmt] = useState(post.amountComment);
+  const [amountCmt, setAmountCmt] = useState(post?.amountComment);
   const [listComment, setListComment] = useState([]);
   const [listUser, setListUser] = useState([]);
+  const [idCmt, setIdCmt] = useState('');
   const [valueComment, setValueComment] = useState({
     content: '',
     idUser: '66669b9c646d48fe74ba397b',
@@ -28,10 +31,11 @@ function PostComment(props){
 
   console.log(amountCmt);
 
+  //lấy danh sách comment của bài viết
   useEffect(()=>{
     const getComments = async(req,res)=>{
       try {
-        const response = await axios.get(`http://localhost:9999/comments?idPost=${post._id}&idParent=${""}&sort=asc`);
+        const response = await axios.get(`http://localhost:9999/comments?idPost=${post._id}&sort=asc`);
         return response.data;
       } catch (err) {
         console.log(err.message);
@@ -46,6 +50,7 @@ function PostComment(props){
     })
   },[amountCmt]);
 
+  //lấy ra danh sách người dùng
   useEffect(()=>{
     const getUsers = async(req,res)=>{
       try {
@@ -64,6 +69,7 @@ function PostComment(props){
     })
   },[]);
 
+  //hàm lấy data người dùng theo comment
   function getInfoUser(id){
     return listUser.find(user=>user._id==id)
   }
@@ -76,16 +82,20 @@ function PostComment(props){
     })
   }
 
+  //hàm hủy tạo comment mới
   function cancelComment(){
     setInputComment('');
   }
 
+  //hàm xử lý thêm mới comment vào db
   function postComment(){
     if(inputComment.trim().length>0){
       setValueComment({
         ...valueComment,
         content: inputComment.trim(),
       })
+
+      //post comment mới lên db
       axios.post(`http://localhost:9999/comments`,valueComment)
       .then(res=>{
         cancelComment();
@@ -98,6 +108,7 @@ function PostComment(props){
         console.log(err.message);
       })
 
+      //update số lượng comment chủa bài viết
       axios.put(`http://localhost:9999/posts/${post._id}`,{amountComment: amountCmt+1})
       .then(res=>{
         console.log(res.data);
@@ -109,34 +120,15 @@ function PostComment(props){
     }
   }
 
-  function handleDeleteComment(idCmt){
-    axios.put(`http://localhost:9999/comments/${idCmt}`,{isDeleted: true})
-    .then(res=>{
-      setValueComment(res.data.data);
-      let index =listComment.findIndex(cmt=>cmt._id==idCmt);
-      listComment.splice(index, 1, valueComment);
-      console.log(listComment);
-      setListComment(listComment);
-      setValueComment({
-        content: '',
-        idUser: '66669b9c646d48fe74ba397b',
-        idPost: post._id,
-        createAt: new Date(),
-        idParent: '',
-        isDeleted: false,
-      });
-    })
-    .catch(err=>{
-      console.log(err.message);
-    })
+  console.log(listComment);
 
-    axios.put(`http://localhost:9999/posts/${post._id}`,{amountComment: listComment.filter(cmt=>cmt.isDeleted==false).length-1})
-    .then(res=>{
-      console.log(res.data);
-    })
-    .catch(err=>{
-      console.log(err.message);
-    })
+  //Xử lý mở input trả lời cmt
+  function handleOpenReply(param){
+    setIdCmt(param);
+  }
+
+  function handleCloseReply(param){
+    setIdCmt(param);
   }
 
   return(
@@ -163,10 +155,40 @@ function PostComment(props){
         :(listComment.length>0)?
           (
             <ul className="post-comment-list">
-              {listComment.map(comment=>(
-                <CommentItem post={amountCmt} comment={comment} 
-                author={getInfoUser(comment.idUser)}
-                deleteComment={()=>{handleDeleteComment(comment._id)}}/>
+              {listComment.filter(cmt=>cmt.idParent=="").map(comment=>(
+                <li key={comment._id} className="post-comment-item">
+                  <CommentItem post={amountCmt} comment={comment} 
+                  author={getInfoUser(comment.idUser)}
+                  openReply={handleOpenReply}/>
+                  {idCmt==comment?._id && 
+                  (<PostReply 
+                  parent={comment}
+                  post={post}
+                  closeReply={handleCloseReply}
+                  />)}
+                  <ul className="post-reply-list">
+                    {listComment.filter(cmt=>cmt.idParent!="" && cmt.idParent==comment._id).map(rep=>(
+                      
+                      <li key={rep._id} className="post-reply-item">
+                        <CommentItem post={amountCmt} comment={rep} 
+                        author={getInfoUser(rep.idUser)}
+                        openReply={handleOpenReply}/>
+                        {idCmt==rep?._id && 
+                        <PostReply
+                          onLoad
+                          parent={rep}
+                          post={post}
+                          closeReply={handleCloseReply}
+                        />
+                        }
+                        
+                      </li>
+                      
+                    ))}
+                  </ul>
+                </li>
+                
+                
               ))}
             
           </ul>
@@ -267,6 +289,36 @@ const Wrapper = styled.div`
     padding: 0;
     margin: 12px 0;
     width: 100%;
+  }
+
+  .post-comment-item{
+    border: 1px solid var(--shadow-color);
+    border-radius: 8px;
+    padding: 12px;
+    width: 100%;
+    box-sizing: border-box;
+    margin-bottom: 12px;
+  }
+
+  .post-reply-list{
+    list-style: none;
+    padding: 0 0 0 36px;
+    margin-top: 12px;
+    width: 100%;
+    box-sizing: border-box;
+  }
+
+  .post-reply-item{
+    border-top: 1px solid var(--shadow-color);
+    outline: none;
+    padding: 12px 0;
+    width: 100%;
+    box-sizing: border-box;
+  }
+
+  .reply-item-created{
+    display: flex;
+    align-items: center;
   }
 
 

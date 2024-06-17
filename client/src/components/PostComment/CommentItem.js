@@ -9,10 +9,12 @@ import ReplyItem from "./ReplyItem";
 
 function CommentItem(props){
 
-  const {comment, author, deleteComment, post} =props;
+  const {comment, author, deleteComment, post, openReply} =props;
   const [amountCmt, setAmountCmt] = useState(post);
-  const [classInput, setClassInput] = useState(null);
+  const [classInput, setClassInput] = useState('');
   const [activeReply, setActiveReply]=useState(false);
+  const [isDeletedPost, setIsDeletedPost]=useState(comment.isDeleted);
+  
   const [inputComment, setInputComment] = useState('');
   const [replies, setReplies] =useState([]);
   const [listUser, setListUser] =useState([]);
@@ -25,14 +27,23 @@ function CommentItem(props){
     isDeleted: false,
   });
 
+  
+
   console.log(amountCmt);
 
+  //hàm reload lại danh sách reply
+  function onReloadReplies(amount){
+    setAmountCmt(amount);
+  }
+
+  //khi 
   useEffect(()=>{
     if(comment.content.lenght>0){
       setInputComment(comment.content);
     }
   },[comment.content.lenght]);
 
+  //lấy ra danh dách reply của comment
   useEffect(()=>{
     const getReplies = async(req,res)=>{
       try {
@@ -49,8 +60,9 @@ function CommentItem(props){
     .catch(err=>{
       console.log(err.message);
     })
-  },[post.amountComment]);
+  },[amountCmt]);
 
+  //lấy danh sách tài khoản
   useEffect(()=>{
     const getUsers = async(req,res)=>{
       try {
@@ -69,27 +81,27 @@ function CommentItem(props){
     })
   },[]);
 
+  //lấy ra thông tin tài khoản
   function getInfoUser(id){
     return listUser.find(user=>user._id==id)
   }
 
-  function onReloadReplies(amount){
-    setAmountCmt(amount);
-  }
-  
+  //mở input tạo mới reply
   function openReplyBox(e){
-    if(activeReply==false)
-      setActiveReply(true);
+    openReply(comment._id)
   }
 
+  //đóng input tạo repy
   function closeReplyBox(e){
       setActiveReply(false);
   }
 
+  //lấy giá trị nhập vào mỗi khi thay đổi
   function onChangeValue(e){
     setInputComment(e.target.value);
   }
 
+  //hiển thị thời gian theo định dạng
   const now = new Date();
   function formatTime(time){  
     if(time?.length>0){
@@ -102,11 +114,13 @@ function CommentItem(props){
     }
   }
 
+  //mở input sửa comment
   function onEditComment(id){
     setClassInput(id);
     setInputComment(comment.content);
   }
 
+  //xử lý sửa comment
   function handleEditComment(idCmt){
     if(inputComment.length>0){
       axios.put(`http://localhost:9999/comments/${idCmt}`,{content: inputComment})
@@ -118,13 +132,43 @@ function CommentItem(props){
         console.log(err.message);
       })
     }
-    
   }
+
+  //hàm xử lý xóa comment bài viết
+  function handleDeleteComment(idCmt){
+    //hàm update comment chuyển sang trạng thái đã xóa
+    axios.put(`http://localhost:9999/comments/${idCmt}`,{isDeleted: true})
+    .then(res=>{
+      
+      setValueComment({
+        content: '',
+        idUser: '66669b9c646d48fe74ba397b',
+        idPost: post._id,
+        createAt: new Date(),
+        idParent: '',
+        isDeleted: false,
+      });
+    })
+    .catch(err=>{
+      console.log(err.message);
+    })
+
+    //update số lượng comment của bài viết
+    axios.put(`http://localhost:9999/posts/${post._id}`,{amountComment: amountCmt+1})
+    .then(res=>{
+      console.log(res.data);
+    })
+    .catch(err=>{
+      console.log(err.message);
+    })
+  }
+
+  console.log(isDeletedPost);
 
   return(
     <Wrapper>
-      {comment.isDeleted
-      ?(<li key={comment._id} className="post-comment-item">
+      {isDeletedPost
+      ?(<div key={comment._id} className="comment-item">
         <div className="comment-item-created">
             <img src={author?.avatar} 
             alt="" className="comment-item-user-avatar" />
@@ -136,9 +180,9 @@ function CommentItem(props){
           <div className="comment-item-content">
             <span style={{color:"var(--shadow-color)"}}>Bình luận này đã bị xóa!</span>
           </div>
-      </li>)
+      </div>)
       :(
-        <li key={comment._id} className="post-comment-item">
+        <div key={comment._id} className="comment-item">
           <div className="comment-item-created">
             <img src="https://www.vietnamfineart.com.vn/wp-content/uploads/2023/07/anh-avatar-dep-cho-con-gai-1.jpg" 
             alt="" className="comment-item-user-avatar" />
@@ -149,7 +193,7 @@ function CommentItem(props){
           </div>
           <div className="comment-item-content">
             {classInput==comment._id 
-            ?(<textarea autoFocus tabIndex={inputComment.length}
+            ?(<textarea autoFocus 
               className="comment-content-box"
               value={inputComment}
               onChange={e=>onChangeValue(e)}
@@ -168,7 +212,10 @@ function CommentItem(props){
                   Sửa
                 </button>
                 <button 
-                onClick={()=>{deleteComment()}} 
+                onClick={()=>{
+                  handleDeleteComment(comment._id);
+                  setIsDeletedPost(true);
+                }} 
                 className="comment-item-btn">
                   Xóa
                 </button>
@@ -190,19 +237,12 @@ function CommentItem(props){
             parent={comment} 
             openReply={closeReplyBox} 
             author={author}
-            post={post}
+            post={amountCmt}
             onLoad={onReloadReplies}/>}
           
-          <ul className="post-reply-list">
-          {replies.map(rep=>(
-            <ReplyItem 
-            key={rep._id}
-            reply={rep} 
-            user={getInfoUser(rep.idUser)}/>
-          ))}
-          </ul>
           
-        </li>
+          
+        </div>
       )  
       }
         
@@ -213,13 +253,8 @@ function CommentItem(props){
 export default CommentItem;
 
 const Wrapper = styled.div`
-  margin-bottom: 12px;
 
-  .post-comment-item{
-    border: 1px solid var(--shadow-color);
-    border-radius: 8px;
-    outline: none;
-    padding: 12px;
+  .comment-item{
     width: 100%;
     box-sizing: border-box;
   }
@@ -309,24 +344,4 @@ const Wrapper = styled.div`
     cursor: default;
   }
 
-  .post-reply-list{
-    list-style: none;
-    padding: 0 0 0 36px;
-    margin-top: 12px;
-    width: 100%;
-    box-sizing: border-box;
-  }
-
-  .post-reply-item{
-    border-top: 1px solid var(--shadow-color);
-    outline: none;
-    padding: 12px 0;
-    width: 100%;
-    box-sizing: border-box;
-  }
-
-  .reply-item-created{
-    display: flex;
-    align-items: center;
-  }
 `
