@@ -5,7 +5,6 @@ import { format } from 'date-fns';
 import { vi } from 'date-fns/locale';
 
 import PostReply from "./PostReply";
-import ReplyItem from "./ReplyItem";
 
 function CommentItem(props){
 
@@ -134,35 +133,6 @@ function CommentItem(props){
     }
   }
 
-  //hàm xử lý xóa comment bài viết
-  function handleDeleteComment(idCmt){
-    //hàm update comment chuyển sang trạng thái đã xóa
-    axios.put(`http://localhost:9999/comments/${idCmt}`,{isDeleted: true})
-    .then(res=>{
-      
-      setValueComment({
-        content: '',
-        idUser: '66669b9c646d48fe74ba397b',
-        idPost: post._id,
-        createAt: new Date(),
-        idParent: '',
-        isDeleted: false,
-      });
-    })
-    .catch(err=>{
-      console.log(err.message);
-    })
-
-    //update số lượng comment của bài viết
-    axios.put(`http://localhost:9999/posts/${post._id}`,{amountComment: amountCmt+1})
-    .then(res=>{
-      console.log(res.data);
-    })
-    .catch(err=>{
-      console.log(err.message);
-    })
-  }
-
   console.log(isDeletedPost);
 
   return(
@@ -213,7 +183,7 @@ function CommentItem(props){
                 </button>
                 <button 
                 onClick={()=>{
-                  handleDeleteComment(comment._id);
+                  deleteComment(comment._id);
                   setIsDeletedPost(true);
                 }} 
                 className="comment-item-btn">
@@ -232,13 +202,13 @@ function CommentItem(props){
             )
           }
           
-          {activeReply && 
+          {/* {activeReply && 
             <PostReply 
             parent={comment} 
             openReply={closeReplyBox} 
             author={author}
             post={amountCmt}
-            onLoad={onReloadReplies}/>}
+            />} */}
           
           
           

@@ -9,7 +9,6 @@ import {
 } from "@fortawesome/free-regular-svg-icons";
 
 import CommentItem from "./CommentItem.js";
-import ReplyItem from "./ReplyItem.js";
 import PostReply from "./PostReply.js";
 
 function PostComment(props){
@@ -120,6 +119,54 @@ function PostComment(props){
     }
   }
 
+  
+  function postReply(inputReply){
+    if(inputReply){
+
+      console.log(inputReply);
+      //post comment mới lên db
+      axios.post(`http://localhost:9999/comments`,inputReply)
+      .then(res=>{
+        console.log(res.data);
+      })
+      .catch(err=>{
+        console.log(err.message);
+      })
+
+      //update số lượng comment chủa bài viết
+      axios.put(`http://localhost:9999/posts/${post._id}`,{amountComment: amountCmt+1})
+      .then(res=>{
+        console.log(res.data);
+        setAmountCmt(res.data.data.amountComment);
+      })
+      .catch(err=>{
+        console.log(err.message);
+      })
+    }
+  }
+
+  //hàm xử lý xóa comment bài viết
+  function handleDeleteComment(idCmt){
+    //hàm update comment chuyển sang trạng thái đã xóa
+    axios.put(`http://localhost:9999/comments/${idCmt}`,{isDeleted: true})
+    .then(res=>{
+      
+    })
+    .catch(err=>{
+      console.log(err.message);
+    })
+
+    //update số lượng comment của bài viết
+    axios.put(`http://localhost:9999/posts/${post._id}`,{amountComment: amountCmt-1})
+    .then(res=>{
+      console.log(res.data.data);
+      setAmountCmt(res.data.data.amountComment);
+    })
+    .catch(err=>{
+      console.log(err.message);
+    })
+  }
+
   console.log(listComment);
 
   //Xử lý mở input trả lời cmt
@@ -159,9 +206,11 @@ function PostComment(props){
                 <li key={comment._id} className="post-comment-item">
                   <CommentItem post={amountCmt} comment={comment} 
                   author={getInfoUser(comment.idUser)}
-                  openReply={handleOpenReply}/>
+                  openReply={handleOpenReply}
+                  deleteComment={handleDeleteComment}/>
                   {idCmt==comment?._id && 
                   (<PostReply 
+                  postReply={postReply}  
                   parent={comment}
                   post={post}
                   closeReply={handleCloseReply}
@@ -171,14 +220,15 @@ function PostComment(props){
                       
                       <li key={rep._id} className="post-reply-item">
                         <CommentItem post={amountCmt} comment={rep} 
+                        deleteComment={handleDeleteComment}
                         author={getInfoUser(rep.idUser)}
                         openReply={handleOpenReply}/>
                         {idCmt==rep?._id && 
                         <PostReply
-                          onLoad
-                          parent={rep}
-                          post={post}
-                          closeReply={handleCloseReply}
+                        postReply={postReply}
+                        parent={comment}
+                        post={post}
+                        closeReply={handleCloseReply}
                         />
                         }
                         

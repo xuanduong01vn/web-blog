@@ -1,11 +1,12 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import styled from "styled-components";
 import axios from 'axios';
 
 function PostReply(props){
 
-  const {parent, closeReply, author, post, onLoad} = props;
+  const {parent, closeReply, post, postReply} = props;
   const [amountCmt, setAmountCmt] = useState(post?.amountComment);
+  const amountComment = useRef(post?.amountComment);
   const [activeReply, setActiveReply]=useState(true);
   const [inputComment, setInputComment] = useState('');
   const [valueComment, setValueComment] = useState({
@@ -35,41 +36,41 @@ function PostReply(props){
     setInputComment('');
   }
 
-  function postComment(){
-    if(inputComment.trim().length>0){
-      setValueComment({
-        ...valueComment,
-        content: inputComment.trim(),
-      })
+  // function postComment(){
+  //   if(inputComment.trim().length>0){
+  //     setValueComment({
+  //       ...valueComment,
+  //       content: inputComment.trim(),
+  //     })
 
-      axios.post(`http://localhost:9999/comments`,valueComment)
-      .then(res=>{
-        closeReply('');
-        cancelComment();
-        setValueComment({
-          ...valueComment,
-          content: '',
-        });
+  //     axios.post(`http://localhost:9999/comments`,valueComment)
+  //     .then(res=>{
+  //       closeReply('');
+  //       cancelComment();
+  //       setValueComment({
+  //         ...valueComment,
+  //         content: '',
+  //       });
 
-      })
-      .catch(err=>{
-        console.log(err.message);
-      })
+  //     })
+  //     .catch(err=>{
+  //       console.log(err.message);
+  //     })
 
-      onLoad(amountCmt + 1);
+  //     // onLoad(amountCmt + 1);
 
-      axios.put(`http://localhost:9999/posts/${parent.idPost}`,{amountComment: amountCmt + 1})
-      .then(res=>{
-        console.log(res.data);
-        setAmountCmt(res.data.data.amountComment)
-      })
-      .catch(err=>{
-        console.log(err.message);
-      })
-    }
-  }
+  //     axios.put(`http://localhost:9999/posts/${parent.idPost}`,{amountComment: amountComment.current + 1})
+  //     .then(res=>{
+  //       console.log(res.data);
+  //       setAmountCmt(res.data.data.amountComment)
+  //     })
+  //     .catch(err=>{
+  //       console.log(err.message);
+  //     })
+  //   }
+  // }
   
-console.log(amountCmt);
+  console.log(amountComment.current);
 
 
   return (
@@ -86,7 +87,11 @@ console.log(amountCmt);
           onChange={onChangeInput}
           />
         <button className={inputComment.trim().length>0?"reply-send-btn active":"reply-send-btn hide"}
-          onClick={()=>{postComment()}}
+          onClick={()=>{
+            postReply(valueComment);
+            console.log(valueComment);
+            closeReplyBox();
+          }}
           >Bình luận</button>
         <button className="reply-send-btn" onClick={closeReplyBox}>Hủy</button>
       </div>
