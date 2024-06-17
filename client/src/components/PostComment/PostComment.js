@@ -42,6 +42,7 @@ function PostComment(props){
     }
     getComments()
     .then(data=>{
+      setIdCmt('');
       setListComment(data);
     })
     .catch(err=>{
@@ -119,7 +120,6 @@ function PostComment(props){
     }
   }
 
-  
   function postReply(inputReply){
     if(inputReply){
       //post comment mới lên db

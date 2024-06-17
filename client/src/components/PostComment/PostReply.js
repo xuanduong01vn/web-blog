@@ -90,7 +90,6 @@ function PostReply(props){
           onClick={()=>{
             if(valueComment.content.trim().length>0){
               postReply(valueComment);
-              closeReplyBox();
             }
           }}
           >Bình luận</button>
