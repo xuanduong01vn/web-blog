@@ -11,11 +11,9 @@ function CommentItem(props){
   const {comment, author, deleteComment, post, openReply} =props;
   const [amountCmt, setAmountCmt] = useState(post);
   const [classInput, setClassInput] = useState('');
-  const [activeReply, setActiveReply]=useState(false);
   const [isDeletedPost, setIsDeletedPost]=useState(comment.isDeleted);
   
   const [inputComment, setInputComment] = useState('');
-  const [replies, setReplies] =useState([]);
   const [listUser, setListUser] =useState([]);
   const [valueComment, setValueComment] = useState({
     content: '',
@@ -41,25 +39,6 @@ function CommentItem(props){
       setInputComment(comment.content);
     }
   },[comment.content.lenght]);
-
-  //lấy ra danh dách reply của comment
-  useEffect(()=>{
-    const getReplies = async(req,res)=>{
-      try {
-        const response = await axios.get(`http://localhost:9999/comments?idParent=${comment._id}&sort=asc`);
-        return response.data;
-      } catch (err) {
-        console.log(err.message);
-      }
-    }
-    getReplies()
-    .then(data=>{
-      setReplies(data);
-    })
-    .catch(err=>{
-      console.log(err.message);
-    })
-  },[amountCmt]);
 
   //lấy danh sách tài khoản
   useEffect(()=>{
@@ -88,11 +67,6 @@ function CommentItem(props){
   //mở input tạo mới reply
   function openReplyBox(e){
     openReply(comment._id)
-  }
-
-  //đóng input tạo repy
-  function closeReplyBox(e){
-      setActiveReply(false);
   }
 
   //lấy giá trị nhập vào mỗi khi thay đổi

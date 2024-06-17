@@ -88,9 +88,10 @@ function PostReply(props){
           />
         <button className={inputComment.trim().length>0?"reply-send-btn active":"reply-send-btn hide"}
           onClick={()=>{
-            postReply(valueComment);
-            console.log(valueComment);
-            closeReplyBox();
+            if(valueComment.content.trim().length>0){
+              postReply(valueComment);
+              closeReplyBox();
+            }
           }}
           >Bình luận</button>
         <button className="reply-send-btn" onClick={closeReplyBox}>Hủy</button>

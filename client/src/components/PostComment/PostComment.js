@@ -122,8 +122,6 @@ function PostComment(props){
   
   function postReply(inputReply){
     if(inputReply){
-
-      console.log(inputReply);
       //post comment mới lên db
       axios.post(`http://localhost:9999/comments`,inputReply)
       .then(res=>{
