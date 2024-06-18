@@ -11,6 +11,7 @@ import {
   faUserGear,
   faUser,
   faHashtag,
+  faComment,
  } from '@fortawesome/free-solid-svg-icons';
 
  function DashboardLayout(){
@@ -96,6 +97,11 @@ import {
             </li>
           </ul>
           }
+        </li>
+        <li className="top-menu-item">
+          <a href="/dashboard/comments" className="menu-item-link">
+            <FontAwesomeIcon icon={faComment} />Bình luận
+          </a>
         </li>
         <li className="top-menu-item">
           <a href="/dashboard/tags" className="menu-item-link">
