@@ -65,10 +65,10 @@ function PostItem(props){
   var timeCreated;
   const now = new Date();
   if(now.getFullYear()== new Date(post.createAt).getFullYear()){
-    timeCreated= format(new Date(post.createAt), 'EEEE, dd MMM, HH:mm', { locale: vi });
+    timeCreated= format(new Date(post.createAt), 'HH:mm, EEEE, dd MMM', { locale: vi });
   }
   else{
-    timeCreated= format(new Date(post.createAt), 'EEEE, dd MMM yyyy, HH:mm', { locale: vi });
+    timeCreated= format(new Date(post.createAt), 'HH:mm, EEEE, dd MMM yyyy', { locale: vi });
   }
 
 

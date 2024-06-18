@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import React, {useState, useEffect, createContext } from "react";
+import React, {useState, useEffect, createContext, useRef } from "react";
 import axios from 'axios';
 import { useParams } from "react-router-dom";
 import { format } from 'date-fns';
@@ -27,11 +27,7 @@ function PostContent(props){
   const [author, setAuthor] = useState({});
   const [amountLiked, setAmountLiked] = useState(0);
   const [amountMarked, setAmountMarked] = useState(0);
-  const closedPopUp={display: 'none'};
-  const openedPopUp={display: 'absolute', zIndex: 99 };
-
-  const [openPopUp, setOpenPopUp] = useState("author-pop-up");
-
+  const [openPopUp, setOpenPopUp] = useState(false);
   const [liked, setLiked] = useState(false);
   const [marked, setMarked] = useState(false);
 
@@ -109,30 +105,42 @@ function PostContent(props){
     }
   }
 
-  //handle open popup edit delete post
-  const handleOpenPostPopUp=(e)=>{
-    openPopUp.includes(" opened")
-      ?setOpenPopUp("author-pop-up")
-      :setOpenPopUp("author-pop-up opened");
-  }
-
-  const handleClosePopUp=(e)=>{
-  }
-
   var timeCreated;
   const now = new Date();
 
   if(postData.createAt?.length>0){
     if(now.getFullYear()== new Date(postData.createAt).getFullYear()){
-      timeCreated= format(new Date(postData.createAt), 'EEEE, dd MMM, HH:mm', { locale: vi });
+      timeCreated= format(new Date(postData.createAt), 'HH:mm, EEEE, dd MMM', { locale: vi });
     }
     else{
-      timeCreated= format(new Date(postData.createAt), 'EEEE, dd MMM yyyy, HH:mm', { locale: vi });
+      timeCreated= format(new Date(postData.createAt), 'HH:mm, EEEE, dd MMM yyyy', { locale: vi });
+    }
+  }
+
+
+  const popupRef = useRef(null);
+  const popupBtnRef = useRef(null);
+  //handle open popup edit delete post
+  const handleOpenPostPopUp=(e)=>{
+    if(popupBtnRef.current && popupBtnRef.current.contains(e.target)){
+      setOpenPopUp(!openPopUp);
     }
   }
   
-  document.addEventListener("click",handleClosePopUp);
+  useEffect(() => {
+    function handleClickOutside(e) {
+      if (popupRef.current && !popupRef.current.contains(e.target) && !popupBtnRef.current.contains(e.target)) {
+        setOpenPopUp(false);
+      }
+    }
 
+    document.addEventListener("mousedown", handleClickOutside);
+    
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, [openPopUp]);
+  
   return(
     <Wrapper>
       {(postData.isDeleted === true)
@@ -181,10 +189,10 @@ function PostContent(props){
                   {postData.title}
                 </h1>
                 <div className="author-action">
-                  <button onClick={handleOpenPostPopUp} className="author-action-btn">
+                  <button ref={popupBtnRef} onClick={(e)=>handleOpenPostPopUp(e)} className="author-action-btn">
                     <FontAwesomeIcon className="author-action-btn-icon" icon={faEllipsis} />
                   </button>
-                    <div className={openPopUp}>
+                    <div ref={popupRef} className={!openPopUp?"author-pop-up":"author-pop-up opened"}>
                       <ul className='author-pop-up-list'>
                         <li className='author-pop-up-item'>
                           <a href={`/post/${postData._id}/edit`} className="author-pop-up-link">

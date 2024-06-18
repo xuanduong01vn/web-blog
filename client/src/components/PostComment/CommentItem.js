@@ -58,9 +58,10 @@ function CommentItem(props){
     setInputComment(comment.content);
   }
 
+  //focus vào textarea và đặt vị trí con trỏ vào cuối văn bản
   useEffect(() => {
     if (classInput !== null && textareaRef.current) {
-      // Đặt tiêu điểm vào textarea và đặt vị trí con trỏ vào cuối văn bản
+      
       textareaRef.current.focus();
       const length = textareaRef.current.value.length;
       textareaRef.current.setSelectionRange(length, length);

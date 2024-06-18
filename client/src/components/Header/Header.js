@@ -36,23 +36,50 @@ function Header(){
       setOpenInput(false);
   }
 
+  const popupRefs = useRef({});
+  const btnRefs = useRef({});
 
-
-  function handleOpenPopUp(popup){
-    if(namePopup==popup){
-      setNamePopup(null);
-    }
-    else{
-      setNamePopup(popup);
+  function handleOpenPopUp(popup,e){
+    console.log(btnRefs.current[popup]);
+    if(btnRefs.current[popup].contains(e.target)){
+      setNamePopup(namePopup===popup?null:popup);
     }
   }
 
-  function handleOutsideClick(){
-    if(namePopup)
-      setNamePopup('');
-  };
+  // useEffect(() => {
+  //   function handleClickOutside(e) {
+  //     if (!popupRef.current.contains(e.target) && !btnRef.current.contains(e.target)) {
+  //       setNamePopup(null);
+  //     }
+  //   }
 
-  // document.addEventListener('click', handleOutsideClick);
+  //   document.addEventListener("mousedown", handleClickOutside);
+    
+  //   return () => {
+  //     document.removeEventListener("mousedown", handleClickOutside);
+  //   };
+  // }, [namePopup]);
+
+  useEffect(() => {
+    function handleClickOutside(e) {
+      Object.keys(popupRefs.current).forEach(popup => {
+        if (
+          popupRefs.current[popup] &&
+          !popupRefs.current[popup].contains(e.target) && 
+          btnRefs.current[popup] &&
+          btnRefs.current[popup].contains(e.target)
+        ) {
+          setNamePopup(null);
+        }
+      });
+    }
+
+    document.addEventListener('mousedown', handleClickOutside);
+
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+    };
+  }, []);
 
     return (    
         <Wrapper>
@@ -89,9 +116,9 @@ function Header(){
               </div> */}
               <div className="user-container">
                 <div className="user-container-item">
-                  <button onClick={()=>handleOpenPopUp("create")}  className="new-blog-btn user-btn">
+                  <button ref={el => (btnRefs.current['create'] = el)} onClick={(e)=>handleOpenPopUp("create",e)} className="new-blog-btn user-btn">
                     <FontAwesomeIcon icon={faPen} className='new-blog-icon user-container-icon'/>
-                      <div className={namePopup=="create"?"header-pop-up-open":"header-pop-up"}>
+                      <div ref={el => (popupRefs.current['create'] = el)} className={namePopup=="create"?"header-pop-up-open":"header-pop-up"}>
                         <ul className='header-pop-up-list'>
                           <li className='header-pop-up-item'>
                             <a href="/create/post" className="header-pop-up-link create-blog">
@@ -116,11 +143,11 @@ function Header(){
                   </button>
                 </div>
                 <div className="user-container-item">
-                  <button onClick={()=>handleOpenPopUp("user")} className="user-bar user-btn">
+                  <button ref={el => (btnRefs.current['user'] = el)} onClick={(e)=>handleOpenPopUp("user",e)} className="user-bar user-btn">
                     <img src="https://www.vietnamfineart.com.vn/wp-content/uploads/2023/07/anh-avatar-dep-cho-con-gai-1.jpg" 
                     alt="user avatar" className="user-image"/>
                     <p className="user-name">username</p>
-                      <div className={namePopup=="user"?"header-pop-up-open":"header-pop-up"}>
+                      <div ref={el => (popupRefs.current['user'] = el)} className={namePopup=="user"?"header-pop-up-open":"header-pop-up"}>
                       <ul className='header-pop-up-list'>
                         <li className='header-pop-up-item'>
                           <a href="/account/profile" className="header-pop-up-link user-profile">
@@ -308,6 +335,9 @@ const Wrapper = styled.div`
     margin-right: 18px;
     width: max-content;
     height: max-content;
+    height: 100%;
+    align-items: center;
+    display: flex;
   }
 
   .user-container-item:last-child{

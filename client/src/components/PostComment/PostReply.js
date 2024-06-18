@@ -36,43 +36,6 @@ function PostReply(props){
     setInputComment('');
   }
 
-  // function postComment(){
-  //   if(inputComment.trim().length>0){
-  //     setValueComment({
-  //       ...valueComment,
-  //       content: inputComment.trim(),
-  //     })
-
-  //     axios.post(`http://localhost:9999/comments`,valueComment)
-  //     .then(res=>{
-  //       closeReply('');
-  //       cancelComment();
-  //       setValueComment({
-  //         ...valueComment,
-  //         content: '',
-  //       });
-
-  //     })
-  //     .catch(err=>{
-  //       console.log(err.message);
-  //     })
-
-  //     // onLoad(amountCmt + 1);
-
-  //     axios.put(`http://localhost:9999/posts/${parent.idPost}`,{amountComment: amountComment.current + 1})
-  //     .then(res=>{
-  //       console.log(res.data);
-  //       setAmountCmt(res.data.data.amountComment)
-  //     })
-  //     .catch(err=>{
-  //       console.log(err.message);
-  //     })
-  //   }
-  // }
-  
-  console.log(amountComment.current);
-
-
   return (
     <Wrapper>
         <div className="post-reply-type-box">
