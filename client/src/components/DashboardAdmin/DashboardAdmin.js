@@ -1,6 +1,8 @@
 import styled from 'styled-components';
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
+import { format } from 'date-fns';
+import { vi } from 'date-fns/locale';
 
 function DashboardAdmin(){
   const [adminList, setAdminList] = useState(null);
@@ -29,6 +31,17 @@ function DashboardAdmin(){
     });
   },[]); 
 
+  const now= new Date();
+  function formatTime(time){
+    if(now.getFullYear()== new Date(time).getFullYear()){
+      return format(new Date(time), 'HH:mm, EEEE, dd MMM', { locale: vi });
+    }
+    else{
+      return format(new Date(time), 'HH:mm, EEEE, dd MMM yyyy', { locale: vi });
+    }
+    
+  }
+
   return (
     <Wrapper>
       <div className="dashboard-post-container">
@@ -48,6 +61,7 @@ function DashboardAdmin(){
         <table className="dashboard-post-table">
           <thead>
             <tr>
+              <th>#</th>
               <th>Tên tài khoản</th>
               <th>Tên hiển thị</th>
               <th>Email </th>
@@ -61,14 +75,15 @@ function DashboardAdmin(){
           {(stateAccount=="active") && (
             adminList?.filter(acc=>acc.isDeleted==false).map((acc, index)=>(
               <tr key={index}>
+                <td>{index+1}</td>
                 <td>@{acc.username} </td>
                 <td>{acc.fullname}</td>
                 <td>{acc.email}</td>
-                <td>{acc.createAt}</td>
+                <td>{formatTime(acc.createAt)}</td>
                 <td>
-                  <button className='detail-item-btn'>
+                  <a href="" className='detail-item-btn'>
                     Chi tiết
-                  </button>
+                  </a>
                 </td>
               </tr>
             ))
@@ -76,14 +91,15 @@ function DashboardAdmin(){
           {(stateAccount=="deleted") && (
             adminList?.filter(acc=>acc.isDeleted==true).map((acc, index)=>(
               <tr key={index}>
+                <td>{index+1}</td>
                 <td>@{acc.username} </td>
                 <td>{acc.fullname}</td>
                 <td>{acc.email}</td>
-                <td>{acc.createAt}</td>
+                <td>{formatTime(acc.createAt)}</td>
                 <td>
-                  <button className='detail-item-btn'>
+                  <a href="" className='detail-item-btn'>
                     Chi tiết
-                  </button>
+                  </a>
                 </td>
               </tr>
             ))
@@ -91,14 +107,15 @@ function DashboardAdmin(){
           {(stateAccount=="all") && (
             adminList?.map((acc, index)=>(
               <tr key={index}>
+                <td>{index+1}</td>
                 <td>@{acc.username} </td>
                 <td>{acc.fullname}</td>
                 <td>{acc.email}</td>
-                <td>{acc.createAt}</td>
+                <td>{formatTime(acc.createAt)}</td>
                 <td>
-                  <button className='detail-item-btn'>
+                  <a href="" className='detail-item-btn'>
                     Chi tiết
-                  </button>
+                  </a>
                 </td>
               </tr>
             ))
@@ -181,18 +198,25 @@ const Wrapper = styled.div`
     background-color: var(--primary-color);
   }
 
-  thead th:nth-child(1),
-  thead th:nth-child(2),
-  thead th:nth-child(3){
-    width: 15%;
+  tr td:first-child{
+    text-align: center;
   }
 
-  thead th:nth-child(4){
-    width: 10%;
+  thead th:nth-child(1){
+    min-width: 60px;
+    box-sizing: border-box;
+  }
+
+  thead th:nth-child(2),
+  thead th:nth-child(3),
+  thead th:nth-child(4),
+  thead th:nth-child(5){
+    width: 25%;
   }
 
   thead th:last-child{
-    width: 60px;
+    min-width: 84px;
+    box-sizing: border-box;
   }
 
   .detail-item-btn{
@@ -201,6 +225,8 @@ const Wrapper = styled.div`
     border-radius: 8px;
     color: white;
     transition: var(--transition-time);
+    display: block;
+    width: max-content;
   }
 
   .detail-item-btn:hover{

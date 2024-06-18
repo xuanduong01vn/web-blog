@@ -1,6 +1,8 @@
 import styled from 'styled-components';
 import React, { useEffect, useState, useRef } from 'react';
 import axios from 'axios';
+import { format } from 'date-fns';
+import { vi } from 'date-fns/locale';
 
 function DashboardPost(){
 
@@ -57,7 +59,16 @@ function DashboardPost(){
     author = authorList.filter(account => postList.some(post => post.idAuthor === account._id));
     
   }
-  console.log(postList);
+
+  const now= new Date();
+  function formatTime(time){
+    if(now.getFullYear()== new Date(time).getFullYear()){
+      return format(new Date(time), 'HH:mm, EEEE, dd MMM', { locale: vi });
+    }
+    else{
+      return format(new Date(time), 'HH:mm, EEEE, dd MMM yyyy', { locale: vi });
+    }
+  }
 
   return (
     <Wrapper>
@@ -80,7 +91,8 @@ function DashboardPost(){
             <tr>
               <th>#</th>
               <th>Tiêu đề bài viết</th>
-              <th>Tác giả</th>
+              <th>Người viết</th>
+              <th>Ngày viết</th>
               <th>Trạng thái</th>
               <th></th>
             </tr>
@@ -94,6 +106,7 @@ function DashboardPost(){
                 <td>{index+1}</td>
                 <td>{post.title}</td>
                 <td>{author[index]?.username}</td>
+                <td>{formatTime(post.createAt)}</td>
                 <td>{post.isDeleted?`Đã xóa`:`Hoạt động`}</td>
                 <td>
                   <a href="" className='read-post-btn'>
@@ -110,6 +123,7 @@ function DashboardPost(){
                 <td>{index+1}</td>
                 <td>{post.title}</td>
                 <td>{author[index]?.username}</td>
+                <td>{formatTime(post.createAt)}</td>
                 <td>{post.isDeleted?`Đã xóa`:`Hoạt động`}</td>
                 <td>
                   <a href="" className='read-post-btn'>
@@ -126,9 +140,10 @@ function DashboardPost(){
                 <td>{index+1}</td>
                 <td>{post.title}</td>
                 <td>{author[index]?.username}</td>
+                <td>{formatTime(post.createAt)}</td>
                 <td>{post.isDeleted?`Đã xóa`:`Hoạt động`}</td>
                 <td>
-                  <a href="" className='read-post-btn'>
+                  <a href="" className='detail-item-btn'>
                     Chi tiết
                   </a>
                 </td>
@@ -221,11 +236,12 @@ const Wrapper = styled.div`
   }
 
   thead th:nth-child(1){
-    width: 32px;
+    width: 60px;
+    box-sizing: border-box;
   }
 
   thead th:nth-child(2){
-    width: 50%;
+    min-width: 50%;
   }
 
   thead th:nth-child(3){
@@ -233,7 +249,8 @@ const Wrapper = styled.div`
   }
 
   thead th:last-child{
-    width: 60px;
+    width: 84px;
+    box-sizing: border-box;
   }
 
   .detail-item-btn{
@@ -242,6 +259,8 @@ const Wrapper = styled.div`
     border-radius: 8px;
     color: white;
     transition: var(--transition-time);
+    display: block;
+    width: max-content;
   }
 
   .detail-item-btn:hover{

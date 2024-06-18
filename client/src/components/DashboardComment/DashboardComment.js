@@ -51,7 +51,6 @@ function DashboardComment(){
     });
   },[]); 
 
-  var timeCreate;
   const now= new Date();
   function formatTime(time){
     if(now.getFullYear()== new Date(time).getFullYear()){
@@ -60,10 +59,8 @@ function DashboardComment(){
     else{
       return format(new Date(time), 'HH:mm, EEEE, dd MMM yyyy', { locale: vi });
     }
-    
   }
   
-
   return (
     <Wrapper>
       <div className="dashboard-post-container">
@@ -82,6 +79,7 @@ function DashboardComment(){
         <table className="dashboard-post-table">
           <thead>
             <tr>
+              <th>#</th>
               <th>Nội dung bình luận</th>
               <th>Người bình luận</th>
               <th>Trạng thái</th>
@@ -95,14 +93,15 @@ function DashboardComment(){
           {(stateCmt=="active") && (
             cmtList?.filter(cmt=>cmt.isDeleted==false).map((cmt, index)=>(
               <tr key={index}>
+                <td>{index+1}</td>
                 <td>{cmt.content} </td>
                 <td>@{accList.find(acc=>acc._id==cmt.idUser)?.username}</td>
                 <td>{cmt.isDeleted?"Đã xóa":"Đang hoạt động"}</td>
                 <td>{formatTime(cmt.createAt)}</td>
                 <td>
-                  <button className='detail-item-btn'>
+                  <a href="" className='detail-item-btn'>
                     Chi tiết
-                  </button>
+                  </a>
                 </td>
               </tr>
             ))
@@ -110,14 +109,15 @@ function DashboardComment(){
           {(stateCmt=="deleted") && (
             cmtList?.filter(cmt=>cmt.isDeleted==true).map((cmt, index)=>(
               <tr key={index}>
+                <td>{index+1}</td>
                 <td>{cmt.content} </td>
                 <td>@{accList.find(acc=>acc._id==cmt.idUser)?.username}</td>
                 <td>{cmt.isDeleted?"Đã xóa":"Đang hoạt động"}</td>
                 <td>{formatTime(cmt.createAt)}</td>
                 <td>
-                  <button className='detail-item-btn'>
+                  <a href="" className='detail-item-btn'>
                     Chi tiết
-                  </button>
+                  </a>
                 </td>
               </tr>
             ))
@@ -125,14 +125,15 @@ function DashboardComment(){
           {(stateCmt=="all") && (
             cmtList?.map((cmt, index)=>(
               <tr key={index}>
+                <td>{index+1}</td>
                 <td>{cmt.content} </td>
                 <td>@{accList.find(acc=>acc._id==cmt.idUser)?.username}</td>
                 <td>{cmt.isDeleted?"Đã xóa":"Đang hoạt động"}</td>
                 <td>{formatTime(cmt.createAt)}</td>
                 <td>
-                  <button className='detail-item-btn'>
+                  <a href="" className='detail-item-btn'>
                     Chi tiết
-                  </button>
+                  </a>
                 </td>
               </tr>
             ))
@@ -215,20 +216,25 @@ const Wrapper = styled.div`
     background-color: var(--primary-color);
   }
 
-  thead th:nth-child(1){
-    width: 40%;
-  }
-  thead th:nth-child(2),
-  thead th:nth-child(3){
-    width: 15%;
+  tr td:first-child{
+    text-align: center;
   }
 
-  thead th:nth-child(4){
-    width: 20%;
+  thead th:nth-child(1){
+    min-width: 60px;
+    box-sizing: border-box;
+  }
+
+  thead th:nth-child(2),
+  thead th:nth-child(3),
+  thead th:nth-child(4),
+  thead th:nth-child(5){
+    width: 25%;
   }
 
   thead th:last-child{
-    width: 60px;
+    min-width: 84px;
+    box-sizing: border-box;
   }
 
   .detail-item-btn{
@@ -237,6 +243,8 @@ const Wrapper = styled.div`
     border-radius: 8px;
     color: white;
     transition: var(--transition-time);
+    display: block;
+    width: max-content;
   }
 
   .detail-item-btn:hover{
