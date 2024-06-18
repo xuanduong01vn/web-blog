@@ -3,16 +3,31 @@ import React, { useEffect, useState, useRef } from 'react';
 import axios from 'axios';
 import { format } from 'date-fns';
 import { vi } from 'date-fns/locale';
+import ReactPaginate from 'react-paginate';
+
+const itemsPerPage = 10;
 
 function DashboardPost(){
-
-
-  const [postList, setPostList] = useState(null);
-  const [authorList, setAuthorList] = useState(null);
+  const [postList, setPostList] = useState([]);
+  const [authorList, setAuthorList] = useState([]);
   const [statePost, setStatePost] = useState("all");
+  const [currentItems, setCurrentItems] = useState([]);
+  const [pageCount, setPageCount] = useState(0);
+  const [itemOffset, setItemOffset] = useState(0);
+  const [currentPosts, setCurrentPosts] = useState([]);
+  const [currentPage, setCurrentPage] = useState(0);
 
   function handleStatePost(state){
     setStatePost(state);
+    if(state=="all"){
+      setCurrentPosts(postList);
+    }else if(state=="deleted"){
+      setCurrentPosts(postList.filter(post=>post.isDeleted==true));
+    }else if(state=="active"){
+      setCurrentPosts(postList.filter(post=>post.isDeleted==false));
+    }
+    setCurrentPage(0);
+    setItemOffset(0);
   }
 
   useEffect(()=>{
@@ -28,11 +43,24 @@ function DashboardPost(){
     getDataPost()
     .then((data) => {
         setPostList(data || []);
+        setCurrentPosts(data);
     })
     .catch((err)=>{
       console.log(err.message);
     });
   },[]);  
+
+  useEffect(() => {
+    const endOffset = itemOffset + itemsPerPage;
+    setCurrentItems(currentPosts.slice(itemOffset, endOffset));
+    setPageCount(Math.ceil(currentPosts?.length / itemsPerPage));
+  }, [itemOffset, currentPosts, statePost]);
+
+  const handlePageClick = (e) => {
+    const newOffset = (e.selected * itemsPerPage) % postList.length;
+    setItemOffset(newOffset);
+    setCurrentPage(e.selected);
+  };
 
   useEffect(()=>{
     const getDataAuthor = async () => {
@@ -80,12 +108,18 @@ function DashboardPost(){
         
         <div className="dashboard-filter">
           <ul className="dashboard-filter-list">
-            <li onClick={()=>handleStatePost("all")} className={statePost=="all"?"dashboard-filter-item active":"dashboard-filter-item"} >Tất cả</li>
-            <li onClick={()=>handleStatePost("active")} className={statePost=="active"?"dashboard-filter-item active":"dashboard-filter-item"}>Đang hoạt động</li>
-            <li onClick={()=>handleStatePost("deleted")} className={statePost=="deleted"?"dashboard-filter-item active":"dashboard-filter-item"}>Đã xóa</li>
+            <li onClick={()=>handleStatePost("all")} 
+            className={statePost=="all"?"dashboard-filter-item active":"dashboard-filter-item"} 
+            >Tất cả {`(${postList?.length})`}</li>
+            <li onClick={()=>handleStatePost("active")} 
+            className={statePost=="active"?"dashboard-filter-item active":"dashboard-filter-item"}
+            >Đang hoạt động {`(${postList.filter(post=>post.isDeleted==false)?.length})`}</li>
+            <li onClick={()=>handleStatePost("deleted")} 
+            className={statePost=="deleted"?"dashboard-filter-item active":"dashboard-filter-item"}
+            >Đã xóa {`(${postList.filter(post=>post.isDeleted==true)?.length})`}</li>
           </ul>
         </div>
-        
+        <div className="data-table">
         <table className="dashboard-post-table">
           <thead>
             <tr>
@@ -99,14 +133,16 @@ function DashboardPost(){
           </thead>
           <tbody>
 
-          {(statePost=="active") && (
-            postList?.filter(post=>post.isDeleted==false).map((post,index) =>(
+          {currentItems.map((post,index) =>(
               <tr key={index}>
-                <td>{index+1}</td>
+                <td>{itemOffset+index+1}</td>
                 <td>{post.title}</td>
                 <td>{author[index]?.username}</td>
                 <td>{formatTime(post.createAt)}</td>
-                <td>{post.isDeleted?`Đã xóa`:`Hoạt động`}</td>
+                <td>{post.isDeleted?
+                  <span className="red-asterisk">Đã xóa</span>
+                  :<span className="success-alert">Đang hoạt động</span>}
+                </td>
                 <td>
                   <a href={`post/${post._id}`} className='detail-item-btn'>
                     Chi tiết
@@ -114,46 +150,33 @@ function DashboardPost(){
                 </td>
               </tr>
             ) )
-          )}
-
-          {(statePost=="deleted") && (
-            postList?.filter(post=>post.isDeleted==true).map((post,index) =>(
-              <tr key={index}>
-                <td>{index+1}</td>
-                <td>{post.title}</td>
-                <td>{author[index]?.username}</td>
-                <td>{formatTime(post.createAt)}</td>
-                <td>{post.isDeleted?`Đã xóa`:`Hoạt động`}</td>
-                <td>
-                  <a href={`post/${post._id}`} className='detail-item-btn'>
-                    Chi tiết
-                  </a>
-                </td>
-              </tr>
-            ) )
-          )
-          }
-          {(statePost=="all") &&(
-            postList?.map((post,index) =>(
-              <tr key={index}>
-                <td>{index+1}</td>
-                <td>{post.title}</td>
-                <td>{author[index]?.username}</td>
-                <td>{formatTime(post.createAt)}</td>
-                <td>{post.isDeleted?`Đã xóa`:`Hoạt động`}</td>
-                <td>
-                  <a href={`post/${post._id}`} className='detail-item-btn'>
-                    Chi tiết
-                  </a>
-                </td>
-              </tr>
-            ) )
-          )
           }
           </tbody>
-
-          
         </table>
+        </div>
+        {currentPosts.length>itemsPerPage &&
+        <ReactPaginate
+          nextLabel=">"
+          onPageChange={handlePageClick}
+          pageRangeDisplayed={5}
+          marginPagesDisplayed={2}
+          pageCount={pageCount}
+          previousLabel="<"
+          pageClassName="page-item"
+          pageLinkClassName="page-link"
+          previousClassName="page-item"
+          previousLinkClassName="page-link"
+          nextClassName="page-item"
+          nextLinkClassName="page-link"
+          breakLabel="..."
+          breakClassName="page-item"
+          breakLinkClassName="page-link"
+          containerClassName="pagination"
+          activeClassName="active"
+          forcePage={currentPage}
+          renderOnZeroPageCount={null}
+        />
+        }
       </div>
     </Wrapper>
   )
@@ -196,7 +219,10 @@ const Wrapper = styled.div`
   .post-state-filter{
     outline: none;
     padding: 4px 12px;
-    
+  }
+
+  .data-table{
+    min-height: 540px;
   }
 
   .dashboard-filter-item{
@@ -227,6 +253,10 @@ const Wrapper = styled.div`
   }
 
   th{
+    background-color: var(--primary-color);
+  }
+
+  tr:nth-child(even){
     background-color: var(--primary-color);
   }
 
@@ -264,7 +294,56 @@ const Wrapper = styled.div`
 
   .detail-item-btn:hover{
     background-color: var(--shadow-color); 
-    color: black;
+  }
+
+  .pagination {
+    display: flex;
+    justify-content: center;
+    list-style: none;
+    padding: 0;
+  }
+
+  .page-item {
+    margin: 0 5px;
+    border: 1px solid var(--shadow-color);
+    border-radius: 4px;
+
+    &:not(.disabled):hover{
+      border: 1px solid var(--hightlight-color);
+      opacity: 0.6;
+    }
+
+    &:not(.disabled):hover .page-link{
+      color: var(--hightlight-color);
+    }
+  }
+ 
+  .page-link{
+    padding: 4px 12px;
+    display: block;
+  }
+
+  .page-item.active {
+    background-color: var(--hightlight-color);
+    border: 1px solid var(--hightlight-color);
+
+    &:hover .page-link{
+      color: white;
+    }
+
+    & .page-link{
+      color: white;
+    }
+  }
+
+  .page-item.disabled {
+    cursor: default;
+    color: var(--shadow-color);
+
+    & .page-link{
+      cursor: default;
+      color: var(--shadow-color);
+    }
   }
 
 `

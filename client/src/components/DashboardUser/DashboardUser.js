@@ -3,13 +3,30 @@ import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { format } from 'date-fns';
 import { vi } from 'date-fns/locale';
+import ReactPaginate from 'react-paginate';
+
+const itemsPerPage = 10;
 
 function DashboardUser(){
-  const [adminList, setAdminList] = useState(null);
+  const [accList, setAccList] = useState([]);
   const [stateAccount, setStateAccount] = useState("all");
+  const [currentItems, setCurrentItems] = useState([]);
+  const [pageCount, setPageCount] = useState(0);
+  const [itemOffset, setItemOffset] = useState(0);
+  const [currentAccs, setCurrentAccs] = useState([]);
+  const [currentPage, setCurrentPage] = useState(0);
 
   function handleStateAccount(state){
     setStateAccount(state);
+    if(state=="all"){
+      setCurrentAccs(accList);
+    }else if(state=="deleted"){
+      setCurrentAccs(accList.filter(acc=>acc.isDeleted==true));
+    }else if(state=="active"){
+      setCurrentAccs(accList.filter(acc=>acc.isDeleted==false));
+    }
+    setCurrentPage(0);
+    setItemOffset(0);
   }
 
   useEffect(()=>{
@@ -24,12 +41,25 @@ function DashboardUser(){
     };
     getDataAdmin()
     .then((data) => {
-      setAdminList(data || []);
+      setAccList(data || []);
+      setCurrentAccs(data);
     })
     .catch((err)=>{
       console.log(err.message);
     });
   },[]); 
+
+  useEffect(() => {
+    const endOffset = itemOffset + itemsPerPage;
+    setCurrentItems(currentAccs.slice(itemOffset, endOffset));
+    setPageCount(Math.ceil(currentAccs?.length / itemsPerPage));
+  }, [itemOffset, currentAccs, stateAccount]);
+
+  const handlePageClick = (e) => {
+    const newOffset = (e.selected * itemsPerPage) % accList.length;
+    setItemOffset(newOffset);
+    setCurrentPage(e.selected);
+  };
 
   const now= new Date();
   function formatTime(time){
@@ -51,12 +81,19 @@ function DashboardUser(){
         
         <div className="dashboard-filter">
           <ul className="dashboard-filter-list">
-          <li onClick={()=>handleStateAccount("all")} className={stateAccount=="all"?"dashboard-filter-item active":"dashboard-filter-item"} >Tất cả</li>
-            <li onClick={()=>handleStateAccount("active")} className={stateAccount=="active"?"dashboard-filter-item active":"dashboard-filter-item"}>Đang hoạt động</li>
-            <li onClick={()=>handleStateAccount("deleted")} className={stateAccount=="deleted"?"dashboard-filter-item active":"dashboard-filter-item"}>Đã xóa</li>
+            <li onClick={()=>handleStateAccount("all")} 
+            className={stateAccount=="all"?"dashboard-filter-item active":"dashboard-filter-item"} 
+            >Tất cả {`(${accList?.length})`}</li>
+            <li onClick={()=>handleStateAccount("active")} 
+            className={stateAccount=="active"?"dashboard-filter-item active":"dashboard-filter-item"}
+            >Đang hoạt động {`(${accList.filter(acc=>acc.isDeleted==false)?.length})`}</li>
+            <li onClick={()=>handleStateAccount("deleted")} 
+            className={stateAccount=="deleted"?"dashboard-filter-item active":"dashboard-filter-item"}
+            >Đã xóa {`(${accList.filter(acc=>acc.isDeleted==true)?.length})`}</li>
           </ul>
         </div>
         
+        <div className="data-table">
         <table className="dashboard-post-table">
           <thead>
             <tr>
@@ -71,10 +108,9 @@ function DashboardUser(){
           <tbody>
 
           
-          {(stateAccount=="active") && (
-            adminList?.filter(acc=>acc.isDeleted==false).map((acc, index)=>(
+          {currentItems.map((acc, index)=>(
               <tr key={index}>
-                <td>{index+1}</td>
+                <td>{itemOffset+index+1}</td>
                 <td>@{acc.username} </td>
                 <td>{acc.fullname}</td>
                 <td>{acc.email}</td>
@@ -86,41 +122,35 @@ function DashboardUser(){
                 </td>
               </tr>
             ))
-          )}
-          {(stateAccount=="deleted") && (
-            adminList?.filter(acc=>acc.isDeleted==true).map((acc, index)=>(
-              <tr key={index}>
-                <td>{index+1}</td>
-                <td>@{acc.username} </td>
-                <td>{acc.fullname}</td>
-                <td>{acc.email}</td>
-                <td>{formatTime(acc.createAt)}</td>
-                <td>
-                  <a href={`user/${acc._id}`} className='detail-item-btn'>
-                    Chi tiết
-                  </a>
-                </td>
-              </tr>
-            ))
-          )}
-          {(stateAccount=="all") && (
-            adminList?.map((acc, index)=>(
-              <tr key={index}>
-                <td>{index+1}</td>
-                <td>@{acc.username} </td>
-                <td>{acc.fullname}</td>
-                <td>{acc.email}</td>
-                <td>{formatTime(acc.createAt)}</td>
-                <td>
-                  <a href={`user/${acc._id}`} className='detail-item-btn'>
-                    Chi tiết
-                  </a>
-                </td>
-              </tr>
-            ))
-          )}
+          }
           </tbody>
         </table>
+        </div>
+        
+
+        {currentAccs.length>itemsPerPage &&
+        <ReactPaginate
+          nextLabel=">"
+          onPageChange={handlePageClick}
+          pageRangeDisplayed={5}
+          marginPagesDisplayed={2}
+          pageCount={pageCount}
+          previousLabel="<"
+          pageClassName="page-item"
+          pageLinkClassName="page-link"
+          previousClassName="page-item"
+          previousLinkClassName="page-link"
+          nextClassName="page-item"
+          nextLinkClassName="page-link"
+          breakLabel="..."
+          breakClassName="page-item"
+          breakLinkClassName="page-link"
+          containerClassName="pagination"
+          activeClassName="active"
+          forcePage={currentPage}
+          renderOnZeroPageCount={null}
+        />
+        }
       </div>
     </Wrapper>
   )
@@ -160,6 +190,10 @@ const Wrapper = styled.div`
     background-color: var(--primary-color);
   }
 
+  .data-table{
+    min-height: 540px;
+  }
+
   .post-state-filter{
     outline: none;
     padding: 4px 12px;
@@ -197,6 +231,10 @@ const Wrapper = styled.div`
     background-color: var(--primary-color);
   }
 
+  tr:nth-child(even){
+    background-color: var(--primary-color);
+  }
+
   tr td:first-child{
     text-align: center;
   }
@@ -231,7 +269,56 @@ const Wrapper = styled.div`
 
   .detail-item-btn:hover{
     background-color: var(--shadow-color); 
-    color: black;
+  }
+
+  .pagination {
+    display: flex;
+    justify-content: center;
+    list-style: none;
+    padding: 0;
+  }
+
+  .page-item {
+    margin: 0 5px;
+    border: 1px solid var(--shadow-color);
+    border-radius: 4px;
+
+    &:not(.disabled):hover{
+      border: 1px solid var(--hightlight-color);
+      opacity: 0.6;
+    }
+
+    &:not(.disabled):hover .page-link{
+      color: var(--hightlight-color);
+    }
+  }
+ 
+  .page-link{
+    padding: 4px 12px;
+    display: block;
+  }
+
+  .page-item.active {
+    background-color: var(--hightlight-color);
+    border: 1px solid var(--hightlight-color);
+
+    &:hover .page-link{
+      color: white;
+    }
+
+    & .page-link{
+      color: white;
+    }
+  }
+
+  .page-item.disabled {
+    cursor: default;
+    color: var(--shadow-color);
+
+    & .page-link{
+      cursor: default;
+      color: var(--shadow-color);
+    }
   }
 
 `

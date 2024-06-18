@@ -2,13 +2,20 @@ import React, {useEffect, useState} from "react";
 import styled from 'styled-components';
 import axios from 'axios';
 import PostItem from "../PostItem/PostItem.js";
+import ReactPaginate from 'react-paginate';
 
+const itemsPerPage = 10;
 
 function PostList(props){
 
   const { idUser } = props;
-  const [postList, setPostList] = useState(null);
-  const [authorList, setAuthorList] = useState(null);
+  const [postList, setPostList] = useState([]);
+  const [authorList, setAuthorList] = useState([]);
+  const [currentItems, setCurrentItems] = useState([]);
+  const [pageCount, setPageCount] = useState(0);
+  const [itemOffset, setItemOffset] = useState(0);
+  const [currentPosts, setCurrentPosts] = useState([]);
+  const [currentPage, setCurrentPage] = useState(0);
 
   useEffect(()=>{
     const getDataPost = async () => {
@@ -24,6 +31,7 @@ function PostList(props){
     .then((data) => {
       if(!idUser){
         setPostList(data || []);
+        setCurrentPosts(data);
       }
       else{
         setPostList(data.filter((item)=>item.idAuthor==idUser));
@@ -33,6 +41,18 @@ function PostList(props){
       console.log(err.message);
     });
   },[]);  
+
+  useEffect(() => {
+    const endOffset = itemOffset + itemsPerPage;
+    setCurrentItems(currentPosts.slice(itemOffset, endOffset));
+    setPageCount(Math.ceil(currentPosts?.length / itemsPerPage));
+  }, [itemOffset, currentPosts]);
+
+  const handlePageClick = (e) => {
+    const newOffset = (e.selected * itemsPerPage) % postList.length;
+    setItemOffset(newOffset);
+    setCurrentPage(e.selected);
+  };
 
   useEffect(()=>{
     const getDataAuthor = async () => {
@@ -72,7 +92,7 @@ function PostList(props){
           {postList && postList.length>0 &&
           (<ul className="blog-list-box">
             {
-              postList.map((post, index)=>(
+              currentItems.map((post, index)=>(
                 <li key={post._id || index} className="blog-item">
                   <PostItem post={post} author={author.find(acc=>acc._id==post.idAuthor)}/>
                 </li>
@@ -81,6 +101,29 @@ function PostList(props){
             }
           </ul>
           )}
+        {currentPosts.length>itemsPerPage &&
+        <ReactPaginate
+          nextLabel=">"
+          onPageChange={handlePageClick}
+          pageRangeDisplayed={5}
+          marginPagesDisplayed={2}
+          pageCount={pageCount}
+          previousLabel="<"
+          pageClassName="page-item"
+          pageLinkClassName="page-link"
+          previousClassName="page-item"
+          previousLinkClassName="page-link"
+          nextClassName="page-item"
+          nextLinkClassName="page-link"
+          breakLabel="..."
+          breakClassName="page-item"
+          breakLinkClassName="page-link"
+          containerClassName="pagination"
+          activeClassName="active"
+          forcePage={currentPage}
+          renderOnZeroPageCount={null}
+        />
+        }
       </div>
     </Wrapper>
   )
@@ -118,6 +161,56 @@ const Wrapper = styled.div`
 
     &:last-child{
       margin-bottom: 0;
+    }
+  }
+
+  .pagination {
+    display: flex;
+    justify-content: center;
+    list-style: none;
+    padding: 0;
+  }
+
+  .page-item {
+    margin: 0 5px;
+    border: 1px solid var(--shadow-color);
+    border-radius: 4px;
+
+    &:not(.disabled):hover{
+      border: 1px solid var(--hightlight-color);
+      opacity: 0.6;
+    }
+
+    &:not(.disabled):hover .page-link{
+      color: var(--hightlight-color);
+    }
+  }
+ 
+  .page-link{
+    padding: 4px 12px;
+    display: block;
+  }
+
+  .page-item.active {
+    background-color: var(--hightlight-color);
+    border: 1px solid var(--hightlight-color);
+
+    &:hover .page-link{
+      color: white;
+    }
+
+    & .page-link{
+      color: white;
+    }
+  }
+
+  .page-item.disabled {
+    cursor: default;
+    color: var(--shadow-color);
+
+    & .page-link{
+      cursor: default;
+      color: var(--shadow-color);
     }
   }
 

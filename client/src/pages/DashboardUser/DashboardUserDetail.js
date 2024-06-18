@@ -12,7 +12,9 @@ function PageDashboardUserDetail(){
         <HeaderAdmin/>
         <div className="dashboard-admin-content">
           <DashboardLayout/>
-          <UserLayout/>
+          <div className="data-content">
+            <UserLayout/>
+          </div>
         </div>
       </div>
     </Wrapper>
@@ -32,6 +34,12 @@ width: 100vw;
   .dashboard-admin-content{
     width: 100%;
     display: flex;
+  }
+
+  .data-content{
+    width: 100%;
+    overflow-y: scroll;
+    height: calc(100vh - 60px);
   }
 
 `

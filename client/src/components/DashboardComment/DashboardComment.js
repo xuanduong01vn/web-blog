@@ -131,7 +131,10 @@ function DashboardComment(){
                 <td>{itemOffset+index+1}</td>
                 <td>{cmt.content} </td>
                 <td>@{accList.find(acc=>acc._id==cmt.idUser)?.username}</td>
-                <td>{cmt.isDeleted?<span className="red-asterisk">Đã xóa</span>:<span className="success-alert">Đang hoạt động</span>}</td>
+                <td>{cmt.isDeleted?
+                  <span className="red-asterisk">Đã xóa</span>
+                  :<span className="success-alert">Đang hoạt động</span>}
+                </td>
                 <td>{formatTime(cmt.createAt)}</td>
                 <td>
                   <a href="" className='detail-item-btn'>
@@ -145,7 +148,7 @@ function DashboardComment(){
         </table>
         
         </div>
-        {currentCmts.length>10 &&
+        {currentCmts.length>itemsPerPage &&
         <ReactPaginate
           nextLabel=">"
           onPageChange={handlePageClick}
@@ -285,7 +288,6 @@ const Wrapper = styled.div`
 
   .detail-item-btn:hover{
     background-color: var(--shadow-color); 
-    color: black;
   }
 
   .pagination {

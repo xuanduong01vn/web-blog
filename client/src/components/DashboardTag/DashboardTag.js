@@ -9,7 +9,7 @@ const items = Array.from({ length: 100 }, (_, i) => `Item ${i + 1}`);
 const itemsPerPage = 10;
 
 function DashboardTag(){
-  const [tagList, setTagList] = useState(null);
+  const [tagList, setTagList] = useState([]);
   const [stateTag, setStateTag] = useState("all");
   const [currentItems, setCurrentItems] = useState([]);
   const [pageCount, setPageCount] = useState(0);
@@ -87,9 +87,15 @@ function DashboardTag(){
         
         <div className="dashboard-filter">
           <ul className="dashboard-filter-list">
-          <li onClick={()=>handleStateTag("all")} className={stateTag=="all"?"dashboard-filter-item active":"dashboard-filter-item"} >Tất cả</li>
-            <li onClick={()=>handleStateTag("active")} className={stateTag=="active"?"dashboard-filter-item active":"dashboard-filter-item"}>Đang hoạt động</li>
-            <li onClick={()=>handleStateTag("deleted")} className={stateTag=="deleted"?"dashboard-filter-item active":"dashboard-filter-item"}>Đã xóa</li>
+            <li onClick={()=>handleStateTag("all")} 
+            className={stateTag=="all"?"dashboard-filter-item active":"dashboard-filter-item"} 
+            >Tất cả {`(${tagList?.length})`}</li>
+            <li onClick={()=>handleStateTag("active")} 
+            className={stateTag=="active"?"dashboard-filter-item active":"dashboard-filter-item"}
+            >Đang hoạt động {`(${tagList.filter(tag=>tag.isDeleted==false)?.length})`}</li>
+            <li onClick={()=>handleStateTag("deleted")} 
+            className={stateTag=="deleted"?"dashboard-filter-item active":"dashboard-filter-item"}
+            >Đã xóa {`(${tagList.filter(tag=>tag.isDeleted==true)?.length})`}</li>
           </ul>
         </div>
         <div className="data-table">
@@ -151,7 +157,7 @@ function DashboardTag(){
         </div>
         
 
-        {currentItems.length>1 &&
+        {currentTags.length>itemsPerPage &&
         <ReactPaginate
           nextLabel=">"
           onPageChange={handlePageClick}
@@ -256,6 +262,10 @@ const Wrapper = styled.div`
     background-color: var(--primary-color);
   }
 
+  tr:nth-child(even){
+    background-color: var(--primary-color);
+  }
+
   tr td:first-child{
     text-align: center;
   }
@@ -287,7 +297,6 @@ const Wrapper = styled.div`
 
   .detail-item-btn:hover{
     background-color: var(--shadow-color); 
-    color: black;
   }
 
   .pagination {

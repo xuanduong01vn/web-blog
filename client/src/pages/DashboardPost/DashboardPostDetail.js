@@ -17,7 +17,10 @@ function PageDashboardPostDetail(){
         <HeaderDashboard/>
         <div className="dashboard-admin-content">
           <DashboardLayout/>
-          <PostContent/>
+          <div className="data-content">
+            <PostContent/>
+          </div>
+          
         </div>
       </div>
 
@@ -38,6 +41,12 @@ const Wrapper = styled.div`
   .dashboard-admin-content{
     width: 100%;
     display: flex;
+  }
+
+  .data-content{
+    width: 100%;
+    overflow-y: scroll;
+    height: calc(100vh - 60px);
   }
 
 `
