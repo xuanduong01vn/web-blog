@@ -19,7 +19,9 @@ function User(){
   return(
     <Wrapper>
       <Header/>
+      <div className="content-section">
       <UserLayout onDataReceived={handleUserName}/>
+      </div>
       <Footer/>
     </Wrapper>
   )
@@ -28,5 +30,8 @@ function User(){
 export default User;
 
 const Wrapper = styled.div`
-
+  .content-section{
+    width: 100%;
+    margin-top: 60px;
+  }
 `

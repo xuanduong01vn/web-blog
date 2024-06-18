@@ -95,7 +95,7 @@ export default UserLayout;
 
 const Wrapper = styled.div`
   width: 100%;
-  margin-top: 80px;
+  margin-top: 20px;
   box-sizing: border-box;
   min-height: 560px;
 

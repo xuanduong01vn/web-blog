@@ -3,14 +3,32 @@ import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { format } from 'date-fns';
 import { vi } from 'date-fns/locale';
+import ReactPaginate from 'react-paginate';
+
+const itemsPerPage = 10;
 
 function DashboardComment(){
   const [cmtList, setCmtList] = useState([]);
   const [accList, setAccList] = useState([]);
   const [stateCmt, setStateCmt] = useState("all");
+  const [currentItems, setCurrentItems] = useState([]);
+  const [pageCount, setPageCount] = useState(0);
+  const [itemOffset, setItemOffset] = useState(0);
+  const [currentCmts, setCurrentCmts] = useState([]);
+  const [currentPage, setCurrentPage] = useState(0);
+
 
   function handleStateCmt(state){
     setStateCmt(state);
+    if(state=="all"){
+      setCurrentCmts(cmtList);
+    }else if(state=="deleted"){
+      setCurrentCmts(cmtList.filter(cmt=>cmt.isDeleted==true));
+    }else if(state=="active"){
+      setCurrentCmts(cmtList.filter(cmt=>cmt.isDeleted==false));
+    }
+    setCurrentPage(0);
+    setItemOffset(0);
   }
 
   useEffect(()=>{
@@ -26,11 +44,24 @@ function DashboardComment(){
     getDataCmt()
     .then((data) => {
       setCmtList(data || []);
+      setCurrentCmts(data);
     })
     .catch((err)=>{
       console.log(err.message);
     });
   },[]); 
+
+  useEffect(() => {
+    const endOffset = itemOffset + itemsPerPage;
+    setCurrentItems(currentCmts.slice(itemOffset, endOffset));
+    setPageCount(Math.ceil(currentCmts?.length / itemsPerPage));
+  }, [itemOffset, currentCmts, stateCmt]);
+
+  const handlePageClick = (e) => {
+    const newOffset = (e.selected * itemsPerPage) % cmtList.length;
+    setItemOffset(newOffset);
+    setCurrentPage(e.selected);
+  };
 
   useEffect(()=>{
     const getDataAcc = async () => {
@@ -70,12 +101,19 @@ function DashboardComment(){
         
         <div className="dashboard-filter">
           <ul className="dashboard-filter-list">
-          <li onClick={()=>handleStateCmt("all")} className={stateCmt=="all"?"dashboard-filter-item active":"dashboard-filter-item"} >Tất cả</li>
-            <li onClick={()=>handleStateCmt("active")} className={stateCmt=="active"?"dashboard-filter-item active":"dashboard-filter-item"}>Đang hoạt động</li>
-            <li onClick={()=>handleStateCmt("deleted")} className={stateCmt=="deleted"?"dashboard-filter-item active":"dashboard-filter-item"}>Đã xóa</li>
+            <li onClick={()=>handleStateCmt("all")} 
+              className={stateCmt=="all"?"dashboard-filter-item active":"dashboard-filter-item"}
+            >Tất cả {`(${cmtList?.length})`}</li>
+            <li onClick={()=>handleStateCmt("active")} 
+              className={stateCmt=="active"?"dashboard-filter-item active":"dashboard-filter-item"}
+            >Đang hoạt động {`(${cmtList.filter(cmt=>cmt.isDeleted==false)?.length})`}</li>
+            <li onClick={()=>handleStateCmt("deleted")} 
+              className={stateCmt=="deleted"?"dashboard-filter-item active":"dashboard-filter-item"}
+            >Đã xóa {`(${cmtList.filter(cmt=>cmt.isDeleted==true)?.length})`}</li>
           </ul>
         </div>
-        
+
+        <div className="data-table">
         <table className="dashboard-post-table">
           <thead>
             <tr>
@@ -88,15 +126,12 @@ function DashboardComment(){
             </tr>
           </thead>
           <tbody>
-
-          
-          {(stateCmt=="active") && (
-            cmtList?.filter(cmt=>cmt.isDeleted==false).map((cmt, index)=>(
+          {currentItems.map((cmt, index)=>(
               <tr key={index}>
-                <td>{index+1}</td>
+                <td>{itemOffset+index+1}</td>
                 <td>{cmt.content} </td>
                 <td>@{accList.find(acc=>acc._id==cmt.idUser)?.username}</td>
-                <td>{cmt.isDeleted?"Đã xóa":"Đang hoạt động"}</td>
+                <td>{cmt.isDeleted?<span className="red-asterisk">Đã xóa</span>:<span className="success-alert">Đang hoạt động</span>}</td>
                 <td>{formatTime(cmt.createAt)}</td>
                 <td>
                   <a href="" className='detail-item-btn'>
@@ -105,41 +140,34 @@ function DashboardComment(){
                 </td>
               </tr>
             ))
-          )}
-          {(stateCmt=="deleted") && (
-            cmtList?.filter(cmt=>cmt.isDeleted==true).map((cmt, index)=>(
-              <tr key={index}>
-                <td>{index+1}</td>
-                <td>{cmt.content} </td>
-                <td>@{accList.find(acc=>acc._id==cmt.idUser)?.username}</td>
-                <td>{cmt.isDeleted?"Đã xóa":"Đang hoạt động"}</td>
-                <td>{formatTime(cmt.createAt)}</td>
-                <td>
-                  <a href="" className='detail-item-btn'>
-                    Chi tiết
-                  </a>
-                </td>
-              </tr>
-            ))
-          )}
-          {(stateCmt=="all") && (
-            cmtList?.map((cmt, index)=>(
-              <tr key={index}>
-                <td>{index+1}</td>
-                <td>{cmt.content} </td>
-                <td>@{accList.find(acc=>acc._id==cmt.idUser)?.username}</td>
-                <td>{cmt.isDeleted?"Đã xóa":"Đang hoạt động"}</td>
-                <td>{formatTime(cmt.createAt)}</td>
-                <td>
-                  <a href="" className='detail-item-btn'>
-                    Chi tiết
-                  </a>
-                </td>
-              </tr>
-            ))
-          )}
+          }
           </tbody>
         </table>
+        
+        </div>
+        {currentCmts.length>10 &&
+        <ReactPaginate
+          nextLabel=">"
+          onPageChange={handlePageClick}
+          pageRangeDisplayed={5}
+          marginPagesDisplayed={2}
+          pageCount={pageCount}
+          previousLabel="<"
+          pageClassName="page-item"
+          pageLinkClassName="page-link"
+          previousClassName="page-item"
+          previousLinkClassName="page-link"
+          nextClassName="page-item"
+          nextLinkClassName="page-link"
+          breakLabel="..."
+          breakClassName="page-item"
+          breakLinkClassName="page-link"
+          containerClassName="pagination"
+          activeClassName="active"
+          forcePage={currentPage}
+          renderOnZeroPageCount={null}
+        />
+        }
       </div>
     </Wrapper>
   )
@@ -179,6 +207,10 @@ const Wrapper = styled.div`
     background-color: var(--primary-color);
   }
 
+  .data-table{
+    min-height: 540px;
+  }
+
   .post-state-filter{
     outline: none;
     padding: 4px 12px;
@@ -213,6 +245,10 @@ const Wrapper = styled.div`
   }
 
   th{
+    background-color: var(--primary-color);
+  }
+
+  tr:nth-child(even){
     background-color: var(--primary-color);
   }
 
@@ -252,4 +288,53 @@ const Wrapper = styled.div`
     color: black;
   }
 
+  .pagination {
+    display: flex;
+    justify-content: center;
+    list-style: none;
+    padding: 0;
+  }
+
+  .page-item {
+    margin: 0 5px;
+    border: 1px solid var(--shadow-color);
+    border-radius: 4px;
+
+    &:not(.disabled):hover{
+      border: 1px solid var(--hightlight-color);
+      opacity: 0.6;
+    }
+
+    &:not(.disabled):hover .page-link{
+      color: var(--hightlight-color);
+    }
+  }
+ 
+  .page-link{
+    padding: 4px 12px;
+    display: block;
+  }
+
+  .page-item.active {
+    background-color: var(--hightlight-color);
+    border: 1px solid var(--hightlight-color);
+
+    &:hover .page-link{
+      color: white;
+    }
+
+    & .page-link{
+      color: white;
+    }
+  }
+
+  .page-item.disabled {
+    cursor: default;
+    color: var(--shadow-color);
+
+    & .page-link{
+      cursor: default;
+      color: var(--shadow-color);
+    }
+  }
 `

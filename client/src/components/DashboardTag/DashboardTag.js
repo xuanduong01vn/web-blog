@@ -3,13 +3,31 @@ import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { format } from 'date-fns';
 import { vi } from 'date-fns/locale';
+import ReactPaginate from 'react-paginate';
+
+const items = Array.from({ length: 100 }, (_, i) => `Item ${i + 1}`);
+const itemsPerPage = 10;
 
 function DashboardTag(){
   const [tagList, setTagList] = useState(null);
   const [stateTag, setStateTag] = useState("all");
+  const [currentItems, setCurrentItems] = useState([]);
+  const [pageCount, setPageCount] = useState(0);
+  const [itemOffset, setItemOffset] = useState(0);
+  const [currentTags, setCurrentTags] = useState([]);
+  const [currentPage, setCurrentPage] = useState(0);
 
   function handleStateTag(state){
     setStateTag(state);
+    if(state=="all"){
+      setCurrentTags(tagList);
+    }else if(state=="deleted"){
+      setCurrentTags(tagList.filter(tag=>tag.isDeleted==true));
+    }else if(state=="active"){
+      setCurrentTags(tagList.filter(tag=>tag.isDeleted==false));
+    }
+    setCurrentPage(0);
+    setItemOffset(0);
   }
 
   useEffect(()=>{
@@ -24,12 +42,30 @@ function DashboardTag(){
     };
     getDataTag()
     .then((data) => {
-      setTagList(data || []);
+      setTagList(data);
+      setCurrentTags(data);
     })
     .catch((err)=>{
       console.log(err.message);
     });
   },[]); 
+
+  
+
+  console.log(currentTags);
+
+  useEffect(() => {
+    const endOffset = itemOffset + itemsPerPage;
+    
+    setCurrentItems(currentTags.slice(itemOffset, endOffset));
+    setPageCount(Math.ceil(currentTags?.length / itemsPerPage));
+  }, [itemOffset, currentTags, stateTag]);
+
+  const handlePageClick = (e) => {
+    const newOffset = (e.selected * itemsPerPage) % tagList.length;
+    setItemOffset(newOffset);
+    setCurrentPage(e.selected);
+  };
 
   const now= new Date();
   function formatTime(time){
@@ -45,7 +81,7 @@ function DashboardTag(){
     <Wrapper>
       <div className="dashboard-post-container">
         <div className="dashboard-add-new">
-          <h3>Người dùng</h3>
+          <h3>Quản lý tag</h3>
           {/* <a href="/dashboard/new-admin" target="_blank" className="dashboard-new-btn">Thêm mới</a> */}
         </div>
         
@@ -56,7 +92,7 @@ function DashboardTag(){
             <li onClick={()=>handleStateTag("deleted")} className={stateTag=="deleted"?"dashboard-filter-item active":"dashboard-filter-item"}>Đã xóa</li>
           </ul>
         </div>
-        
+        <div className="data-table">
         <table className="dashboard-post-table">
           <thead>
             <tr>
@@ -68,12 +104,10 @@ function DashboardTag(){
             
           </thead>
           <tbody>
-
-          
-          {(stateTag=="active") && (
-            tagList?.filter(tag=>tag.isDeleted==false).map((tag, index)=>(
+          {
+            currentItems.map((tag, index)=>(
               <tr key={index}>
-                <td>{index+1}</td>
+                <td>{itemOffset+index+1}</td>
                 <td>{tag.nameTag}</td>
                 <td>{formatTime(tag.createAt)}</td>
                 <td>
@@ -83,9 +117,9 @@ function DashboardTag(){
                 </td>
               </tr>
             ))
-          )}
-          {(stateTag=="deleted") && (
-            tagList?.filter(tag=>tag.isDeleted==true).map((tag, index)=>(
+          }
+          {/* {(stateTag=="deleted") && (
+            currentItems.map((tag, index)=>(
               <tr key={index}>
                 <td>{index+1}</td>
                 <td>{tag.nameTag}</td>
@@ -99,7 +133,7 @@ function DashboardTag(){
             ))
           )}
           {(stateTag=="all") && (
-            tagList?.map((tag, index)=>(
+            currentItems.map((tag, index)=>(
               <tr key={index}>
                 <td>{index+1}</td>
                 <td>{tag.nameTag}</td>
@@ -111,9 +145,36 @@ function DashboardTag(){
                 </td>
               </tr>
             ))
-          )}
+          )} */}
           </tbody>
         </table>
+        </div>
+        
+
+        {currentItems.length>1 &&
+        <ReactPaginate
+          nextLabel=">"
+          onPageChange={handlePageClick}
+          pageRangeDisplayed={5}
+          marginPagesDisplayed={2}
+          pageCount={pageCount}
+          previousLabel="<"
+          pageClassName="page-item"
+          pageLinkClassName="page-link"
+          previousClassName="page-item"
+          previousLinkClassName="page-link"
+          nextClassName="page-item"
+          nextLinkClassName="page-link"
+          breakLabel="..."
+          breakClassName="page-item"
+          breakLinkClassName="page-link"
+          containerClassName="pagination"
+          activeClassName="active"
+          forcePage={currentPage}
+          renderOnZeroPageCount={null}
+        />
+        }
+        
       </div>
     </Wrapper>
   )
@@ -153,6 +214,10 @@ const Wrapper = styled.div`
     background-color: var(--primary-color);
   }
 
+  .data-table{
+    min-height: 540px;
+  }
+
   .post-state-filter{
     outline: none;
     padding: 4px 12px;
@@ -165,6 +230,7 @@ const Wrapper = styled.div`
     font-size: 18px;
     cursor: pointer;
     padding: 4px 12px;
+    max-height: max-content;
   }
 
   .dashboard-filter-item:hover{
@@ -222,6 +288,56 @@ const Wrapper = styled.div`
   .detail-item-btn:hover{
     background-color: var(--shadow-color); 
     color: black;
+  }
+
+  .pagination {
+    display: flex;
+    justify-content: center;
+    list-style: none;
+    padding: 0;
+  }
+
+  .page-item {
+    margin: 0 5px;
+    border: 1px solid var(--shadow-color);
+    border-radius: 4px;
+
+    &:not(.disabled):hover{
+      border: 1px solid var(--hightlight-color);
+      opacity: 0.6;
+    }
+
+    &:not(.disabled):hover .page-link{
+      color: var(--hightlight-color);
+    }
+  }
+ 
+  .page-link{
+    padding: 4px 12px;
+    display: block;
+  }
+
+  .page-item.active {
+    background-color: var(--hightlight-color);
+    border: 1px solid var(--hightlight-color);
+
+    &:hover .page-link{
+      color: white;
+    }
+
+    & .page-link{
+      color: white;
+    }
+  }
+
+  .page-item.disabled {
+    cursor: default;
+    color: var(--shadow-color);
+
+    & .page-link{
+      cursor: default;
+      color: var(--shadow-color);
+    }
   }
 
 `

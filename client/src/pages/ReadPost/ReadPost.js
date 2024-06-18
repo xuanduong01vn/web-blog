@@ -67,7 +67,9 @@ function ReadPost(){
           </div>
         </div>
         <Header/>
-        <PostContent onDataReceived={handlePost} onDeletePost={handleOpenPopup} onIsDeleted={post.isDeleted}/>
+        <div className="content-section">
+          <PostContent onDataReceived={handlePost} onDeletePost={handleOpenPopup} onIsDeleted={post.isDeleted}/>
+        </div>
         <Footer/>
       </div>
     </Wrapper>
@@ -142,5 +144,9 @@ const Wrapper = styled.div`
     border: 1px solid var(--hightlight-color);
     background: var(--hightlight-color);
     color: white;
+  }
+
+  .content-section{
+    margin-top: 80px;
   }
 `

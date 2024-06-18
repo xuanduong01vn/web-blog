@@ -240,7 +240,6 @@ const Wrapper = styled.div`
   width: 100%;
   display: flex;
   justify-content: center;
-  margin-top: 80px;
   padding-top: 40px;
   flex-wrap: wrap;
   box-sizing: border-box;

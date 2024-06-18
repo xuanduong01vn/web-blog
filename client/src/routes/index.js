@@ -15,6 +15,8 @@ import PageDashboardTag from '../pages/DashboardTag/DashboardTag.js';
 import AddNewAdmin from '../pages/AddNewAdmin/AddNewAdmin.js';
 import UpdatePost from '../pages/UpdatePost/UpdatePost.js';
 import PageDashboardComment from '../pages/DashboardComment/DashboardComment.js';
+import PageDashboardPostDetail from '../pages/DashboardPost/DashboardPostDetail.js';
+import PageDashboardUserDetail from '../pages/DashboardUser/DashboardUserDetail.js';
 
 const routes=[
   {path: "/", component: Home},
@@ -34,6 +36,8 @@ const routes=[
   {path: "/dashboard/tags", component: PageDashboardTag},
   {path: "/post/:id/edit", component: UpdatePost},
   {path: "/dashboard/comments", component: PageDashboardComment},
+  {path: "/dashboard/post/:id", component: PageDashboardPostDetail},
+  {path: "/dashboard/user/:id", component: PageDashboardUserDetail},
 
 ]
 

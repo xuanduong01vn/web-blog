@@ -45,7 +45,7 @@ function DashboardUser(){
     <Wrapper>
       <div className="dashboard-post-container">
         <div className="dashboard-add-new">
-          <h3>Người dùng</h3>
+          <h3>Quản lý người dùng</h3>
           {/* <a href="/dashboard/new-admin" target="_blank" className="dashboard-new-btn">Thêm mới</a> */}
         </div>
         
@@ -80,7 +80,7 @@ function DashboardUser(){
                 <td>{acc.email}</td>
                 <td>{formatTime(acc.createAt)}</td>
                 <td>
-                  <a href="" className='detail-item-btn'>
+                  <a href={`user/${acc._id}`} className='detail-item-btn'>
                     Chi tiết
                   </a>
                 </td>
@@ -96,7 +96,7 @@ function DashboardUser(){
                 <td>{acc.email}</td>
                 <td>{formatTime(acc.createAt)}</td>
                 <td>
-                  <a href="" className='detail-item-btn'>
+                  <a href={`user/${acc._id}`} className='detail-item-btn'>
                     Chi tiết
                   </a>
                 </td>
@@ -112,7 +112,7 @@ function DashboardUser(){
                 <td>{acc.email}</td>
                 <td>{formatTime(acc.createAt)}</td>
                 <td>
-                  <a href="" className='detail-item-btn'>
+                  <a href={`user/${acc._id}`} className='detail-item-btn'>
                     Chi tiết
                   </a>
                 </td>

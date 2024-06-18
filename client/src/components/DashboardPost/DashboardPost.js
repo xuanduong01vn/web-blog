@@ -99,7 +99,6 @@ function DashboardPost(){
           </thead>
           <tbody>
 
-          
           {(statePost=="active") && (
             postList?.filter(post=>post.isDeleted==false).map((post,index) =>(
               <tr key={index}>
@@ -109,7 +108,7 @@ function DashboardPost(){
                 <td>{formatTime(post.createAt)}</td>
                 <td>{post.isDeleted?`Đã xóa`:`Hoạt động`}</td>
                 <td>
-                  <a href="" className='read-post-btn'>
+                  <a href={`post/${post._id}`} className='detail-item-btn'>
                     Chi tiết
                   </a>
                 </td>
@@ -126,7 +125,7 @@ function DashboardPost(){
                 <td>{formatTime(post.createAt)}</td>
                 <td>{post.isDeleted?`Đã xóa`:`Hoạt động`}</td>
                 <td>
-                  <a href="" className='read-post-btn'>
+                  <a href={`post/${post._id}`} className='detail-item-btn'>
                     Chi tiết
                   </a>
                 </td>
@@ -143,7 +142,7 @@ function DashboardPost(){
                 <td>{formatTime(post.createAt)}</td>
                 <td>{post.isDeleted?`Đã xóa`:`Hoạt động`}</td>
                 <td>
-                  <a href="" className='detail-item-btn'>
+                  <a href={`post/${post._id}`} className='detail-item-btn'>
                     Chi tiết
                   </a>
                 </td>
