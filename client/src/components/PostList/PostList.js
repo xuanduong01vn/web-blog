@@ -29,12 +29,12 @@ function PostList(props){
     };
     getDataPost()
     .then((data) => {
+      setPostList(data || []);
       if(!idUser){
-        setPostList(data || []);
         setCurrentPosts(data);
       }
       else{
-        setPostList(data.filter((item)=>item.idAuthor==idUser));
+        setCurrentPosts(data.filter((item)=>item.idAuthor==idUser));
       }
     })
     .catch((err)=>{
@@ -44,7 +44,11 @@ function PostList(props){
 
   useEffect(() => {
     const endOffset = itemOffset + itemsPerPage;
-    setCurrentItems(currentPosts.slice(itemOffset, endOffset));
+    if(!idUser){
+      setCurrentItems(currentPosts.slice(itemOffset, endOffset));
+    }else{
+      setCurrentItems(currentPosts);
+    }
     setPageCount(Math.ceil(currentPosts?.length / itemsPerPage));
   }, [itemOffset, currentPosts]);
 
@@ -83,13 +87,8 @@ function PostList(props){
     <Wrapper>
       <div id="blog-list-container">
         
-          {postList && postList.length===0 &&
-          (  
-            <div className="blog-list-alert">
-              <span>Chưa có bài viết nào</span>
-            </div>
-          )}
-          {postList && postList.length>0 &&
+          {!currentPosts && <div></div>}
+          {currentPosts.length>0 &&
           (<ul className="blog-list-box">
             {
               currentItems.map((post, index)=>(
@@ -101,7 +100,13 @@ function PostList(props){
             }
           </ul>
           )}
-        {currentPosts.length>itemsPerPage &&
+          {currentPosts.length==0 &&
+          (  
+            <div className="blog-list-alert">
+              <span>Chưa có bài viết nào</span>
+            </div>
+          )}
+        {!idUser && currentPosts.length>itemsPerPage &&
         <ReactPaginate
           nextLabel=">"
           onPageChange={handlePageClick}

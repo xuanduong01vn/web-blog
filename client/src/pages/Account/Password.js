@@ -7,12 +7,14 @@ import React, { useEffect, useState } from "react";
 
 function Profile(){
   document.title="Change password";
+  const title="Đổi mật khẩu";
+
   return (
     <Wrapper>
       <Header/>
       <div className="account-container">
         <div className="account-layout">
-          <AccountNavbar/>
+          <AccountNavbar title={title}/>
           <PasswordSection/>
         </div>
       </div>

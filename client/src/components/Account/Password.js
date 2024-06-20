@@ -1,5 +1,6 @@
 import styled from "styled-components";
 import React, {useState, useEffect} from "react";
+import axios from 'axios';
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { 
   faEyeSlash,
@@ -7,8 +8,40 @@ import {
 } from '@fortawesome/free-solid-svg-icons';
 
 function Password(){
+
+  const id='66669b9c646d48fe74ba397b';
   const [hidePassword, setHidePassword] = useState(false);
-  const [typeInput, setTypeInput] = useState("password");
+  const [typeInput, setTypeInput] = useState("text");
+  const [userPwd, setUserPwd] = useState("");
+  const [inputPassword, setInputPassword]= useState({
+    currentPwd: '',
+    newPwd:'',
+    confirmPwd:'',
+  })
+
+  const [warning, setWarning]= useState(false);
+  const [success, setSuccess]= useState(false);
+
+
+  useEffect(()=>{
+    const getPassword= async (req,res)=>{
+      try {
+        const response = axios.get(`http://localhost:9999/accounts/${id}`);
+        return response;
+        
+      } catch (err) {
+        console.log(err.message);
+      }
+    }
+
+    getPassword()
+    .then(data=>{
+      setUserPwd(data.data.password);
+    })
+    .catch(err=>{
+      console.log(err.message);
+    })
+  },[userPwd]);
 
   function handleHidePassword(e){
     if(hidePassword==true){
@@ -21,6 +54,44 @@ function Password(){
     }
   }
 
+  function onChangValue(e){
+    if(e.target.value.trim().length>0){
+      setTypeInput("password");
+    }
+    
+    const {name, value}= e.target;
+    setInputPassword({
+      ...inputPassword,
+      [name]: value,
+    })
+  }
+
+  function cancelInput(){
+    setInputPassword({
+      currentPwd: '',
+      newPwd:'',
+      confirmPwd:'',
+    })
+  }
+
+  function handleChangePwd(){
+    if(inputPassword.currentPwd.trim()!=userPwd)
+      {
+        setWarning(true);
+      }
+      else{
+        setWarning(false);
+      }
+    if(inputPassword.currentPwd==userPwd && inputPassword.newPwd==inputPassword.confirmPwd)  
+      {
+        axios.put(`http://localhost:9999/accounts/${id}`,{password: inputPassword.newPwd.trim()})
+        setSuccess(true);
+        setTimeout(()=>{
+          setSuccess(false);
+        },3000)
+        cancelInput();
+      }
+  }
 
   return(
     <Wrapper>
@@ -31,7 +102,9 @@ function Password(){
             <span className="red-asterisk">* </span>Mật khẩu hiện tại
           </label>
           <div className="password-type-box">
-            <input type={typeInput} id="password-current" className="password-input" value={"xuanduong"}/>
+            <input autoComplete="off" type={typeInput} name="currentPwd" id="password-current" className="password-input" 
+            onChange={(e)=>onChangValue(e)}
+            value={inputPassword.currentPwd}/>
             <button className="hide-password-btn" 
             onClick={handleHidePassword}>
               {hidePassword ?
@@ -41,14 +114,16 @@ function Password(){
               }
             </button>
           </div>
-          
+          {warning && (<span className="warning-box">Sai mật khẩu hiện tại</span>)}
         </div>
         <div className="password-item">
           <label htmlFor="password-new">
             <span className="red-asterisk">* </span>Mật khẩu mới
           </label>
           <div className="password-type-box">
-            <input type={typeInput} id="password-new" className="password-input" value={"xuanduong"}/>
+            <input autoComplete="off" type={typeInput} name="newPwd" id="password-new" className="password-input" 
+            onChange={(e)=>onChangValue(e)}
+            value={inputPassword.newPwd}/>
             <button className="hide-password-btn" 
             onClick={handleHidePassword}>
               {hidePassword ?
@@ -58,13 +133,17 @@ function Password(){
               }
             </button>
           </div>
+          {inputPassword.newPwd.trim().length<6 
+          && (<span className="warning-box">Không được bỏ trống, mật khẩu phải có ít nhất 6 ký tự</span>)}
         </div>
         <div className="password-item">
           <label htmlFor="password-confirm">
             <span className="red-asterisk">* </span>Nhập lại mật khẩu mới
           </label>
           <div className="password-type-box">
-            <input type={typeInput} id="password-confirm" className="password-input" value={"xuanduong"}/>
+            <input autoComplete="off" type={typeInput} name="confirmPwd" id="password-confirm" className="password-input" 
+            onChange={(e)=>onChangValue(e)}
+            value={inputPassword.confirmPwd}/>
             <button className="hide-password-btn" 
             onClick={handleHidePassword}>
               {hidePassword ?
@@ -74,10 +153,16 @@ function Password(){
               }
             </button>
           </div>
+          {inputPassword.confirmPwd.length>0 && inputPassword.confirmPwd.trim()!=inputPassword.newPwd.trim()
+          && (<span className="warning-box">Không khớp mật khẩu mới</span>)}
+        </div>
+        <div className="password-item">
+          {success && (<span className="success-box">Đổi mật khẩu thành công</span>)}
+          
         </div>
         <div className="password-action">
-          <button className="password-btn">Hủy</button>
-          <button className="password-btn active">Lưu</button>
+          <button onClick={cancelInput} className="password-btn">Hủy</button>
+          <button onClick={handleChangePwd} className="password-btn active">Lưu</button>
         </div>
       </div>
     </Wrapper>
@@ -104,6 +189,7 @@ const Wrapper = styled.div`
 
   .password-item{
     margin-bottom: 20px;
+    position: relative;
   }
 
 
@@ -136,6 +222,19 @@ const Wrapper = styled.div`
     border: none;
     background-color: transparent;
     color: var(--shadow-color);
+  }
+
+  .warning-box{
+    position: absolute;
+    top: 100%;
+    font-size: 14px;
+    color: red;
+  }
+
+  .success-box{
+    position: absolute;
+    top: 100%;
+    color: green;
   }
 
   .password-action{

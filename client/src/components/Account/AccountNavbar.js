@@ -1,20 +1,14 @@
 import styled from "styled-components";
 import React, {useState, useEffect} from "react";
 
-function AccountNavbar(){
+function AccountNavbar(props){
 
-  const [activeItemNavbar, setActiveItemNavbar] = useState("account-navbar-item active");
-
-  function clickItemNavbar(){
-
-  }
+  const {title} =props;
 
   const navbarItems=[
     {path:"/account/profile", title: "Thông tin cá nhân"},
-    {path:"/account/password", title: "Mật khẩu"},
+    {path:"/account/password", title: "Đổi mật khẩu"},
   ]
-
-  const [selectedItem, setSelectedItem]=useState(0);
 
   const handleSelectNavbar=(e,index)=>{
     console.log(e.target.innerHTML); 
@@ -27,7 +21,7 @@ function AccountNavbar(){
         <ul className="account-navbar-list">
           {
             navbarItems.map((navbarItem, index)=>{
-                return  <li key={index} className="account-navbar-item">
+                return  <li key={index} className={navbarItem.title==title?`account-navbar-item active`:`account-navbar-item`}>
                           <a onClick={handleSelectNavbar} 
                           href={navbarItem.path} 
                           className="account-navbar-link">

@@ -4,6 +4,7 @@ import axios from 'axios';
 import { format } from 'date-fns';
 import { vi } from 'date-fns/locale';
 import ReactPaginate from 'react-paginate';
+import { useParams } from 'react-router-dom';
 
 const items = Array.from({ length: 100 }, (_, i) => `Item ${i + 1}`);
 const itemsPerPage = 10;
@@ -16,6 +17,7 @@ function DashboardTag(){
   const [itemOffset, setItemOffset] = useState(0);
   const [currentTags, setCurrentTags] = useState([]);
   const [currentPage, setCurrentPage] = useState(0);
+  const query = useParams();
 
   function handleStateTag(state){
     setStateTag(state);
@@ -33,7 +35,14 @@ function DashboardTag(){
   useEffect(()=>{
     const getDataTag = async () => {
       try {
-        const response = await axios.get("http://localhost:9999/tags");
+        var response;
+        if(query){
+          response = await axios.get(`http://localhost:9999/tags?page=${query}`);
+        }
+        else{
+          response = await axios.get(`http://localhost:9999/tags?page=1`);
+        }
+        
         return response.data;
       } catch (err) {
         console.log("Error fetching authors:", err.message);

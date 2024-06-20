@@ -7,12 +7,14 @@ import React, { useEffect, useState } from "react";
 
 function Profile(){
   document.title="Account profile";
+  const title="Thông tin cá nhân";
+  
   return (
     <Wrapper>
       <Header/>
       <div className="account-container">
         <div className="account-layout">
-          <AccountNavbar/>
+          <AccountNavbar title={title}/>
           <ProfileSection/>
         </div>
       </div>

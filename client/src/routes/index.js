@@ -34,6 +34,7 @@ const routes=[
   {path: "/dashboard/new-admin", component: AddNewAdmin},
   {path: "/dashboard/users", component: DashboardUser},
   {path: "/dashboard/tags", component: PageDashboardTag},
+  {path: "/dashboard/tags?page:query", component: PageDashboardTag},
   {path: "/post/:id/edit", component: UpdatePost},
   {path: "/dashboard/comments", component: PageDashboardComment},
   {path: "/dashboard/post/:id", component: PageDashboardPostDetail},
