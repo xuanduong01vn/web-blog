@@ -39,7 +39,7 @@ function AccountNavbar(props){
 export default AccountNavbar
 
 const Wrapper = styled.div`
-  width: 280px;
+  min-width: 220px;
   padding: 24px 20px 24px 0;
   box-sizing: border-box;
 

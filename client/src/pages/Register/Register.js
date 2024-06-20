@@ -92,8 +92,8 @@ function Register(){
   }
 
   function handleRegister(){
-    createAt = `${nowTime.getHours()+7}:${nowTime.getMinutes()} ${nowTime.getDate()}/${nowTime.getMonth()+1}/${nowTime.getFullYear()}`;
-    newInputAccount.createAt=createAt;
+    newInputAccount.createAt=new Date();
+    newInputAccount.birthday=new Date();
     setSamePassword(inputValue.password != inputValue.confirmPassword);
     if(inputValue.password.length>=6 && inputValue.confirmPassword!="" && inputValue.password == inputValue.confirmPassword && inputValue.username!="" && inputValue.email!="" && checked){
       axios.post(`http://localhost:9999/accounts/`,newInputAccount)

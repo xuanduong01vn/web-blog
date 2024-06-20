@@ -26,8 +26,8 @@ function Password(){
   useEffect(()=>{
     const getPassword= async (req,res)=>{
       try {
-        const response = axios.get(`http://localhost:9999/accounts/${id}`);
-        return response;
+        const response = await axios.get(`http://localhost:9999/accounts/${id}`);
+        return response.data;
         
       } catch (err) {
         console.log(err.message);
@@ -36,7 +36,7 @@ function Password(){
 
     getPassword()
     .then(data=>{
-      setUserPwd(data.data.password);
+      setUserPwd(data.password);
     })
     .catch(err=>{
       console.log(err.message);

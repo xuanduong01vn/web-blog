@@ -83,8 +83,8 @@ function NewAdmin(){
 
 
   function addNewAdmin(){
-    createAt = `${nowTime.getHours()+7}:${nowTime.getMinutes()} ${nowTime.getDate()}/${nowTime.getMonth()+1}/${nowTime.getFullYear()}`;
-    newInputAccount.createAt=createAt;
+    newInputAccount.createAt=new Date();
+    newInputAccount.birthday=new Date();
     setSamePassword(confirmPassword != inputPassword);
     if(inputPassword.length>=6 && confirmPassword !="" && confirmPassword == inputPassword && !sameAccount){
       axios.post(`http://localhost:9999/accounts/`,newInputAccount)
