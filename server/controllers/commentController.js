@@ -6,7 +6,7 @@ const commentController={
     try {
       let features= new APIfeatures(CommentModel.find(), req.query)
         .sorting()
-        .searching()
+        .search()
         .filtering();
       const allComments = await features.query;
       res.status(200).json(allComments);

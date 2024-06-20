@@ -5,7 +5,7 @@ export function APIfeatures(query, queryString){
 
   this.paginating = () => {
     const page = this.queryString.page * 1 || 1;
-    const limit = this.queryString.limit * 1 || 1000;
+    const limit = this.queryString.limit * 1 || 10;
     const skip = limit * (page - 1);
     this.query = this.query.limit(limit).skip(skip);
     return this;
@@ -21,7 +21,7 @@ export function APIfeatures(query, queryString){
 
   //this.query = Users.find().limit(limit).skip(skip).sort(sort)
 
-  this.searching = () => {
+  this.search = () => {
     const search = this.queryString.search;
     if(search){
       this.query = this.query.find({

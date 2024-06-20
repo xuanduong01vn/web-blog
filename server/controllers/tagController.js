@@ -6,8 +6,9 @@ const tagController ={
     try {
       let features= new APIfeatures(TagModel.find(), req.query)
         .sorting()
-        .searching()
-        .filtering();
+        .search()
+        .filtering()
+        .paginating();
       const allTags = await features.query;
       res.status(200).json(allTags);
     } catch (err) {

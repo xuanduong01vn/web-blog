@@ -6,7 +6,7 @@ const typeAccountController ={
     try {
       let features = new APIfeatures(typeAccountModel.find(), req.query)
         .sorting()
-        .searching()
+        .search()
         .filtering();
       const allTypeAccounts = await features.query;
       res.status(200).json(allTypeAccounts);

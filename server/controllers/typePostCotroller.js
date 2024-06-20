@@ -6,7 +6,7 @@ const typePostController = {
     try{
       let features = new APIfeatures(typePostModel.find(), req.query)
         .sorting()
-        .searching()
+        .search()
         .filtering();
       const allTypePosts = await features.query;
       res.status(200).json(allTypePosts);

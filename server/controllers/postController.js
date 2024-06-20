@@ -7,7 +7,7 @@ const postController ={
     try{
       let features = new APIfeatures(postModel.find(), req.query)
         .sorting()
-        .searching()
+        .search()
         .filtering();
 
       const allPosts = await features.query;

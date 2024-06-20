@@ -6,7 +6,7 @@ const accountController ={
     try{
       let features = new APIfeatures(accountModel.find(), req.query)
         .sorting()
-        .searching()
+        .search()
         .filtering();
       const allAccounts = await features.query;
       res.status(200).json(allAccounts);
