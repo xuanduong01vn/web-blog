@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import React, {useState, useEffect} from 'react';
+import React, {useState, useEffect, useRef} from 'react';
 import axios from 'axios';
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCamera,
@@ -8,8 +8,10 @@ import { faCamera,
 function Profile(){
 
   const id ="66669b9c646d48fe74ba397b";
+  const inputFileRef = useRef();
   const [user, setUser] = useState(null);
   const [loading, setLoading]= useState(true);
+  const [avatarImg, setAvatarImg] = useState(null);
 
   const [inputValue, setInputValue] = useState({
     fullname:'',
@@ -32,6 +34,7 @@ function Profile(){
         ...inputValue,
         fullname: res.fullname,
       })
+      setAvatarImg(res.avatar);
       setInputBirthday({
         yearSelect: new Date(res.birthday).getFullYear(),
         monthSelect: new Date(res.birthday).getMonth()+1,
@@ -139,15 +142,28 @@ function Profile(){
     })
   }
 
-  if(!loading){
+  function handleChooseFile(){
+    inputFileRef.current.click();
+  }
+
+  function onChangeFile(e){
+    console.log(e.target.files[0]);
+    setAvatarImg(URL.createObjectURL(e.target.files[0]));
+  }
+
     return(
       <Wrapper>
         <h2 className="profile-container-title">Thông tin cá nhân</h2>
-        <div className="profile-container">
+        {!loading && 
+          <div className="profile-container">
           <div className="profile-item">
-            <img src="https://www.vietnamfineart.com.vn/wp-content/uploads/2023/07/anh-avatar-dep-cho-con-gai-1.jpg"
-            alt="Ảnh đại diện" className="profile-avatar"/>
-            <button className="avatar-btn">
+            <div className="profile-avatar">
+              <img src={avatarImg}
+              alt="Ảnh đại diện" className="avatar-image"/>
+            </div>
+            <input ref={inputFileRef} className="avatar-input" type="file" 
+              onChange={(e)=>onChangeFile(e)}/>
+            <button onClick={handleChooseFile} className="avatar-btn" >
               <FontAwesomeIcon icon={faCamera} className="avatar-btn-icon"/>
             </button>
           </div>
@@ -202,10 +218,11 @@ function Profile(){
           </div>
           
         </div>
+        }
+        
       </Wrapper>
       
     )
-  }
     
 }
   
@@ -228,8 +245,8 @@ const Wrapper = styled.div`
   }
 
   .profile-item{
-    position: relative;
     margin-bottom: 20px;
+    position: relative;
   }
 
   .red-asterisk{
@@ -240,6 +257,13 @@ const Wrapper = styled.div`
     width: 200px;
     height: 200px;
     border-radius: 50%;
+    overflow: hidden;
+  }
+
+  .avatar-image{
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
   }
 
   .avatar-btn{
@@ -254,11 +278,18 @@ const Wrapper = styled.div`
     display: flex;
     justify-content: center;
     align-items: center;
+    padding: 0;
 
     svg{
+      position: absolute;
+      z-index: 12;
       height: 60%;
       color: var(--text-color);
     }
+  }
+
+  .avatar-input{
+    display: none;
   }
 
   label{
@@ -292,6 +323,7 @@ const Wrapper = styled.div`
     border: 1px solid var(--shadow-color);
     outline: none;
     margin-right: 12px;
+    text-align: left;
 
     &:focus{
       border: 1px solid var(--hightlight-color);

@@ -20,7 +20,7 @@ function User(){
     <Wrapper>
       <Header/>
       <div className="content-section">
-      <UserLayout onDataReceived={handleUserName}/>
+        <UserLayout onDataReceived={handleUserName}/>
       </div>
       <Footer/>
     </Wrapper>
@@ -32,6 +32,6 @@ export default User;
 const Wrapper = styled.div`
   .content-section{
     width: 100%;
-    margin-top: 60px;
+    margin-top: 80px;
   }
 `

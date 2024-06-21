@@ -40,8 +40,10 @@ function PostReply(props){
     <Wrapper>
         <div className="post-reply-type-box">
         <div className="reply-current-user">
-          <img src="https://www.vietnamfineart.com.vn/wp-content/uploads/2023/07/anh-avatar-dep-cho-con-gai-1.jpg" 
-          alt="" className="reply-current-user-avatar" />
+          <div className="reply-current-user-avatar">
+            <img src="https://www.vietnamfineart.com.vn/wp-content/uploads/2023/07/anh-avatar-dep-cho-con-gai-1.jpg" 
+            alt="user avatar" className="reply-current-user-image"/>
+          </div>
           <p className="reply-current-user-name">xuanduong</p>
         </div>
         <input className="reply-type-box" type="text" placeholder="Viết bình luận..."
@@ -92,6 +94,13 @@ const Wrapper = styled.div`
     width: 36px;
     border-radius: 50%; 
     margin-right: 12px;
+    overflow: hidden;
+  }
+
+  .reply-current-user-image{
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
   }
 
   .reply-current-user-name{

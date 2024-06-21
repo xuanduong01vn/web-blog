@@ -58,7 +58,9 @@ function UserLayout(props){
       <div className="user-layout">
         <div className="user-info-container">
           <div className="user-info-person">
-            <img src={useData?.avatar} alt="" className="user-info-avatar" />
+            <div className="user-info-avatar">
+              <img src={useData?.avatar} alt="user avatar" className="user-info-image"/>
+            </div>
             <div className="user-info-name">
               <p className="user-info-fullname">{useData?.fullname}</p>
               <p className="user-info-username">{useData?.username}</p>
@@ -114,13 +116,18 @@ const Wrapper = styled.div`
     align-items: center;
   }
 
-  
-
   .user-info-avatar{
     width: 160px;
     height: 160px;
     border-radius: 50%;
     margin-right: 24px;
+    overflow: hidden;
+  }
+
+  .user-info-image{
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
   }
 
   .user-info-fullname{

@@ -5,14 +5,9 @@ import {
   faChevronDown,
  } from '@fortawesome/free-solid-svg-icons';
 
-function AssetsLayout(){
+function AssetsLayout(props){
 
-  const [activeItemNavbar, setActiveItemNavbar] = useState("account-navbar-item active");
-
-  function clickItemNavbar(){
-
-  }
-
+  const {itemActive}=props;
   const [openNavbar, setOpenNavbar]= useState("account-navbar");
 
   const handleOpenNavbar =()=>{
@@ -29,7 +24,7 @@ function AssetsLayout(){
 
   const navbarItems=[
     {path:"/account/post", title: "Bài viết"},
-    {path:"/account/post", title: "Thùng rác"},
+    {path:"/account/deleted", title: "Thùng rác"},
     {path:"/account/marked", title: "Đã lưu"},
   ]
 
@@ -44,15 +39,17 @@ function AssetsLayout(){
       <div className={openNavbar}>
         <ul className="account-navbar-list">
           {
-            navbarItems.map((navbarItem, index)=>{
-                return  <li key={index} className="account-navbar-item">
-                          <a onClick={handleSelectNavbar} 
-                          href={navbarItem.path} 
-                          className="account-navbar-link">
-                            <span>{navbarItem.title}</span>
-                          </a>
-                        </li>
-            })
+            navbarItems.map((item, index)=>{
+              return  (<li key={index} className={itemActive==item.title?"account-navbar-item active":"account-navbar-item"}>
+                  <a onClick={handleSelectNavbar} 
+                  href={item.path} 
+                  className="account-navbar-link">
+                    <span>{item.title}</span>
+                  </a>
+                </li>)
+            }
+            )
+ 
           }
         </ul>
         <div onClick={handleOpenNavbar} className="down-menu-btn">
@@ -66,8 +63,9 @@ function AssetsLayout(){
 export default AssetsLayout
 
 const Wrapper = styled.div`
-  width: 280px;
+  min-width: 220px;
   padding: 0 20px 24px 0;
+  box-sizing: border-box;
 
   .account-navbar{
     width: 100%;
@@ -96,10 +94,10 @@ const Wrapper = styled.div`
   }
 
   .account-navbar-item.active{
-    background-color: var(--hightlight-color);
+    background-color: var(--primary-color);
    
     .account-navbar-link{
-      color: white;
+      color:var(--hightlight-color);
     }
   }
 

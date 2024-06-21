@@ -70,10 +70,10 @@ const Wrapper = styled.div`
   }
 
   .account-navbar-item.active{
-    background-color: var(--hightlight-color);
+    background-color: var(--primary-color);
    
     .account-navbar-link{
-      color: white;
+      color:var(--hightlight-color);
     }
   }
 

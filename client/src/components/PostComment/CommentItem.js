@@ -101,8 +101,10 @@ function CommentItem(props){
       :(
         <div key={comment._id} className="comment-item">
           <div className="comment-item-created">
-            <img src="https://www.vietnamfineart.com.vn/wp-content/uploads/2023/07/anh-avatar-dep-cho-con-gai-1.jpg" 
-            alt="" className="comment-item-user-avatar" />
+            <div className="comment-item-user-avatar">
+              <img src="https://www.vietnamfineart.com.vn/wp-content/uploads/2023/07/anh-avatar-dep-cho-con-gai-1.jpg" 
+              alt="user avatar" className="comment-item-user-image"/>
+            </div>
             <div className="comment-item-user-created">
               <a href={`/user/${comment.idUser}`} className="comment-item-username">{author?.username}</a>
               <span className="comment-item-created-time"> bình luận lúc {formatTime(comment.createAt)}</span>
@@ -185,21 +187,25 @@ const Wrapper = styled.div`
     align-items: center;
   }
 
-  .comment-item-user-avatar,
-  .reply-item-user-avatar{
+  .comment-item-user-avatar{
     height: 36px; 
     width: 36px;
     border-radius: 50%;
     margin-right: 12px;
+    overflow: hidden;
   }
 
-  .comment-item-user-created,
-  .reply-item-user-created{
+  .comment-item-user-image{
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  .comment-item-user-created{
     text-align: left;
   }
 
-  .comment-item-username,
-  .reply-item-username{
+  .comment-item-username{
     color: var(--hightlight-color);
     font-weight: 600;
 
@@ -208,26 +214,22 @@ const Wrapper = styled.div`
     }
   }
 
-  .comment-item-created-time,
-  .reply-item-created-time{
+  .comment-item-created-time{
     margin: 0;
     font-size: 14px;
   }
 
-  .comment-item-content p,
-  .reply-item-content p{
+  .comment-item-content p{
     text-align: left;
     font-size: 18px;
     margin: 4px 0;
   }
 
-  .comment-item-action,
-  .reply-item-action{
+  .comment-item-action{
     display: flex ;
   }
 
-  .comment-item-btn,
-  .reply-item-btn{
+  .comment-item-btn{
     background: none;
     border: none;
     outline: none;
@@ -236,13 +238,11 @@ const Wrapper = styled.div`
     margin-right: 12px;
   }
 
-  .comment-item-btn:hover,
-  .reply-item-btn:hover{
+  .comment-item-btn:hover{
     color: var(--hightlight-color);
   }
 
-  .comment-item-btn.active,
-  .reply-item-btn.active{
+  .comment-item-btn.active{
     color: var(--hightlight-color);
   }
 

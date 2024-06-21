@@ -78,8 +78,10 @@ function PostItem(props){
         <div className="post-item-user">
           <div className="post-item-author">
             <a href={`/user/${author?._id}`} className="post-item-author-info">
-              <img src={author?.avatar} 
-              alt="" className="post-author-avatar" />
+              <div className="post-author-avatar">
+                <img src={author?.avatar} 
+                alt="user avatar" className="post-author-image"/>
+              </div>
               <p className="post-author-name">{author?.username}</p>
             </a>
             <span className="post-item-author-create">{timeCreated}</span>
@@ -147,8 +149,15 @@ const Wrapper = styled.div`
       width: 32px;
       height: 32px;
       border-radius: 50%; 
-      margin-right: 12px;
+      margin-right: 6px;
+      overflow: hidden;
     }  
+    
+    .post-author-image{
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
 
     .post-author-name{
       margin: 0;

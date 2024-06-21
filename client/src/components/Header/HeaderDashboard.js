@@ -63,8 +63,10 @@ function HeaderAdmin(){
                 </div>
                 <div className="user-container-item">
                   <button onClick={()=>handleOpenPopUp("user")} className="user-bar user-btn">
-                    <img src="https://www.vietnamfineart.com.vn/wp-content/uploads/2023/07/anh-avatar-dep-cho-con-gai-1.jpg" 
-                    alt="user avatar" className="user-image"/>
+                    <div className="user-avatar">
+                      <img src="https://www.vietnamfineart.com.vn/wp-content/uploads/2023/07/anh-avatar-dep-cho-con-gai-1.jpg" 
+                      alt="user avatar" className="user-image"/>
+                    </div>
                     <p className="user-name">username</p>
                       <div className={namePopup=="user"?"header-pop-up-open":"header-pop-up"}>
                       <ul className='header-pop-up-list'>
@@ -318,11 +320,18 @@ const Wrapper = styled.div`
     padding-right: 0;
   }
 
-  .user-image{
+  .user-avatar{
     width: 36px;
     height: 36px;
     border-radius: 50%;
     margin-right: 6px;
+    overflow: hidden;
+  }
+
+  .user-image{
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
   }
 
   .user-name{

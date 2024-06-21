@@ -16,6 +16,8 @@ function Header(){
   const [searchText, setSearchText] = useState("");
 
   const inputRef = useRef();
+  const popupRefs = useRef({});
+  const btnRefs = useRef({});
 
   function handleSearchClick(text){
 
@@ -36,50 +38,47 @@ function Header(){
       setOpenInput(false);
   }
 
-  const popupRefs = useRef({});
-  const btnRefs = useRef({});
-
   function handleOpenPopUp(popup,e){
     console.log(btnRefs.current[popup]);
     if(btnRefs.current[popup].contains(e.target)){
-      setNamePopup(namePopup===popup?null:popup);
+      setNamePopup(namePopup==null?popup:null); 
     }
   }
 
-  // useEffect(() => {
-  //   function handleClickOutside(e) {
-  //     if (!popupRef.current.contains(e.target) && !btnRef.current.contains(e.target)) {
-  //       setNamePopup(null);
-  //     }
-  //   }
-
-  //   document.addEventListener("mousedown", handleClickOutside);
-    
-  //   return () => {
-  //     document.removeEventListener("mousedown", handleClickOutside);
-  //   };
-  // }, [namePopup]);
-
   useEffect(() => {
     function handleClickOutside(e) {
-      Object.keys(popupRefs.current).forEach(popup => {
-        if (
-          popupRefs.current[popup] &&
-          !popupRefs.current[popup].contains(e.target) && 
-          btnRefs.current[popup] &&
-          btnRefs.current[popup].contains(e.target)
-        ) {
+      var looped=0;
+      Object.keys(btnRefs.current).forEach(btn => {
+        console.log(btnRefs.current[btn]);
+        if(btnRefs.current[btn].contains(e.target)){
+          ++looped;
+          if(!namePopup){
+            setNamePopup(btn)
+          }
+          if(namePopup && namePopup!=btn){
+            setNamePopup(btn)
+          }
+          if(namePopup && namePopup==btn){
+            if(Object.keys(popupRefs.current).every(popup=>
+              !popupRefs.current[popup].contains(e.target)
+            )){
+              setNamePopup(null)
+            }
+            else{
+              setNamePopup(btn)
+            }
+          }
+        }
+        if(looped==0){
           setNamePopup(null);
         }
       });
     }
-
     document.addEventListener('mousedown', handleClickOutside);
-
     return () => {
       document.removeEventListener('mousedown', handleClickOutside);
     };
-  }, []);
+  }, [namePopup]);
 
     return (    
         <Wrapper>
@@ -116,7 +115,11 @@ function Header(){
               </div> */}
               <div className="user-container">
                 <div className="user-container-item">
-                  <button ref={el => (btnRefs.current['create'] = el)} onClick={(e)=>handleOpenPopUp("create",e)} className="new-blog-btn user-btn">
+                  <button ref={el => (btnRefs.current['create'] = el)} 
+                  // onClick={(e)=>{
+                  //   handleOpenPopUp("create",e);
+                  // }} 
+                  className="new-blog-btn user-btn">
                     <FontAwesomeIcon icon={faPen} className='new-blog-icon user-container-icon'/>
                       <div ref={el => (popupRefs.current['create'] = el)} className={namePopup=="create"?"header-pop-up-open":"header-pop-up"}>
                         <ul className='header-pop-up-list'>
@@ -143,9 +146,15 @@ function Header(){
                   </button>
                 </div>
                 <div className="user-container-item">
-                  <button ref={el => (btnRefs.current['user'] = el)} onClick={(e)=>handleOpenPopUp("user",e)} className="user-bar user-btn">
-                    <img src="https://www.vietnamfineart.com.vn/wp-content/uploads/2023/07/anh-avatar-dep-cho-con-gai-1.jpg" 
-                    alt="user avatar" className="user-image"/>
+                  <button ref={el => (btnRefs.current['user'] = el)} 
+                  // onClick={(e)=>{
+                  //   handleOpenPopUp("user",e);
+                  // }} 
+                  className="user-bar user-btn">
+                    <div className="user-avatar">
+                      <img src="https://www.vietnamfineart.com.vn/wp-content/uploads/2023/07/anh-avatar-dep-cho-con-gai-1.jpg" 
+                      alt="user avatar" className="user-image"/>
+                    </div>
                     <p className="user-name">username</p>
                       <div ref={el => (popupRefs.current['user'] = el)} className={namePopup=="user"?"header-pop-up-open":"header-pop-up"}>
                       <ul className='header-pop-up-list'>
@@ -402,11 +411,18 @@ const Wrapper = styled.div`
     padding-right: 0;
   }
 
-  .user-image{
+  .user-avatar{
     width: 36px;
     height: 36px;
     border-radius: 50%;
     margin-right: 6px;
+    overflow: hidden;
+  }
+
+  .user-image{
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
   }
 
   .user-name{

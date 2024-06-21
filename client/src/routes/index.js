@@ -6,6 +6,8 @@ import Profile from '../pages/Account/Profile.js';
 import Password from '../pages/Account/Password.js';
 import User from '../pages/User/User.js';
 import AccountPost from '../pages/Account/AccountPost.js';
+import AccountDeleted from '../pages/Account/AccountDeleted.js';
+import AccountMarked from '../pages/Account/AccountMarked.js';
 import CreatePost from '../pages/CreatePost/CreatePost.js';
 import HomeAdmin from '../pages/HomeAdmin/HomeAdmin.js';
 import DashboardPost from '../pages/DashboardPost/DashboardPost.js';
@@ -27,6 +29,8 @@ const routes=[
   {path: "/account/password", component: Password},
   {path: "/user/:id", component: User},
   {path: "/account/post", component: AccountPost},
+  {path: "/account/deleted", component: AccountDeleted},
+  {path: "/account/marked", component: AccountMarked},
   {path: "/create/post", component: CreatePost},
   {path: "/dashboard", component: HomeAdmin},
   {path: "/dashboard/posts", component: DashboardPost},

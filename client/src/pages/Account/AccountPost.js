@@ -5,14 +5,14 @@ import Footer from "../../components/Footer/Footer";
 import styled from "styled-components";
 import React, { useEffect, useState } from "react";
 
-function Profile(){
+function AccountPost(){
   document.title="My post";
   return (
     <Wrapper>
       <Header/>
       <div className="account-container">
         <div className="account-layout">
-          <AssetsLayout/>
+          <AssetsLayout itemActive={"Bài viết"}/>
           <AssetsPost/>
         </div>
       </div>
@@ -21,7 +21,7 @@ function Profile(){
   )
 }
 
-export default Profile;
+export default AccountPost;
 
 const Wrapper = styled.div`
 

@@ -10,7 +10,7 @@ import {
 }from '@fortawesome/free-solid-svg-icons';
 import AssetsItem from './AssetItem';
 
-function AssetsPost(){
+function AssetsDeleted(){
 
   const [noQuestion,setNoQuestion]=useState(false);
   const [posts, setPosts] = useState([]);
@@ -19,7 +19,7 @@ function AssetsPost(){
   useEffect(()=>{
     const getPost= async(req,res)=>{
       try {
-        const response = await axios.get(`http://localhost:9999/posts/?isDeleted=false`)
+        const response = await axios.get(`http://localhost:9999/posts/?isDeleted=true`)
         return response.data;
       } catch (err) {
         console.log(err.message);
@@ -55,10 +55,10 @@ function AssetsPost(){
   return (
     <Wrapper>
       <div className="post-list-container">
-      <h2 className="post-container-title">Bài viết</h2>
+      <h2 className="post-container-title">Thùng rác</h2>
       {noQuestion&&
         <div className="post-list-alert">
-          <span>Chưa có bài viết nào</span>
+          <span>Chưa có gì bị xóa</span>
         </div>
       }
 
@@ -77,7 +77,7 @@ function AssetsPost(){
   )
 }
 
-export default AssetsPost;
+export default AssetsDeleted;
 
 const Wrapper = styled.div`
   width: 100%;

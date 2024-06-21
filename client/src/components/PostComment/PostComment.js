@@ -181,8 +181,10 @@ function PostComment(props){
         </div>
         <div className="post-comment-type-box">
           <div className="comment-current-user">
-            <img src="https://www.vietnamfineart.com.vn/wp-content/uploads/2023/07/anh-avatar-dep-cho-con-gai-1.jpg" 
-            alt="" className="comment-current-user-avatar" />
+            <div className="comment-current-user-avatar">
+              <img src="https://www.vietnamfineart.com.vn/wp-content/uploads/2023/07/anh-avatar-dep-cho-con-gai-1.jpg" 
+              alt="user avatar" className="comment-current-user-image"/>
+            </div>
             <p className="comment-current-user-name">xuanduong</p>
           </div>
           <textarea className="comment-type-box" type="text" placeholder="Viết bình luận..."
@@ -287,11 +289,19 @@ const Wrapper = styled.div`
     margin-bottom: 8px;
     width: 100%;
   }
+
   .comment-current-user-avatar{
     height: 36px; 
     width: 36px;
     border-radius: 50%; 
     margin-right: 12px;
+    overflow: hidden;
+  }
+
+  .comment-current-user-image{
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
   }
 
   .comment-current-user-name{
