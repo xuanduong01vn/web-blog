@@ -49,7 +49,6 @@ function Header(){
     function handleClickOutside(e) {
       var looped=0;
       Object.keys(btnRefs.current).forEach(btn => {
-        console.log(btnRefs.current[btn]);
         if(btnRefs.current[btn].contains(e.target)){
           ++looped;
           if(!namePopup){

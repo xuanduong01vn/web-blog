@@ -7,7 +7,7 @@ import {
   faEye,
 } from '@fortawesome/free-solid-svg-icons';
 
-function Password(){
+function AccountPassword(){
 
   const id='66669b9c646d48fe74ba397b';
   const [hidePassword, setHidePassword] = useState(false);
@@ -169,7 +169,7 @@ function Password(){
   )
 }
 
-export default Password
+export default AccountPassword
 
 const Wrapper = styled.div`
   width: 100%;

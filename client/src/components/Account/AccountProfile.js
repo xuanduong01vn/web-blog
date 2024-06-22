@@ -5,19 +5,26 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCamera,
 } from '@fortawesome/free-solid-svg-icons';
 
-function Profile(){
+function AccountProfile(){
 
   const id ="66669b9c646d48fe74ba397b";
   const inputFileRef = useRef();
   const [user, setUser] = useState(null);
   const [loading, setLoading]= useState(true);
   const [avatarImg, setAvatarImg] = useState(null);
+  const [file, setFile] = useState(null);
+  const [message, setMessage] = useState('');
+  const fileInputRef = useRef(null);
 
   const [inputValue, setInputValue] = useState({
     fullname:'',
     birthday:'',
+    avatar: '',
   })
 
+  var newAvatar=inputValue.avatar;
+
+  //get data user
   useEffect(()=>{
     const getUser = async(req,res )=>{
       try {
@@ -33,6 +40,8 @@ function Profile(){
       setInputValue({
         ...inputValue,
         fullname: res.fullname,
+        birthday: res.birthday,
+        avatar: res.avatar,
       })
       setAvatarImg(res.avatar);
       setInputBirthday({
@@ -44,12 +53,12 @@ function Profile(){
     .catch(err=>{
       console.log(err.message);
     })
-    .finally(data=>{
+    .finally(()=>{
       setLoading(false);
     })
   },[]);
 
-  
+  //set ngay sinh hien tai cua user
   const [inputBirthday, setInputBirthday] = useState({
     yearSelect: new Date(user?.birthday).getFullYear(),
     monthSelect: new Date(user?.birthday).getMonth()+1,
@@ -100,7 +109,7 @@ function Profile(){
   for(let i=12;i>0;i--){
     months.unshift(i);
   }
-
+  //set lai select thang, ngay khi thay doi nam
   function onChangeYear(e){
     const{id, value}=e.target;
     setInputBirthday({
@@ -115,13 +124,12 @@ function Profile(){
       })
       setDatePerMonth(31);
     }
-    
   }
 
   for(let i=datePerMonth;i>0;i--){
     dates.unshift(i);
   }
-
+  //set lai gia tri input fullname khi input thay doi
   function onChangeValue(e){
     const {name, value}=e.target;
     setInputValue({
@@ -130,25 +138,79 @@ function Profile(){
     })
   }
 
-  function handleUPdateProfile(){
-    axios.put(`http://localhost:9999/accounts/${id}`,{...inputValue,
-    birthday: new Date(inputBirthday.yearSelect,inputBirthday.monthSelect-1,inputBirthday.dateSelect)
-    })
-    .then(res=>{
-      console.log(res.data);
-    })
-    .catch(err=>{
-      console.log(err.message);
-    })
-  }
-
+  //ham chon file
   function handleChooseFile(){
     inputFileRef.current.click();
   }
 
+  //ham thay doi file
   function onChangeFile(e){
-    console.log(e.target.files[0]);
-    setAvatarImg(URL.createObjectURL(e.target.files[0]));
+    const selectedFile = e.target.files[0];
+    setFile(selectedFile);
+    // setInputValue({
+    //   ...inputValue,
+    //   avatar: URL.createObjectURL(selectedFile),
+    // }
+    // );
+    setAvatarImg(URL.createObjectURL(selectedFile));
+  }
+
+  //ham upload file
+  // const onFileUpload = async () => {
+  //   if (!file) {
+  //     setMessage('No file selected');
+  //     return;
+  //   }
+  //   const formData = new FormData();
+  //   formData.append('file', file);
+
+  //   try {
+  //     const response = await axios.post(`http://localhost:9999/file/upload`, formData, {
+  //       headers: {
+  //         'Content-Type': 'multipart/form-data',
+  //       },
+  //     });
+  //     newAvatar = response.data.fileUrl;
+  //     console.log(newAvatar);
+  //   } catch (err) {
+  //     console.log('File upload failed');
+  //   }
+  // };
+
+  //hàm update profile user
+  async function handleUpdateProfile() {
+    newAvatar=inputValue.avatar;
+    if (file){
+      const formData = new FormData();
+      formData.append('file', file);
+      try {
+        const response = await axios.post(`http://localhost:9999/file/upload`, formData, {
+          headers: {
+            'Content-Type': 'multipart/form-data',
+          },
+        });
+        console.log(response.data);
+        newAvatar = response.data.fileUrl;
+      } catch (err) {
+        console.log(err.message,'File upload failed');
+      }
+    }
+    console.log(newAvatar);
+    axios.put(`http://localhost:9999/accounts/${id}`,{
+      fullname: inputValue.fullname,
+      birthday: new Date(inputBirthday.yearSelect,inputBirthday.monthSelect-1,inputBirthday.dateSelect),
+      avatar: newAvatar,
+    })
+    .then(res=>{
+      console.log(res.data);
+      setMessage("Cập nhật thành công")
+      setTimeout(()=>{
+        setMessage("")
+      },3000)
+    })
+    .catch(err=>{
+      console.log(err.message);
+    })
   }
 
     return(
@@ -212,9 +274,12 @@ function Profile(){
             value={user.birthday}
             onChange={e=>{onChangeValue(e)}}/> */}
           </div>
+          <div className="profile-item">
+            {message && <span className="success-alert">{message}</span>}
+          </div>
           <div className="profile-action">
             <button className="profile-btn">Hủy</button>
-            <button onClick={handleUPdateProfile} className="profile-btn active">Lưu</button>
+            <button onClick={handleUpdateProfile} className="profile-btn active">Lưu</button>
           </div>
           
         </div>
@@ -227,7 +292,7 @@ function Profile(){
 }
   
 
-export default Profile
+export default AccountProfile
 
 const Wrapper = styled.div`
   width: 100%;
@@ -251,6 +316,10 @@ const Wrapper = styled.div`
 
   .red-asterisk{
     color: red;
+  }
+
+  .success-alert{
+    position: absolute;
   }
 
   .profile-avatar{

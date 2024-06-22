@@ -1,4 +1,4 @@
-import PasswordSection from "../../components/Account/Password";
+import PasswordSection from "../../components/Account/AccountPassword";
 import Header from "../../components/Header/Header";
 import Footer from "../../components/Footer/Footer";
 import AccountNavbar from "../../components/Account/AccountNavbar";

@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faMagnifyingGlass,
           faPen,
@@ -10,17 +10,67 @@ import { faMagnifyingGlass,
 
 function HeaderAdmin(){
 
-  const [openPopUp, setOpenPopUp] = useState(true);
+  const [openInput, setOpenInput] = useState(false);
   const [namePopup, setNamePopup] = useState(null);
+  const [searchText, setSearchText] = useState("");
 
-  function handleOpenPopUp(popup){
-    if(namePopup==popup){
-      setNamePopup(null);
-    }
-    else{
-      setNamePopup(popup);
-    }
+  const inputRef = useRef();
+  const popupRefs = useRef({});
+  const btnRefs = useRef({});
+
+  function handleSearchClick(text){
+
   }
+
+  function onChangeValue(value){
+    console.log(value);
+  }
+
+  //handle open search box in mobile screen
+  const handleOpenSearchBox =()=>{
+    if(!openInput)
+      setOpenInput(true);
+  }
+  //handle close search box in mobile screen
+  const handleCloseSearchBox =()=>{
+    if(openInput)
+      setOpenInput(false);
+  }
+
+  useEffect(() => {
+    function handleClickOutside(e) {
+      var looped=0;
+      Object.keys(btnRefs.current).forEach(btn => {
+        console.log(btnRefs.current[btn]);
+        if(btnRefs.current[btn].contains(e.target)){
+          ++looped;
+          if(!namePopup){
+            setNamePopup(btn)
+          }
+          if(namePopup && namePopup!=btn){
+            setNamePopup(btn)
+          }
+          if(namePopup && namePopup==btn){
+            if(Object.keys(popupRefs.current).every(popup=>
+              !popupRefs.current[popup].contains(e.target)
+            )){
+              setNamePopup(null)
+            }
+            else{
+              setNamePopup(btn)
+            }
+          }
+        }
+        if(looped==0){
+          setNamePopup(null);
+        }
+      });
+    }
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+    };
+  }, [namePopup]);
 
     return (    
         <Wrapper>
@@ -35,9 +85,9 @@ function HeaderAdmin(){
               </div> 
               <div className="user-container">
                 <div className="user-container-item">
-                  <button onClick={()=>handleOpenPopUp("create")}  className="new-blog-btn user-btn">
+                  <button ref={el => (btnRefs.current['create'] = el)} className="new-blog-btn user-btn">
                     <FontAwesomeIcon icon={faPen} className='new-blog-icon user-container-icon'/>
-                      <div className={namePopup=="create"?"header-pop-up-open":"header-pop-up"}>
+                      <div ref={el => (popupRefs.current['create'] = el)} className={namePopup=="create"?"header-pop-up-open":"header-pop-up"}>
                         <ul className='header-pop-up-list'>
                           <li className='header-pop-up-item'>
                             <a href="/create/post" className="header-pop-up-link create-blog">
@@ -62,13 +112,13 @@ function HeaderAdmin(){
                   </button>
                 </div>
                 <div className="user-container-item">
-                  <button onClick={()=>handleOpenPopUp("user")} className="user-bar user-btn">
+                  <button ref={el => (btnRefs.current['user'] = el)} className="user-bar user-btn">
                     <div className="user-avatar">
                       <img src="https://www.vietnamfineart.com.vn/wp-content/uploads/2023/07/anh-avatar-dep-cho-con-gai-1.jpg" 
                       alt="user avatar" className="user-image"/>
                     </div>
                     <p className="user-name">username</p>
-                      <div className={namePopup=="user"?"header-pop-up-open":"header-pop-up"}>
+                      <div ref={el => (popupRefs.current['user'] = el)} className={namePopup=="user"?"header-pop-up-open":"header-pop-up"}>
                       <ul className='header-pop-up-list'>
                         <li className='header-pop-up-item'>
                           <a href="/account/profile" className="header-pop-up-link user-profile">
@@ -77,7 +127,7 @@ function HeaderAdmin(){
                         </li>
                         <li className='header-pop-up-item'>
                           <a href="/user" className="header-pop-up-link blog-manage">
-                            Hoạt động của bạn
+                            Trang hoạt động
                           </a>
                         </li>
                         <li className='header-pop-up-item'>

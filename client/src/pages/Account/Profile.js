@@ -1,4 +1,4 @@
-import ProfileSection from "../../components/Account/Profile.js";
+import ProfileSection from "../../components/Account/AccountProfile.js";
 import Header from "../../components/Header/Header.js";
 import Footer from "../../components/Footer/Footer.js";
 import AccountNavbar from "../../components/Account/AccountNavbar.js";

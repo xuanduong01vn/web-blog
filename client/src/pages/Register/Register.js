@@ -68,7 +68,7 @@ function Register(){
     idTypeAccount: 2,
     birthday: "",
     createAt: "",
-    avatar: "",
+    avatar: "http://localhost:9999/file/avatar-default.jpg",
     listLiked: [],
     listMarked: [],
     isDeleted: false
