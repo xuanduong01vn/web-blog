@@ -3,6 +3,8 @@ import express from 'express';
 import bodyParser from 'body-parser';
 import cors from 'cors';
 import morgan from 'morgan';
+import path from 'path';
+import { fileURLToPath } from 'url';
 import 'dotenv/config';
 
 import postRouter from './routers/postRouter.js';
@@ -11,6 +13,7 @@ import typePostRouter from './routers/typePostRouter.js';
 import typeAccountRouter from './routers/typeAccountRouter.js';
 import tagRouter from './routers/tagRouter.js';
 import commentRouter from './routers/commentRouter.js';
+import fileRouter from './routers/fileRouter.js';
 
 
 
@@ -29,11 +32,15 @@ mongoose.connect(`mongodb+srv://${process.env.MONGO_USERNAME}:${process.env.MONG
   .catch((err) => {
     console.log('Error connecting with error code:', err.message);
 });
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+console.log(__dirname);
 
+app.use(cors());
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
-app.use(cors("http://localhost:3001"));
 app.use(morgan("common"));
+app.use('/file', express.static('uploads'));
 
 app.use('/posts', postRouter);
 app.use('/accounts', accountRouter);
@@ -41,6 +48,7 @@ app.use('/type-post', typePostRouter);
 app.use('/type-account', typeAccountRouter);
 app.use('/tags', tagRouter);
 app.use('/comments', commentRouter);
+app.use('/file', fileRouter);
 
 
 app.listen(port, () => {
