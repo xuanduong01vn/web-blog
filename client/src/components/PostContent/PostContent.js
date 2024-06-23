@@ -170,7 +170,7 @@ function PostContent(props){
                         <FontAwesomeIcon icon={faStar}/>
                       </button>
                     :
-                      <button onClick={likePost} className="post-content-action-btn">
+                      <button onClick={likePost} className="post-content-action-btn active">
                         <FontAwesomeIcon icon={faStared}/>
                       </button>
                     }
@@ -180,7 +180,7 @@ function PostContent(props){
                         <FontAwesomeIcon icon={faBookmark}/>
                       </button>
                     :
-                      <button onClick={markPost} className="post-content-action-btn">
+                      <button onClick={markPost} className="post-content-action-btn active">
                         <FontAwesomeIcon icon={faBookmarked}/>
                       </button>
                     } 
@@ -366,6 +366,10 @@ const Wrapper = styled.div`
     svg{
       height: 100%;
     }
+  }
+
+  .post-content-action-btn.active{
+    color: var(--hightlight-color);
   }
 
   .author-pop-up{

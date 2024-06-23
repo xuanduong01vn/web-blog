@@ -1,6 +1,7 @@
 import React, {useEffect, useState} from "react";
 import styled from 'styled-components';
 import axios from 'axios';
+import { useLocation, useHistory } from 'react-router-dom';
 import PostItem from "../PostItem/PostItem.js";
 import ReactPaginate from 'react-paginate';
 
