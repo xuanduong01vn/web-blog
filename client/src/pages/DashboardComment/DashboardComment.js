@@ -11,12 +11,13 @@ import DashboardComment from '../../components/DashboardComment/DashboardComment
 
 
 function PageDashboardComment(){
+
   return (
     <Wrapper>
       <div className="dashboard-admin-container">
         <HeaderAdmin/>
         <div className="dashboard-admin-content">
-          <DashboarLayout/>
+          <DashboarLayout title="comment"/>
           <DashboardComment/>
         </div>
       </div>

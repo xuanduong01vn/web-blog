@@ -16,7 +16,7 @@ function PageDashboardAdmin(){
       <div className="dashboard-admin-container">
         <HeaderAdmin/>
         <div className="dashboard-admin-content">
-          <DashboarLayout/>
+          <DashboarLayout title="admin"/>
           <DashboardAdmin/>
         </div>
       </div>

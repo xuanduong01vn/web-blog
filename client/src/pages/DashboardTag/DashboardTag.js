@@ -11,7 +11,7 @@ function PageDashboardTag(){
       <div className="dashboard-admin-container">
         <HeaderAdmin/>
         <div className="dashboard-admin-content">
-          <DashboardLayout/>
+          <DashboardLayout title="tag"/>
           <DashboardTag/>
         </div>
       </div>

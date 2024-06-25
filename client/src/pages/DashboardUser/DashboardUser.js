@@ -11,7 +11,7 @@ function PageDashboardUser(){
       <div className="dashboard-admin-container">
         <HeaderAdmin/>
         <div className="dashboard-admin-content">
-          <DashboardLayout/>
+          <DashboardLayout title="user"/>
           <DashboardUser/>
         </div>
       </div>

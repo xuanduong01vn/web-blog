@@ -16,7 +16,7 @@ function PageDashboardPost(){
       <div className="dashboard-admin-container">
         <HeaderDashboard/>
         <div className="dashboard-admin-content">
-          <DashboardLayout/>
+          <DashboardLayout title="post"/>
           <DashboardPost/>
         </div>
       </div>

@@ -1,5 +1,6 @@
 import styled from 'styled-components';
 import React, { useEffect, useState } from 'react';
+import { Link } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { 
   faChevronDown,
@@ -12,24 +13,31 @@ import {
   faUser,
   faHashtag,
   faComment,
+  faPerson,
  } from '@fortawesome/free-solid-svg-icons';
 
- function DashboardLayout(){
+ function DashboardLayout(props){
+  var {title} = props;
+  const [openedLowMenu, setOpenedLowMenu] = useState(title);
 
-  const [openedLowMenu, setOpenedLowMenu] = useState(null);
-  const [openMenuIcon, setOpenMenuIcon] = useState('opened-menu-icon');
-
+  useEffect(()=>{
+    if(title=='post'){
+      setOpenedLowMenu('post');
+    }
+    else if(title=='admin'){
+      setOpenedLowMenu('admin');
+    }
+    else if(title=='user'){
+      setOpenedLowMenu('user');
+    }
+    else{
+      setOpenedLowMenu(null);
+    }
+  },[title]);
+  
 
   const handleOpenLowMenu = (menu) => {
-    if(openedLowMenu==menu)
-      {
-        setOpenedLowMenu(null);
-      }
-      else{
-        setOpenedLowMenu(menu);
-      }
-    
-    
+    setOpenedLowMenu(openedLowMenu==menu?null:menu)
   };
 
   // const handleOpenLowMenu=(e)=>{
@@ -47,24 +55,25 @@ import {
     <Wrapper>
       <ul className="top-menu">
       <li className="top-menu-item">
-        <a href="/dashboard/" className="menu-item-link">
-          <FontAwesomeIcon icon={faHouse} />Tổng quan
-        </a>
+        <Link to="/dashboard/" className={title=='dashboard'?'menu-item-link active':'menu-item-link'}>
+          <FontAwesomeIcon icon={faHouse} />Tổng qua
+        </Link>
       </li>
         <li className="top-menu-item">
-          <button onClick={() => handleOpenLowMenu('posts')} className="top-menu-down">
-              <FontAwesomeIcon icon={faFile} />Bài viết
-            <span className={openedLowMenu=='posts'?'opened-menu-icon opened':'opened-menu-icon'} >
+          <button onClick={() => handleOpenLowMenu('post')} className="top-menu-down">
+            <FontAwesomeIcon icon={faPen} />Bài viết
+            <span className={(openedLowMenu=='post')?'opened-menu-icon opened':'opened-menu-icon'} >
               <FontAwesomeIcon icon={faChevronDown} />
             </span>
             
           </button>
-          {openedLowMenu=='posts' &&
+          
+          {(openedLowMenu=='post') &&
             <ul className="low-menu">
             <li className="low-menu-item">
-              <a href="/dashboard/posts" className="menu-item-link">
-              <FontAwesomeIcon icon={faPen} />Bài viết
-              </a>
+              <Link to="/dashboard/posts" className={title=='post'?'menu-item-link active':'menu-item-link'}>
+              Bài viết
+              </Link>
             </li>
             {/* <li className="low-menu-item">
               <a href="/dashboard/questions" className="menu-item-link">
@@ -76,37 +85,37 @@ import {
           
         </li>
         <li className="top-menu-item">
-          <button  onClick={() => handleOpenLowMenu('account')} className="top-menu-down">
-              <FontAwesomeIcon icon={faAddressCard} />Tài khoản
-            <span className={openedLowMenu=='account'?'opened-menu-icon opened':'opened-menu-icon'}>
+          <button onClick={() => handleOpenLowMenu('admin')} className="top-menu-down">
+              <FontAwesomeIcon icon={faUser} />Tài khoản
+            <span className={(openedLowMenu=='admin' || openedLowMenu=='user')?'opened-menu-icon opened':'opened-menu-icon'}>
               <FontAwesomeIcon icon={faChevronDown} />
             </span>
             
           </button>
-          {openedLowMenu=='account' &&
+          {(openedLowMenu=='admin' || openedLowMenu=='user') &&
             <ul className="low-menu">
             <li className="low-menu-item">
-              <a href="/dashboard/admins" className="menu-item-link">
-              <FontAwesomeIcon icon={faUserGear} />Quản trị viên
-              </a>
+              <Link to="/dashboard/admins" className={title=='admin'?'menu-item-link active':'menu-item-link'}>
+              Quản trị viên
+              </Link>
             </li>
             <li className="low-menu-item">
-              <a href="/dashboard/users" className="menu-item-link">
-              <FontAwesomeIcon icon={faUser} />Người dùng
-              </a>
+              <Link to="/dashboard/users" className={title=='user'?'menu-item-link active':'menu-item-link'}>
+              Người dùng
+              </Link>
             </li>
           </ul>
           }
         </li>
         <li className="top-menu-item">
-          <a href="/dashboard/comments" className="menu-item-link">
+          <Link to="/dashboard/comments" className={title=='comment'?'menu-item-link active':'menu-item-link'}>
             <FontAwesomeIcon icon={faComment} />Bình luận
-          </a>
+          </Link>
         </li>
         <li className="top-menu-item">
-          <a href="/dashboard/tags" className="menu-item-link">
+          <Link to="/dashboard/tags" className={title=='tag'?'menu-item-link active':'menu-item-link'}>
             <FontAwesomeIcon icon={faHashtag} />Gắn nhãn
-          </a>
+          </Link>
         </li>
       </ul>
     </Wrapper>
@@ -138,12 +147,14 @@ import {
   li{
     width: 100%;
     box-sizing: border-box;
+    color: var(--text-color);
   }
 
   .top-menu-down:hover,
   .menu-item-link:hover
   {
-    background-color: var(--shadow-color);
+    background-color: var(--blur-color);
+    color: var(--text-color);
   }
 
   .menu-item-link{
@@ -151,8 +162,16 @@ import {
     display: block;
     height: 100%;
     border-radius: 8px;
-    
+    color: var(--text-color);
+    font-weight: 600;
   }
+
+  .menu-item-link.active{
+    color: var(--hightlight-color);
+    background-color: var(--blur-color);
+    font-weight: 800;
+  }
+
   .top-menu-down{
     font-size: 16px;
     position: relative;
@@ -168,7 +187,7 @@ import {
 
   svg{
     margin-right: 8px;
-
+    width: 16px;
   }
 
   .opened-menu-icon{
@@ -180,8 +199,6 @@ import {
     display: flex;
     align-self: center;
   }
-
-  
 
   .opened-menu-icon.opened{
     transform: translateY(-50%) rotateX(180deg);

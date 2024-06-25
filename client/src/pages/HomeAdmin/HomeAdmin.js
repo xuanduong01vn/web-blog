@@ -16,7 +16,7 @@ function HomeAdmin(){
       <div className="dashboard-admin-container">
         <HeaderAdmin/>
         <div className="dashboard-admin-content">
-          <AdminLayout/>
+          <AdminLayout title="dashboard"/>
           <GeneralAdmin/>
         </div>
       </div>

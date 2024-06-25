@@ -27,12 +27,13 @@ export default Password;
 
 const Wrapper = styled.div`
 
-  .account-container{
+.account-container{
     display: flex;
-    width: 100vw;
+    width: 100%;
     margin: 80px 0 20px 0;
     min-height: 560px;
     justify-content: center;
+    box-sizing: border-box;
   }
 
   .account-layout{
