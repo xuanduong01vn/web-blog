@@ -18,7 +18,7 @@ function DashboardTag(){
   const isDeleted = queryParams.get('isDeleted');
   const isPage = queryParams.get('page');
 
-  const [tagList, setTagList] = useState([]);
+  const [tagList, setTagList] = useState(null);
   const [stateTag, setStateTag] = useState('');
   const [currentItems, setCurrentItems] = useState([]);
   const [pageCount, setPageCount] = useState(0);
@@ -126,7 +126,8 @@ function DashboardTag(){
         </div>
         
         <div className='dashboard-filter'>
-          <ul className='dashboard-filter-list'>
+          {tagList && (
+            <ul className='dashboard-filter-list'>
             <li onClick={()=>handleStateTag('all')} 
             className={stateTag=='all'?'dashboard-filter-item active':'dashboard-filter-item'}>
               <Link to='/dashboard/tags' className='filter-item-link'>Tất cả {`(${tagList?.length})`}</Link>
@@ -140,6 +141,8 @@ function DashboardTag(){
               <Link to='/dashboard/tags/?isDeleted=true' className='filter-item-link'>Đã xóa {`(${tagList.filter(tag=>tag.isDeleted==true)?.length})`}</Link>
             </li>
           </ul>
+          )}
+          
         </div>
         <div className='data-table'>
         <table className='dashboard-post-table'>
@@ -229,10 +232,18 @@ const Wrapper = styled.div`
     color: black;
   }
 
+  .dashboard-filter{
+    background-color: var(--primary-color);
+    height: 36px;
+    width: 100%;
+    box-sizing: border-box;
+    margin: 16px 0;
+  }
+
   .dashboard-filter-list{
+    height: 100%;
     display: flex;
     justify-content: left;
-    background-color: var(--primary-color);
   }
 
   .data-table{

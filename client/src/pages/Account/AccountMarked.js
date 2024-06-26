@@ -16,7 +16,7 @@ function AccountMarked(){
           <AssetsPost/>
         </div>
       </div>
-      <Footer/>
+
     </Wrapper>
   )
 }

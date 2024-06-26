@@ -16,7 +16,7 @@ function AccountPost(){
           <AssetsPost/>
         </div>
       </div>
-      <Footer/>
+
     </Wrapper>
   )
 }

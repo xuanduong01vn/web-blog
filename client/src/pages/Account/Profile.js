@@ -18,7 +18,7 @@ function Profile(){
           <ProfileSection/>
         </div>
       </div>
-      <Footer/>
+
     </Wrapper>
   )
 }

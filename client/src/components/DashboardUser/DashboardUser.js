@@ -18,7 +18,7 @@ function DashboardUser(){
   const isDeleted = queryParams.get('isDeleted');
   const isPage = queryParams.get('page');
 
-  const [accList, setAccList] = useState([]);
+  const [accList, setAccList] = useState();
   const [stateAccount, setStateAccount] = useState('');
   const [currentItems, setCurrentItems] = useState([]);
   const [pageCount, setPageCount] = useState(0);
@@ -126,20 +126,23 @@ function DashboardUser(){
         </div>
         
         <div className='dashboard-filter'>
-          <ul className='dashboard-filter-list'>
-          <li onClick={()=>handleStateAccount('all')} 
-            className={stateAccount=='all'?'dashboard-filter-item active':'dashboard-filter-item'}>
-              <Link to='/dashboard/users' className='filter-item-link'>Tất cả {`(${accList?.length})`}</Link>
-            </li>
-            <li onClick={()=>handleStateAccount('active')} 
-            className={stateAccount=='active'?'dashboard-filter-item active':'dashboard-filter-item'}>
-              <Link to='/dashboard/users/?isDeleted=false' className='filter-item-link'>Đang hoạt động {`(${accList.filter(acc=>acc.isDeleted==false)?.length})`}</Link>
-            </li>
-            <li onClick={()=>handleStateAccount('deleted')} 
-            className={stateAccount=='deleted'?'dashboard-filter-item active':'dashboard-filter-item'}>
-              <Link to='/dashboard/users/?isDeleted=true' className='filter-item-link'>Đã xóa {`(${accList.filter(acc=>acc.isDeleted==true)?.length})`}</Link>
-            </li>
-          </ul>
+          {accList && (
+            <ul className='dashboard-filter-list'>
+            <li onClick={()=>handleStateAccount('all')} 
+              className={stateAccount=='all'?'dashboard-filter-item active':'dashboard-filter-item'}>
+                <Link to='/dashboard/users' className='filter-item-link'>Tất cả {`(${accList?.length})`}</Link>
+              </li>
+              <li onClick={()=>handleStateAccount('active')} 
+              className={stateAccount=='active'?'dashboard-filter-item active':'dashboard-filter-item'}>
+                <Link to='/dashboard/users/?isDeleted=false' className='filter-item-link'>Đang hoạt động {`(${accList.filter(acc=>acc.isDeleted==false)?.length})`}</Link>
+              </li>
+              <li onClick={()=>handleStateAccount('deleted')} 
+              className={stateAccount=='deleted'?'dashboard-filter-item active':'dashboard-filter-item'}>
+                <Link to='/dashboard/users/?isDeleted=true' className='filter-item-link'>Đã xóa {`(${accList.filter(acc=>acc.isDeleted==true)?.length})`}</Link>
+              </li>
+            </ul>
+          )}
+          
         </div>
         
         <div className='data-table'>
@@ -245,10 +248,18 @@ const Wrapper = styled.div`
     height: 580px;
   }
 
-  .post-state-filter{
-    outline: none;
-    padding: 4px 12px;
-    
+  .dashboard-filter{
+    background-color: var(--primary-color);
+    height: 36px;
+    width: 100%;
+    box-sizing: border-box;
+    margin: 16px 0;
+  }
+
+  .dashboard-filter-list{
+    height: 100%;
+    display: flex;
+    justify-content: left;
   }
 
   .dashboard-filter-item{

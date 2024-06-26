@@ -1,13 +1,20 @@
 import React, {useEffect, useState} from 'react';
 import styled from 'styled-components';
 import axios from 'axios';
-import { useLocation, useHistory } from 'react-router-dom';
+import { useLocation, useNavigate, Link } from 'react-router-dom';
 import PostItem from '../PostItem/PostItem.js';
 import ReactPaginate from 'react-paginate';
 
 const itemsPerPage = 10;
 
 function PostList(props){
+  const location = useLocation();
+  const navigate = useNavigate();
+  const getQueryParams = (search) => {
+    return new URLSearchParams(search);
+  };
+  const queryParams = getQueryParams(location.search);
+  const isPage = queryParams.get('page');
 
   const { idUser } = props;
   const [postList, setPostList] = useState([]);
@@ -30,9 +37,16 @@ function PostList(props){
     };
     getDataPost()
     .then((data) => {
-      setPostList(data || []);
+      setPostList(data);
       if(!idUser){
         setCurrentPosts(data);
+        if(!isPage){
+          setCurrentPage(0);
+          setItemOffset(0);
+        }else{
+          setCurrentPage(isPage-1);
+          setItemOffset((isPage-1)*itemsPerPage);
+        }
       }
       else{
         setCurrentPosts(data.filter((item)=>item.idAuthor==idUser));
@@ -41,7 +55,7 @@ function PostList(props){
     .catch((err)=>{
       console.log(err.message);
     });
-  },[]);  
+  },[location.search]);  
 
   useEffect(() => {
     const endOffset = itemOffset + itemsPerPage;
@@ -57,6 +71,24 @@ function PostList(props){
     const newOffset = (e.selected * itemsPerPage) % postList.length;
     setItemOffset(newOffset);
     setCurrentPage(e.selected);
+    if(e.selected==0){
+      queryParams.delete('page');
+      navigate(
+        {
+          pathname: location.pathname,
+          search: queryParams.toString(),
+        }
+      )
+    }
+    else if(e.selected>0){
+      queryParams.set('page',e.selected+1);
+      navigate(
+        {
+          pathname: location.pathname,
+          search: queryParams.toString(),
+        }
+      )
+    }
   };
 
   useEffect(()=>{
@@ -71,7 +103,7 @@ function PostList(props){
     };
     getDataAuthor()
     .then((data) => {
-      setAuthorList(data || []);
+      setAuthorList(data);
     })
     .catch((err)=>{
       console.log(err.message);

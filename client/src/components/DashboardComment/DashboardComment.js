@@ -18,7 +18,7 @@ function DashboardComment(){
   const isDeleted = queryParams.get('isDeleted');
   const isPage = queryParams.get('page');
   
-  const [cmtList, setCmtList] = useState([]);
+  const [cmtList, setCmtList] = useState(null);
   const [accList, setAccList] = useState([]);
   const [stateCmt, setStateCmt] = useState('');
   const [currentItems, setCurrentItems] = useState([]);
@@ -137,20 +137,24 @@ function DashboardComment(){
         </div>
         
         <div className='dashboard-filter'>
-          <ul className='dashboard-filter-list'>
-            <li onClick={()=>handleStateCmt('all')} 
-            className={stateCmt=='all'?'dashboard-filter-item active':'dashboard-filter-item'}>
-              <Link to='/dashboard/comments' className='filter-item-link'>Tất cả {`(${cmtList?.length})`}</Link>
-            </li>
-            <li onClick={()=>handleStateCmt('active')} 
-            className={stateCmt=='active'?'dashboard-filter-item active':'dashboard-filter-item'}>
-              <Link to='/dashboard/comments/?isDeleted=false' className='filter-item-link'>Đang hoạt động {`(${cmtList.filter(cmt=>cmt.isDeleted==false)?.length})`}</Link>
-            </li>
-            <li onClick={()=>handleStateCmt('deleted')} 
-            className={stateCmt=='deleted'?'dashboard-filter-item active':'dashboard-filter-item'}>
-              <Link to='/dashboard/comments/?isDeleted=true' className='filter-item-link'>Đã xóa {`(${cmtList.filter(cmt=>cmt.isDeleted==true)?.length})`}</Link>
-            </li>
-          </ul>
+          {cmtList && 
+          (
+            <ul className='dashboard-filter-list'>
+              <li onClick={()=>handleStateCmt('all')} 
+              className={stateCmt=='all'?'dashboard-filter-item active':'dashboard-filter-item'}>
+                <Link to='/dashboard/comments' className='filter-item-link'>Tất cả {`(${cmtList?.length})`}</Link>
+              </li>
+              <li onClick={()=>handleStateCmt('active')} 
+              className={stateCmt=='active'?'dashboard-filter-item active':'dashboard-filter-item'}>
+                <Link to='/dashboard/comments/?isDeleted=false' className='filter-item-link'>Đang hoạt động {`(${cmtList.filter(cmt=>cmt.isDeleted==false)?.length})`}</Link>
+              </li>
+              <li onClick={()=>handleStateCmt('deleted')} 
+              className={stateCmt=='deleted'?'dashboard-filter-item active':'dashboard-filter-item'}>
+                <Link to='/dashboard/comments/?isDeleted=true' className='filter-item-link'>Đã xóa {`(${cmtList.filter(cmt=>cmt.isDeleted==true)?.length})`}</Link>
+              </li>
+            </ul>
+          )
+          }
         </div>
 
         <div className='data-table'>
@@ -231,6 +235,7 @@ const Wrapper = styled.div`
   h3{
     margin: 0;
   }
+
   .dashboard-new-btn{
     background-color: var(--hightlight-color); 
     padding: 8px;
@@ -244,10 +249,18 @@ const Wrapper = styled.div`
     color: black;
   }
 
+  .dashboard-filter{
+    background-color: var(--primary-color);
+    height: 36px;
+    width: 100%;
+    box-sizing: border-box;
+    margin: 16px 0;
+  }
+
   .dashboard-filter-list{
+    height: 100%;
     display: flex;
     justify-content: left;
-    background-color: var(--primary-color);
   }
 
   .data-table{

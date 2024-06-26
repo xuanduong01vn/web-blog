@@ -18,7 +18,7 @@ function Password(){
           <PasswordSection/>
         </div>
       </div>
-      <Footer/>
+
     </Wrapper>
   )
 }

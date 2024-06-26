@@ -1,5 +1,6 @@
 import styled from 'styled-components';
 import React, {useState, useEffect} from 'react';
+import { Link } from 'react-router-dom'; 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { 
   faChevronDown,
@@ -41,11 +42,11 @@ function AssetsLayout(props){
           {
             navbarItems.map((item, index)=>{
               return  (<li key={index} className={itemActive==item.title?'account-navbar-item active':'account-navbar-item'}>
-                  <a onClick={handleSelectNavbar} 
-                  href={item.path} 
+                  <Link to={item.path} 
+                  onClick={handleSelectNavbar} 
                   className='account-navbar-link'>
                     <span>{item.title}</span>
-                  </a>
+                  </Link>
                 </li>)
             }
             )

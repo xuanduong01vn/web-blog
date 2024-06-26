@@ -1,5 +1,6 @@
 import styled from 'styled-components';
 import React, {useState, useEffect} from 'react';
+import { Link } from 'react-router-dom'; 
 
 function AccountNavbar(props){
 
@@ -22,11 +23,11 @@ function AccountNavbar(props){
           {
             navbarItems.map((navbarItem, index)=>{
                 return  <li key={index} className={navbarItem.title==title?`account-navbar-item active`:`account-navbar-item`}>
-                          <a onClick={handleSelectNavbar} 
-                          href={navbarItem.path} 
+                          <Link to={navbarItem.path} 
+                          onClick={handleSelectNavbar} 
                           className='account-navbar-link'>
                             <span>{navbarItem.title}</span>
-                          </a>
+                          </Link>
                         </li>
             })
           }

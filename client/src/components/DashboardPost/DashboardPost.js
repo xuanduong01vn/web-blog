@@ -18,7 +18,7 @@ function DashboardPost(){
   const isDeleted = queryParams.get('isDeleted');
   const isPage = queryParams.get('page');
 
-  const [postList, setPostList] = useState([]);
+  const [postList, setPostList] = useState(null);
   const [authorList, setAuthorList] = useState([]);
   const [statePost, setStatePost] = useState('');
   const [currentItems, setCurrentItems] = useState([]);
@@ -152,20 +152,23 @@ function DashboardPost(){
           {/* <a href='' target='_blank' className='dashboard-new-btn'>Thêm mới</a> */}
         </div>
         <div className='dashboard-filter'>
-          <ul className='dashboard-filter-list'>
-          <li onClick={()=>handleStatePost('all')} 
-            className={statePost=='all'?'dashboard-filter-item active':'dashboard-filter-item'}>
-              <Link to='/dashboard/posts' className='filter-item-link'>Tất cả {`(${postList?.length})`}</Link>
-            </li>
-            <li onClick={()=>handleStatePost('active')} 
-            className={statePost=='active'?'dashboard-filter-item active':'dashboard-filter-item'}>
-              <Link to='/dashboard/posts/?isDeleted=false' className='filter-item-link'>Đang hoạt động {`(${postList.filter(post=>post.isDeleted==false)?.length})`}</Link>
-            </li>
-            <li onClick={()=>handleStatePost('deleted')} 
-            className={statePost=='deleted'?'dashboard-filter-item active':'dashboard-filter-item'}>
-              <Link to='/dashboard/posts/?isDeleted=true' className='filter-item-link'>Đã xóa {`(${postList.filter(post=>post.isDeleted==true)?.length})`}</Link>
-            </li>
-          </ul>
+          {postList && (
+            <ul className='dashboard-filter-list'>
+            <li onClick={()=>handleStatePost('all')} 
+              className={statePost=='all'?'dashboard-filter-item active':'dashboard-filter-item'}>
+                <Link to='/dashboard/posts' className='filter-item-link'>Tất cả {`(${postList?.length})`}</Link>
+              </li>
+              <li onClick={()=>handleStatePost('active')} 
+              className={statePost=='active'?'dashboard-filter-item active':'dashboard-filter-item'}>
+                <Link to='/dashboard/posts/?isDeleted=false' className='filter-item-link'>Đang hoạt động {`(${postList.filter(post=>post.isDeleted==false)?.length})`}</Link>
+              </li>
+              <li onClick={()=>handleStatePost('deleted')} 
+              className={statePost=='deleted'?'dashboard-filter-item active':'dashboard-filter-item'}>
+                <Link to='/dashboard/posts/?isDeleted=true' className='filter-item-link'>Đã xóa {`(${postList.filter(post=>post.isDeleted==true)?.length})`}</Link>
+              </li>
+            </ul>
+          )}
+          
         </div>  
 
         <div className='data-table'>
@@ -258,10 +261,18 @@ const Wrapper = styled.div`
     color: black;
   }
 
+  .dashboard-filter{
+    background-color: var(--primary-color);
+    height: 36px;
+    width: 100%;
+    box-sizing: border-box;
+    margin: 16px 0;
+  }
+
   .dashboard-filter-list{
+    height: 100%;
     display: flex;
     justify-content: left;
-    background-color: var(--primary-color);
   }
 
   .data-table{
@@ -273,7 +284,6 @@ const Wrapper = styled.div`
   .post-state-filter{
     outline: none;
     padding: 4px 12px;
-    
   }
 
   .dashboard-filter-item{
