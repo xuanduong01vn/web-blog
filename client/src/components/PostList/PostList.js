@@ -15,15 +15,20 @@ function PostList(props){
   };
   const queryParams = getQueryParams(location.search);
   const isPage = queryParams.get('page');
+  const isSearch = queryParams.get('search');
 
   const { idUser } = props;
   const [postList, setPostList] = useState([]);
   const [authorList, setAuthorList] = useState([]);
   const [currentItems, setCurrentItems] = useState([]);
   const [pageCount, setPageCount] = useState(0);
-  const [itemOffset, setItemOffset] = useState(0);
-  const [currentPosts, setCurrentPosts] = useState([]);
-  const [currentPage, setCurrentPage] = useState(0);
+  const [itemOffset, setItemOffset] = useState(null);
+  const [currentPosts, setCurrentPosts] = useState(null);
+  const [currentPage, setCurrentPage] = useState(null);
+
+  function removeAccents(str) {
+    return str.normalize('NFD').replace(/[\u0300-\u036f]/g, '');
+  }
 
   useEffect(()=>{
     const getDataPost = async () => {
@@ -39,7 +44,12 @@ function PostList(props){
     .then((data) => {
       setPostList(data);
       if(!idUser){
-        setCurrentPosts(data);
+        if(!isSearch){
+          setCurrentPosts(data);
+        }
+        else{
+          setCurrentPosts(data.filter((item)=>removeAccents(item.title).toLowerCase().includes(isSearch.toLowerCase())));
+        }
         if(!isPage){
           setCurrentPage(0);
           setItemOffset(0);
@@ -47,6 +57,7 @@ function PostList(props){
           setCurrentPage(isPage-1);
           setItemOffset((isPage-1)*itemsPerPage);
         }
+        
       }
       else{
         setCurrentPosts(data.filter((item)=>item.idAuthor==idUser));
@@ -60,7 +71,7 @@ function PostList(props){
   useEffect(() => {
     const endOffset = itemOffset + itemsPerPage;
     if(!idUser){
-      setCurrentItems(currentPosts.slice(itemOffset, endOffset));
+      setCurrentItems(currentPosts?.slice(itemOffset, endOffset));
     }else{
       setCurrentItems(currentPosts);
     }
@@ -119,48 +130,45 @@ function PostList(props){
   return(
     <Wrapper>
       <div id='blog-list-container'>
-        
           {!currentPosts && <div></div>}
-          {currentPosts.length>0 &&
+          {currentPosts && currentPosts?.length>0 &&
           (<ul className='blog-list-box'>
-            {
-              currentItems.map((post, index)=>(
+            {currentItems?.map((post, index)=>(
                 <li key={post._id || index} className='blog-item'>
                   <PostItem post={post} author={author.find(acc=>acc._id==post.idAuthor)}/>
                 </li>
-              )
-            )
+              ))
             }
           </ul>
           )}
-          {currentPosts.length==0 &&
+          {currentPosts && currentPosts?.length==0 &&
           (  
             <div className='blog-list-alert'>
-              <span>Chưa có bài viết nào</span>
+              <span>Không có bài viết nào</span>
             </div>
           )}
-        {!idUser && currentPosts.length>itemsPerPage &&
-        <ReactPaginate
-          nextLabel='>'
-          onPageChange={handlePageClick}
-          pageRangeDisplayed={5}
-          marginPagesDisplayed={2}
-          pageCount={pageCount}
-          previousLabel='<'
-          pageClassName='page-item'
-          pageLinkClassName='page-link'
-          previousClassName='page-item'
-          previousLinkClassName='page-link'
-          nextClassName='page-item'
-          nextLinkClassName='page-link'
-          breakLabel='...'
-          breakClassName='page-item'
-          breakLinkClassName='page-link'
-          containerClassName='pagination'
-          activeClassName='active'
-          forcePage={currentPage}
-          renderOnZeroPageCount={null}
-        />
+        {!idUser && currentPosts && currentPosts?.length>itemsPerPage &&
+          <ReactPaginate
+            nextLabel='>'
+            onPageChange={handlePageClick}
+            pageRangeDisplayed={5}
+            marginPagesDisplayed={2}
+            pageCount={pageCount}
+            previousLabel='<'
+            pageClassName='page-item'
+            pageLinkClassName='page-link'
+            previousClassName='page-item'
+            previousLinkClassName='page-link'
+            nextClassName='page-item'
+            nextLinkClassName='page-link'
+            breakLabel='...'
+            breakClassName='page-item'
+            breakLinkClassName='page-link'
+            containerClassName='pagination'
+            activeClassName='active'
+            forcePage={currentPage}
+            renderOnZeroPageCount={null}
+          />
         }
       </div>
     </Wrapper>

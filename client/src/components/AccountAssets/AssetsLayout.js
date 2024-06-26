@@ -31,10 +31,6 @@ function AssetsLayout(props){
 
   const [selectedItem, setSelectedItem]=useState(0);
 
-  const handleSelectNavbar=(e)=>{
-    console.log(e.target.innerHTML); 
-  }
-
   return(
     <Wrapper>
       <div className={openNavbar}>
@@ -43,7 +39,6 @@ function AssetsLayout(props){
             navbarItems.map((item, index)=>{
               return  (<li key={index} className={itemActive==item.title?'account-navbar-item active':'account-navbar-item'}>
                   <Link to={item.path} 
-                  onClick={handleSelectNavbar} 
                   className='account-navbar-link'>
                     <span>{item.title}</span>
                   </Link>

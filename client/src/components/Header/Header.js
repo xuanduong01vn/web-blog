@@ -1,5 +1,6 @@
 import styled from 'styled-components';
 import React, { useEffect, useState, useRef } from 'react';
+import { useLocation, useNavigate, Link } from 'react-router-dom'; 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faMagnifyingGlass,
           faPen,
@@ -10,21 +11,36 @@ import { faMagnifyingGlass,
  
 
 function Header(){
+  const location = useLocation();
+  const navigate = useNavigate();
+  const getQueryParams = (search) => {
+    return new URLSearchParams(search);
+  };
+  const queryParams = getQueryParams(location.search);
+  var isSearch = queryParams.get('search');
 
   const [openInput, setOpenInput] = useState(false);
   const [namePopup, setNamePopup] = useState(null);
-  const [searchText, setSearchText] = useState('');
+  const [searchText, setSearchText] = useState(isSearch || '');
 
   const inputRef = useRef();
   const popupRefs = useRef({});
   const btnRefs = useRef({});
 
-  function handleSearchClick(text){
-
+  function handleSearchKey(){
+    if(searchText.trim().length>0){
+      queryParams.set('search', searchText.trim());
+      navigate(
+        {
+          pathname: location.pathname,
+          search: queryParams.toString(),
+        }
+      )
+    }
   }
 
-  function onChangeValue(value){
-    console.log(value);
+  function onChangeValue(e){
+    setSearchText(e.target.value);
   }
 
   //handle open search box in mobile screen
@@ -86,6 +102,7 @@ function Header(){
               <div className='header-search-bar'>
                 <input type='text' className='header-search-box' 
                 placeholder='Tìm kiếm trên QAx'
+                onChange={e=>{onChangeValue(e)}}
                 />
                 <button onClick={handleCloseSearchBox} id='search-cancel-btn'>
                   <FontAwesomeIcon icon={faXmark} className='search-cancel-icon' />
@@ -97,17 +114,15 @@ function Header(){
               <div id='search-container'>
                   <input id='search-box' type='text' placeholder='Tìm kiếm trên QAx'
                   value = {searchText} ref={inputRef}
-                  onChange={e=>{setSearchText(e.target.value) 
-                    console.log(searchText);
-                  }}/>
-                  <button id='search-btn'>
+                  onChange={e=>{onChangeValue(e)}}/>
+                  <button onClick={handleSearchKey} className={searchText.trim().length>0?'search-btn':'search-btn disable'}>
                     <FontAwesomeIcon icon={faMagnifyingGlass} className='search-icon' />
                   </button>
-                  <button onClick={handleOpenSearchBox} id='search-header-btn'>
+                  <button onClick={handleOpenSearchBox} className='search-header-btn'>
                     <FontAwesomeIcon icon={faMagnifyingGlass} className='search-icon' />
                   </button>
               </div> 
-              {/* <div id='sign-container'>
+              {/* <div className='sign-container'>
                 <a href='/login' id='sign-btn'>
                   Đăng nhập/ Đăng ký
                 </a>
@@ -302,23 +317,40 @@ const Wrapper = styled.div`
     background-color: transparent;
   }
 
+  #search-container .search-btn.disable{
+    cursor: default;
+
+    & svg{
+      color: var(--shadow-color);
+    }
+
+    &:hover svg{
+      color: var(--shadow-color);
+    }
+  }
+
   #search-container button svg{
     height: 20px;
     transition: var(--transition-time);
+    color: var(--text-color);
   }
+
+  
+
 
   #search-container button:hover svg{
     height: 20px;
-    color: var(--shadow-color);
+    color: var(--hightlight-color);
   }
 
-  #search-btn{
+  .search-btn{
     display: block;
   }
 
-  #search-header-btn{
-      display: none;
-    }
+  
+  .search-header-btn{
+    display: none;
+  }
 
   #sign-btn{
     text-decoration: none;
@@ -573,11 +605,11 @@ const Wrapper = styled.div`
       margin: 0 18px 0 auto;
     }
 
-    #search-btn{
+    .search-btn{
       display: none;
     }
 
-    #search-header-btn{
+    .search-header-btn{
       display: block;
     }
 

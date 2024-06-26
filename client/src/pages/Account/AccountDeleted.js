@@ -1,19 +1,61 @@
 import AssetsLayout from '../../components/AccountAssets/AssetsLayout';
-import AssetsDeleted from '../../components/AccountAssets/AssetsDeleted';
+import AssetsPost from '../../components/AccountAssets/AssetsPost';
 import Header from '../../components/Header/Header';
 import Footer from '../../components/Footer/Footer';
 import styled from 'styled-components';
 import React, { useEffect, useState } from 'react';
+import axios from 'axios';
 
 function AccountDeleted(){
   document.title='My deleted';
+  const [posts, setPosts] = useState(null);
+  const [accs, setAccs] = useState(null);
+
+  useEffect(()=>{
+    const getPost= async(req,res)=>{
+      try {
+        const response = await axios.get(`http://localhost:9999/posts/?isDeleted=false`)
+        return response.data;
+      } catch (err) {
+        console.log(err.message);
+      }
+    }
+    getPost()
+    .then(data=>{
+      setPosts(data);
+    })
+    .catch(err=>{
+      console.log(err.message);
+    })
+  },[]);
+
+  useEffect(()=>{
+    const getAcc= async(req,res)=>{
+      try {
+        const response = await axios.get(`http://localhost:9999/accounts/?isDeleted=false`)
+        return response.data;
+      } catch (err) {
+        console.log(err.message);
+      }
+    }
+    getAcc()
+    .then(res=>{
+      setAccs(res);
+    })
+    .catch(err=>{
+      console.log(err.message);
+    })
+  },[]);
+
   return (
     <Wrapper>
       <Header/>
       <div className='account-container'>
         <div className='account-layout'>
           <AssetsLayout itemActive={'Thùng rác'}/>
-          <AssetsDeleted/>
+          {posts && accs && (
+            <AssetsPost posts={posts} authors={accs}/>
+          )}
         </div>
       </div>
 
