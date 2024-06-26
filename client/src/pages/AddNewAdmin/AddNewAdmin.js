@@ -10,6 +10,7 @@ import NewAdmin from '../../components/DashboardAdmin/DashboardNewAdmin';
 
 
 function AddNewAdmin(){
+  document.title='Add new admin';
   return (
     <Wrapper>
       <div className='dashboard-admin-container'>

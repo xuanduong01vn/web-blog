@@ -1,9 +1,5 @@
 import styled from 'styled-components';
 import React, {useState, useEffect} from 'react';
-import { useLocation, Link } from 'react-router-dom';
-
-import DashboardFilter from '../../components/DashboardLayout/DashboardFilter.js';
-import PostData from '../../components/DashboardLayout/PostData.js';
 import axios from 'axios';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCamera,
@@ -16,101 +12,8 @@ import DashboardPost from '../../components/DashboardPost/DashboardPost.js';
 const itemsPerPage = 10;
 
 function PageDashboardPost(){
-  document.title='Dashboard admin';
-  const [postList, setPostList] = useState([]);
-  const [authorList, setAuthorList] = useState([]);
-  const [statePost, setStatePost] = useState('');
-  const [currentItems, setCurrentItems] = useState([]);
-  const [pageCount, setPageCount] = useState(0);
-  const [itemOffset, setItemOffset] = useState(0);
-  const [currentPosts, setCurrentPosts] = useState([]);
-  const [currentPage, setCurrentPage] = useState(0);
-
-  const location = useLocation();
-
-  const getQueryParams = (search) => {
-    return new URLSearchParams(search);
-  };
-
-  function handleStatePost(states){
-    setStatePost(states);
-    // if(state=='all'){
-    //   setCurrentPosts(postList);
-    // }else if(state=='deleted'){
-    //   setCurrentPosts(postList.filter(post=>post.isDeleted==true));
-    // }else if(state=='active'){
-    //   setCurrentPosts(postList.filter(post=>post.isDeleted==false));
-    // }
-  }
-
-  const queryParams = getQueryParams(location.search);
-  const isDeleted = queryParams.get('isDeleted');
-  useEffect(()=>{
-    if(location.search==''){
-      setStatePost('all')
-    }
-    else if(location.search=='?isDeleted=false'){
-      setStatePost('active')
-    }
-    else if(location.search=='?isDeleted=true'){
-      setStatePost('deleted')
-    }
-  },[location.search])
+  document.title='Dashboard post';
   
-
-  useEffect(()=>{
-    const getDataPost = async () => {
-      try {
-        const response = await axios.get(`http://localhost:9999/posts/`);
-        return response.data;
-      } catch (err) {
-        console.log('Error fetching posts:', err.message);
-        return [];
-      }
-    };
-    getDataPost()
-    .then((data) => {
-        setPostList(data || []);
-        setCurrentPosts(data);
-    })
-    .catch((err)=>{
-      console.log(err.message);
-    });
-  },[]); 
-
-  useEffect(() => {
-    const endOffset = itemOffset + itemsPerPage;
-    setCurrentItems(currentPosts.slice(itemOffset, endOffset));
-    setPageCount(Math.ceil(currentPosts?.length / itemsPerPage));
-  }, [itemOffset, currentPosts, statePost]);
-
-  useEffect(()=>{
-    const getDataAuthor = async () => {
-      try {
-        const response = await axios.get(`http://localhost:9999/accounts/`);
-        return response.data;
-      } catch (err) {
-        console.log('Error fetching authors:', err.message);
-        return [];
-      }
-    };
-    getDataAuthor()
-    .then((data) => {
-      setAuthorList(data || []);
-    })
-    .catch((err)=>{
-      console.log(err.message);
-    });
-  },[]); 
-
-  let author=[];
-  let posts=[];
-
-  if(authorList && postList){
-    author = authorList.filter(account => postList.some(post => post.idAuthor === account._id));
-  }
-  console.log(author);
-  console.log(posts);
 
   return (
     <Wrapper>
@@ -118,36 +21,7 @@ function PageDashboardPost(){
         <HeaderDashboard/>
         <div className='dashboard-admin-content'>
           <DashboardLayout title='post'/>
-            <div className='data-post'>
-              <div className='dashboard-filter'>
-                <ul className='dashboard-filter-list'>
-                  <li onClick={()=>handleStatePost('all')} 
-                  className={statePost=='all'?'dashboard-filter-item active':'dashboard-filter-item'}>
-                    <Link className='filter-item-link' to='/dashboard/posts'>Tất cả {`(${postList?.length})`}</Link>
-                  </li>
-                  <li onClick={()=>handleStatePost('active')} 
-                  className={statePost=='active'?'dashboard-filter-item active':'dashboard-filter-item'}>
-                    <Link className='filter-item-link' to='/dashboard/posts/?isDeleted=false'>Đang hoạt động {`(${postList.filter(post=>post.isDeleted==false)?.length})`}</Link>
-                  </li>
-                  <li onClick={()=>handleStatePost('deleted')} 
-                  className={statePost=='deleted'?'dashboard-filter-item active':'dashboard-filter-item'}>
-                    <Link className='filter-item-link' to='/dashboard/posts/?isDeleted=true'>Đã xóa {`(${postList.filter(post=>post.isDeleted==true)?.length})`}</Link>
-                  </li>
-                </ul>
-              </div>
-              {location.search=='' && 
-                <PostData posts={postList} authors={author}/>
-              }
-              {
-                location.search=='?isDeleted=false' && 
-                <PostData posts={postList.filter(post=>post.isDeleted==false)} authors={author}/>
-              }
-              {
-                location.search=='?isDeleted=true' && 
-                <PostData posts={postList.filter(post=>post.isDeleted==true)} authors={author}/>
-              }
-              
-            </div>
+          <DashboardPost/>
         </div>
       </div>
 

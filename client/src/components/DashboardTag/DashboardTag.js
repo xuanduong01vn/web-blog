@@ -4,30 +4,37 @@ import axios from 'axios';
 import { format } from 'date-fns';
 import { vi } from 'date-fns/locale';
 import ReactPaginate from 'react-paginate';
-import { useParams } from 'react-router-dom';
+import { useLocation, useNavigate, Link } from 'react-router-dom'; 
 
-const items = Array.from({ length: 100 }, (_, i) => `Item ${i + 1}`);
 const itemsPerPage = 10;
 
 function DashboardTag(){
+  const location = useLocation();
+  const navigate = useNavigate();
+  const getQueryParams = (search) => {
+    return new URLSearchParams(search);
+  };
+  const queryParams = getQueryParams(location.search);
+  const isDeleted = queryParams.get('isDeleted');
+  const isPage = queryParams.get('page');
+
   const [tagList, setTagList] = useState([]);
-  const [stateTag, setStateTag] = useState('all');
+  const [stateTag, setStateTag] = useState('');
   const [currentItems, setCurrentItems] = useState([]);
   const [pageCount, setPageCount] = useState(0);
-  const [itemOffset, setItemOffset] = useState(0);
+  const [itemOffset, setItemOffset] = useState(null);
   const [currentTags, setCurrentTags] = useState([]);
-  const [currentPage, setCurrentPage] = useState(0);
-  const query = useParams();
+  const [currentPage, setCurrentPage] = useState(null);
 
   function handleStateTag(state){
-    setStateTag(state);
-    if(state=='all'){
-      setCurrentTags(tagList);
-    }else if(state=='deleted'){
-      setCurrentTags(tagList.filter(tag=>tag.isDeleted==true));
-    }else if(state=='active'){
-      setCurrentTags(tagList.filter(tag=>tag.isDeleted==false));
-    }
+    // setStateTag(state);
+    // if(state=='all'){
+    //   setCurrentTags(tagList);
+    // }else if(state=='deleted'){
+    //   setCurrentTags(tagList.filter(tag=>tag.isDeleted==true));
+    // }else if(state=='active'){
+    //   setCurrentTags(tagList.filter(tag=>tag.isDeleted==false));
+    // }
     setCurrentPage(0);
     setItemOffset(0);
   }
@@ -35,14 +42,7 @@ function DashboardTag(){
   useEffect(()=>{
     const getDataTag = async () => {
       try {
-        var response;
-        if(query){
-          response = await axios.get(`http://localhost:9999/tags?page=${query}`);
-        }
-        else{
-          response = await axios.get(`http://localhost:9999/tags?page=1`);
-        }
-        
+        const response = await axios.get(`http://localhost:9999/tags`);
         return response.data;
       } catch (err) {
         console.log('Error fetching authors:', err.message);
@@ -52,20 +52,33 @@ function DashboardTag(){
     getDataTag()
     .then((data) => {
       setTagList(data);
-      setCurrentTags(data);
+      if(!isPage){
+        setCurrentPage(0);
+        setItemOffset(0);
+      }else{
+        setCurrentPage(isPage-1);
+        setItemOffset((isPage-1)*itemsPerPage);
+      }
+      if(!isDeleted){
+        setStateTag('all');
+        setCurrentTags(data);
+      }
+      else if(isDeleted=='false'){
+        setStateTag('active');
+        setCurrentTags(data.filter(tag=>tag.isDeleted==false));
+      }
+      else if(isDeleted=='true'){
+        setStateTag('deleted');
+        setCurrentTags(data.filter(tag=>tag.isDeleted==true));
+      }
     })
     .catch((err)=>{
       console.log(err.message);
     });
-  },[]); 
-
-  
-
-  console.log(currentTags);
+  },[location.search]); 
 
   useEffect(() => {
     const endOffset = itemOffset + itemsPerPage;
-    
     setCurrentItems(currentTags.slice(itemOffset, endOffset));
     setPageCount(Math.ceil(currentTags?.length / itemsPerPage));
   }, [itemOffset, currentTags, stateTag]);
@@ -74,6 +87,24 @@ function DashboardTag(){
     const newOffset = (e.selected * itemsPerPage) % tagList.length;
     setItemOffset(newOffset);
     setCurrentPage(e.selected);
+    if(e.selected==0){
+      queryParams.delete('page');
+      navigate(
+        {
+          pathname: location.pathname,
+          search: queryParams.toString(),
+        }
+      )
+    }
+    else if(e.selected>0){
+      queryParams.set('page',e.selected+1);
+      navigate(
+        {
+          pathname: location.pathname,
+          search: queryParams.toString(),
+        }
+      )
+    }
   };
 
   const now= new Date();
@@ -97,14 +128,17 @@ function DashboardTag(){
         <div className='dashboard-filter'>
           <ul className='dashboard-filter-list'>
             <li onClick={()=>handleStateTag('all')} 
-            className={stateTag=='all'?'dashboard-filter-item active':'dashboard-filter-item'} 
-            >Tất cả {`(${tagList?.length})`}</li>
+            className={stateTag=='all'?'dashboard-filter-item active':'dashboard-filter-item'}>
+              <Link to='/dashboard/tags' className='filter-item-link'>Tất cả {`(${tagList?.length})`}</Link>
+            </li>
             <li onClick={()=>handleStateTag('active')} 
-            className={stateTag=='active'?'dashboard-filter-item active':'dashboard-filter-item'}
-            >Đang hoạt động {`(${tagList.filter(tag=>tag.isDeleted==false)?.length})`}</li>
+            className={stateTag=='active'?'dashboard-filter-item active':'dashboard-filter-item'}>
+              <Link to='/dashboard/tags/?isDeleted=false' className='filter-item-link'>Đang hoạt động {`(${tagList.filter(tag=>tag.isDeleted==false)?.length})`}</Link>
+            </li>
             <li onClick={()=>handleStateTag('deleted')} 
-            className={stateTag=='deleted'?'dashboard-filter-item active':'dashboard-filter-item'}
-            >Đã xóa {`(${tagList.filter(tag=>tag.isDeleted==true)?.length})`}</li>
+            className={stateTag=='deleted'?'dashboard-filter-item active':'dashboard-filter-item'}>
+              <Link to='/dashboard/tags/?isDeleted=true' className='filter-item-link'>Đã xóa {`(${tagList.filter(tag=>tag.isDeleted==true)?.length})`}</Link>
+            </li>
           </ul>
         </div>
         <div className='data-table'>
@@ -133,34 +167,6 @@ function DashboardTag(){
               </tr>
             ))
           }
-          {/* {(stateTag=='deleted') && (
-            currentItems.map((tag, index)=>(
-              <tr key={index}>
-                <td>{index+1}</td>
-                <td>{tag.nameTag}</td>
-                <td>{formatTime(tag.createAt)}</td>
-                <td>
-                  <a href='' className='detail-item-btn'>
-                    Chi tiết
-                  </a>
-                </td>
-              </tr>
-            ))
-          )}
-          {(stateTag=='all') && (
-            currentItems.map((tag, index)=>(
-              <tr key={index}>
-                <td>{index+1}</td>
-                <td>{tag.nameTag}</td>
-                <td>{formatTime(tag.createAt)}</td>
-                <td>
-                  <a href='' className='detail-item-btn'>
-                    Chi tiết
-                  </a>
-                </td>
-              </tr>
-            ))
-          )} */}
           </tbody>
         </table>
         </div>
@@ -230,7 +236,9 @@ const Wrapper = styled.div`
   }
 
   .data-table{
-    min-height: 540px;
+    min-height: 580px;
+    box-sizing: border-box;
+    height: 580px;
   }
 
   .post-state-filter{
@@ -254,7 +262,11 @@ const Wrapper = styled.div`
 
   .dashboard-filter-item.active{
     border-bottom: 4px solid var(--hightlight-color);
-    color: var(--hightlight-color)
+    color: var(--hightlight-color);
+
+    .filter-item-link{
+      color: var(--hightlight-color)
+    }
   }
 
   table, th, td{

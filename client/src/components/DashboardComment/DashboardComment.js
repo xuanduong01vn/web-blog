@@ -14,10 +14,10 @@ function DashboardComment(){
   const getQueryParams = (search) => {
     return new URLSearchParams(search);
   };
-
   const queryParams = getQueryParams(location.search);
   const isDeleted = queryParams.get('isDeleted');
   const isPage = queryParams.get('page');
+  
   const [cmtList, setCmtList] = useState([]);
   const [accList, setAccList] = useState([]);
   const [stateCmt, setStateCmt] = useState('');
@@ -65,8 +65,6 @@ function DashboardComment(){
     });
   },[location.search]); 
 
-  console.log(currentPage);
-
   function handleStateCmt(state){
     setCurrentPage(0);
     setItemOffset(0);
@@ -80,9 +78,9 @@ function DashboardComment(){
 
   const handlePageClick = (e) => {
     const newOffset = (e.selected * itemsPerPage) % cmtList.length;
+    setItemOffset(newOffset);
+    setCurrentPage(e.selected);
     if(e.selected==0){
-      setItemOffset(newOffset);
-      setCurrentPage(e.selected);
       queryParams.delete('page');
       navigate(
         {
@@ -92,8 +90,6 @@ function DashboardComment(){
       )
     }
     else if(e.selected>0){
-      setItemOffset(newOffset);
-      setCurrentPage(e.selected);
       queryParams.set('page',e.selected+1);
       navigate(
         {

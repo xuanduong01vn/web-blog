@@ -11,6 +11,7 @@ import DashboardAdmin from '../../components/DashboardAdmin/DashboardAdmin';
 
 
 function PageDashboardAdmin(){
+  document.title='Dashboead admin';
   return (
     <Wrapper>
       <div className='dashboard-admin-container'>

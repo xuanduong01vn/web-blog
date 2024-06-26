@@ -85,7 +85,7 @@ import {
           
         </li>
         <li className='top-menu-item'>
-          <button onClick={() => handleOpenLowMenu('title')} className='top-menu-down'>
+          <button onClick={() => handleOpenLowMenu('admin')} className='top-menu-down'>
               <FontAwesomeIcon icon={faUser} />Tài khoản
             <span className={(openedLowMenu=='admin' || openedLowMenu=='user')?'opened-menu-icon opened':'opened-menu-icon'}>
               <FontAwesomeIcon icon={faChevronDown} />

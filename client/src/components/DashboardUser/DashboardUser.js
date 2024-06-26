@@ -3,28 +3,38 @@ import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { format } from 'date-fns';
 import { vi } from 'date-fns/locale';
+import { useLocation, useNavigate, Link } from 'react-router-dom'; 
 import ReactPaginate from 'react-paginate';
 
 const itemsPerPage = 10;
 
 function DashboardUser(){
+  const location = useLocation();
+  const navigate = useNavigate();
+  const getQueryParams = (search) => {
+    return new URLSearchParams(search);
+  };
+  const queryParams = getQueryParams(location.search);
+  const isDeleted = queryParams.get('isDeleted');
+  const isPage = queryParams.get('page');
+
   const [accList, setAccList] = useState([]);
-  const [stateAccount, setStateAccount] = useState('all');
+  const [stateAccount, setStateAccount] = useState('');
   const [currentItems, setCurrentItems] = useState([]);
   const [pageCount, setPageCount] = useState(0);
-  const [itemOffset, setItemOffset] = useState(0);
+  const [itemOffset, setItemOffset] = useState(null);
   const [currentAccs, setCurrentAccs] = useState([]);
-  const [currentPage, setCurrentPage] = useState(0);
+  const [currentPage, setCurrentPage] = useState(null);
 
   function handleStateAccount(state){
-    setStateAccount(state);
-    if(state=='all'){
-      setCurrentAccs(accList);
-    }else if(state=='deleted'){
-      setCurrentAccs(accList.filter(acc=>acc.isDeleted==true));
-    }else if(state=='active'){
-      setCurrentAccs(accList.filter(acc=>acc.isDeleted==false));
-    }
+    // setStateAccount(state);
+    // if(state=='all'){
+    //   setCurrentAccs(accList);
+    // }else if(state=='deleted'){
+    //   setCurrentAccs(accList.filter(acc=>acc.isDeleted==true));
+    // }else if(state=='active'){
+    //   setCurrentAccs(accList.filter(acc=>acc.isDeleted==false));
+    // }
     setCurrentPage(0);
     setItemOffset(0);
   }
@@ -41,13 +51,31 @@ function DashboardUser(){
     };
     getDataAdmin()
     .then((data) => {
-      setAccList(data || []);
-      setCurrentAccs(data);
+      setAccList(data);
+      if(!isPage){
+        setCurrentPage(0);
+        setItemOffset(0);
+      }else{
+        setCurrentPage(isPage-1);
+        setItemOffset((isPage-1)*itemsPerPage);
+      }
+      if(!isDeleted){
+        setStateAccount('all');
+        setCurrentAccs(data);
+      }
+      else if(isDeleted=='false'){
+        setStateAccount('active');
+        setCurrentAccs(data.filter(acc=>acc.isDeleted==false));
+      }
+      else if(isDeleted=='true'){
+        setStateAccount('deleted');
+        setCurrentAccs(data.filter(acc=>acc.isDeleted==true));
+      }
     })
     .catch((err)=>{
       console.log(err.message);
     });
-  },[]); 
+  },[location.search]); 
 
   useEffect(() => {
     const endOffset = itemOffset + itemsPerPage;
@@ -59,6 +87,24 @@ function DashboardUser(){
     const newOffset = (e.selected * itemsPerPage) % accList.length;
     setItemOffset(newOffset);
     setCurrentPage(e.selected);
+    if(e.selected==0){
+      queryParams.delete('page');
+      navigate(
+        {
+          pathname: location.pathname,
+          search: queryParams.toString(),
+        }
+      )
+    }
+    else if(e.selected>0){
+      queryParams.set('page',e.selected+1);
+      navigate(
+        {
+          pathname: location.pathname,
+          search: queryParams.toString(),
+        }
+      )
+    }
   };
 
   const now= new Date();
@@ -81,15 +127,18 @@ function DashboardUser(){
         
         <div className='dashboard-filter'>
           <ul className='dashboard-filter-list'>
-            <li onClick={()=>handleStateAccount('all')} 
-            className={stateAccount=='all'?'dashboard-filter-item active':'dashboard-filter-item'} 
-            >Tất cả {`(${accList?.length})`}</li>
+          <li onClick={()=>handleStateAccount('all')} 
+            className={stateAccount=='all'?'dashboard-filter-item active':'dashboard-filter-item'}>
+              <Link to='/dashboard/users' className='filter-item-link'>Tất cả {`(${accList?.length})`}</Link>
+            </li>
             <li onClick={()=>handleStateAccount('active')} 
-            className={stateAccount=='active'?'dashboard-filter-item active':'dashboard-filter-item'}
-            >Đang hoạt động {`(${accList.filter(acc=>acc.isDeleted==false)?.length})`}</li>
+            className={stateAccount=='active'?'dashboard-filter-item active':'dashboard-filter-item'}>
+              <Link to='/dashboard/users/?isDeleted=false' className='filter-item-link'>Đang hoạt động {`(${accList.filter(acc=>acc.isDeleted==false)?.length})`}</Link>
+            </li>
             <li onClick={()=>handleStateAccount('deleted')} 
-            className={stateAccount=='deleted'?'dashboard-filter-item active':'dashboard-filter-item'}
-            >Đã xóa {`(${accList.filter(acc=>acc.isDeleted==true)?.length})`}</li>
+            className={stateAccount=='deleted'?'dashboard-filter-item active':'dashboard-filter-item'}>
+              <Link to='/dashboard/users/?isDeleted=true' className='filter-item-link'>Đã xóa {`(${accList.filter(acc=>acc.isDeleted==true)?.length})`}</Link>
+            </li>
           </ul>
         </div>
         
@@ -116,7 +165,7 @@ function DashboardUser(){
                 <td>{acc.email}</td>
                 <td>{formatTime(acc.createAt)}</td>
                 <td>
-                  <a href={`user/${acc._id}`} className='detail-item-btn'>
+                  <a href={`/dashboard/user/${acc._id}`} className='detail-item-btn'>
                     Chi tiết
                   </a>
                 </td>
@@ -191,7 +240,9 @@ const Wrapper = styled.div`
   }
 
   .data-table{
-    min-height: 540px;
+    min-height: 580px;
+    box-sizing: border-box;
+    height: 580px;
   }
 
   .post-state-filter{
@@ -214,7 +265,11 @@ const Wrapper = styled.div`
 
   .dashboard-filter-item.active{
     border-bottom: 4px solid var(--hightlight-color);
-    color: var(--hightlight-color)
+    color: var(--hightlight-color);
+
+    .filter-item-link{
+      color: var(--hightlight-color)
+    }
   }
 
   table, th, td{
