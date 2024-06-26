@@ -37,7 +37,7 @@ const commentController={
       await comment.updateOne({ $set: req.body });
       const updatedcomment = await CommentModel.findById(req.params.id);
       res.status(200).json({
-        message: "Updated successfully!",
+        message: 'Updated successfully!',
         data: updatedcomment,
       });
     } catch (err) {
@@ -48,9 +48,9 @@ const commentController={
     try {
       const comment = await CommentModel.findByIdAndDelete(req.params.id);
       if (!comment) {
-        return res.status(404).json({ message: "Không có comment này" });
+        return res.status(404).json({ message: 'Không có comment này' });
       }
-      res.status(200).json("Deleted successfully!");
+      res.status(200).json('Deleted successfully!');
     } catch (err) {
       res.status(500).json(err.message);
     }

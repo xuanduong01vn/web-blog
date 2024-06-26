@@ -1,5 +1,5 @@
-import mongoose from "mongoose";
-import TypeAccount from "./typeAccountModel.mjs";
+import mongoose from 'mongoose';
+import TypeAccount from './typeAccountModel.mjs';
 
 const accountSchema = new mongoose.Schema({
   username:{

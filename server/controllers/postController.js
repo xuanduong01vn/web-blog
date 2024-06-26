@@ -41,7 +41,7 @@ const postController ={
       await post.updateOne({ $set: req.body });
       const updatedPost = await postModel.findById(req.params.id);
       res.status(200).json({
-        message: "Updated successfully!",
+        message: 'Updated successfully!',
         data: updatedPost,
       });
     } catch (err) {
@@ -51,7 +51,7 @@ const postController ={
   deletePost: async (req, res) => {
     try {
       const post = await postModel.findByIdAndDelete(req.params.id);
-      res.status(200).json("Deleted successfully!");
+      res.status(200).json('Deleted successfully!');
     } catch (err) {
       res.status(500).json(err.message);
     }

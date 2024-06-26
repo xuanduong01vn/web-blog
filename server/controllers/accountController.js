@@ -28,7 +28,7 @@ const accountController ={
       const { username, password, email } = req.body;
 
       if (!password || !email || !username || username.trim().length==0 || email.trim().length==0 || password.trim().length==0) {
-        return res.status(400).json("Username and password are required");
+        return res.status(400).json('Username and password are required');
       }
 
       const newAccount = await accountModel(req.body);
@@ -37,10 +37,10 @@ const accountController ={
       
 
       if(usernameAccount && username.trim().length>0){
-        res.status(200).json("Tên tài khoản đã tồn tại");
+        res.status(200).json('Tên tài khoản đã tồn tại');
       }
       else if(emailAccount && email.trim().length>0){
-        res.status(200).json("Email đã tồn tại");
+        res.status(200).json('Email đã tồn tại');
       }
       else{
         const saveAccount = await newAccount.save();
@@ -55,7 +55,7 @@ const accountController ={
       const { email, password } = req.body;
 
       if (!password || !email || email.trim().length==0 || password.trim().length==0) {
-        return res.status(400).json("Email and password are required");
+        return res.status(400).json('Email and password are required');
       }
 
       // const newAccount = await accountModel(req.body);
@@ -63,12 +63,12 @@ const accountController ={
 
       if(userFound && email.trim().length>0 && password.trim().length>0){
         res.status(200).json({
-          message: "Login thành công",
+          message: 'Login thành công',
           account: userFound.idTypeAccount});
       }
       else if(!userFound || email.trim().length==0 || password.trim().length==0){
         res.status(200).json({
-          message:"Login thất bại"
+          message:'Login thất bại'
         });
       }
     } catch (err) {
@@ -81,7 +81,7 @@ const accountController ={
       await account.updateOne({ $set: req.body });
       const updatedAccount = await accountModel.findById(req.params.id);
       res.status(200).json({
-        message: "Updated successfully!",
+        message: 'Updated successfully!',
         data: updatedAccount,
       });
     } catch (err) {
@@ -91,7 +91,7 @@ const accountController ={
   deleteAccount: async (req, res) => {
     try {
       const account = await accountModel.findByIdAndDelete(req.params.id);
-      res.status(200).json("Deleted successfully!");
+      res.status(200).json('Deleted successfully!');
     } catch (err) {
       res.status(500).json(err.message);
     }

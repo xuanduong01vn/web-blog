@@ -1,6 +1,6 @@
-import mongoose from "mongoose";
-import AccountModel from "./accountModel.mjs";
-import PostModel from "./typePostModel.mjs";
+import mongoose from 'mongoose';
+import AccountModel from './accountModel.mjs';
+import PostModel from './typePostModel.mjs';
 
 const commentSchema = new mongoose.Schema({
   content: {

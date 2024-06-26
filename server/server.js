@@ -39,7 +39,7 @@ console.log(__dirname);
 app.use(cors());
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
-app.use(morgan("common"));
+app.use(morgan('common'));
 app.use('/file', express.static('uploads'));
 
 app.use('/posts', postRouter);
