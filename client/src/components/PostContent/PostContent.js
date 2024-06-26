@@ -1,21 +1,21 @@
-import styled from "styled-components";
-import React, {useState, useEffect, createContext, useRef } from "react";
+import styled from 'styled-components';
+import React, {useState, useEffect, createContext, useRef } from 'react';
 import axios from 'axios';
-import { useParams } from "react-router-dom";
+import { useParams } from 'react-router-dom';
 import { format } from 'date-fns';
 import { vi } from 'date-fns/locale';
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {
   faStar,
   faBookmark, 
-} from "@fortawesome/free-regular-svg-icons";
+} from '@fortawesome/free-regular-svg-icons';
 import {
   faStar as faStared,
   faBookmark as faBookmarked,
   faEllipsis,
   faMound,
-} from "@fortawesome/free-solid-svg-icons";
-import PostComment from "../PostComment/PostComment.js";
+} from '@fortawesome/free-solid-svg-icons';
+import PostComment from '../PostComment/PostComment.js';
 
 
 function PostContent(props){
@@ -134,10 +134,10 @@ function PostContent(props){
       }
     }
 
-    document.addEventListener("mousedown", handleClickOutside);
+    document.addEventListener('mousedown', handleClickOutside);
     
     return () => {
-      document.removeEventListener("mousedown", handleClickOutside);
+      document.removeEventListener('mousedown', handleClickOutside);
     };
   }, [openPopUp]);
   
@@ -145,66 +145,66 @@ function PostContent(props){
     <Wrapper>
       {(postData.isDeleted === true)
           ?(
-            <div className="post-content-not-found">
-              <h1 className="alert-not-found">Bài viết không còn tồn tại!</h1>
+            <div className='post-content-not-found'>
+              <h1 className='alert-not-found'>Bài viết không còn tồn tại!</h1>
             </div>
           )
         :(postData.isDeleted === false)
           ?(
-            <div className="post-content-all">
-              <div className="post-content-container">
-                <div className="post-content-user">
-                  <div className="post-content-author">
-                    <div className="post-author-avatar">
-                      <img src={author?.avatar} alt="user avatar" className="post-author-image"/>
+            <div className='post-content-all'>
+              <div className='post-content-container'>
+                <div className='post-content-user'>
+                  <div className='post-content-author'>
+                    <div className='post-author-avatar'>
+                      <img src={author?.avatar} alt='user avatar' className='post-author-image'/>
                     </div>
-                    <div className="post-content-created">
-                      <a href={`/user/${author?._id}`} className="post-author-name">{author?.username}</a>
-                      <p className="post-created-time">đã đăng lúc {timeCreated}</p>
+                    <div className='post-content-created'>
+                      <a href={`/user/${author?._id}`} className='post-author-name'>{author?.username}</a>
+                      <p className='post-created-time'>đã đăng lúc {timeCreated}</p>
                     </div>
                   </div>
-                  <div className="post-content-action">
-                    <p className="liked-action-ammount">{amountLiked}</p>
+                  <div className='post-content-action'>
+                    <p className='liked-action-ammount'>{amountLiked}</p>
                     {!liked ?
-                      <button onClick={likePost} className="post-content-action-btn">
+                      <button onClick={likePost} className='post-content-action-btn'>
                         <FontAwesomeIcon icon={faStar}/>
                       </button>
                     :
-                      <button onClick={likePost} className="post-content-action-btn active">
+                      <button onClick={likePost} className='post-content-action-btn active'>
                         <FontAwesomeIcon icon={faStared}/>
                       </button>
                     }
-                    <p className="marked-action-ammount">{amountMarked}</p>
+                    <p className='marked-action-ammount'>{amountMarked}</p>
                     {!marked ?
-                      <button onClick={markPost} className="post-content-action-btn">
+                      <button onClick={markPost} className='post-content-action-btn'>
                         <FontAwesomeIcon icon={faBookmark}/>
                       </button>
                     :
-                      <button onClick={markPost} className="post-content-action-btn active">
+                      <button onClick={markPost} className='post-content-action-btn active'>
                         <FontAwesomeIcon icon={faBookmarked}/>
                       </button>
                     } 
                     
                   </div>
                 </div>
-                <h1 className="post-content-title">
+                <h1 className='post-content-title'>
                   {postData.title}
                 </h1>
-                <div className="author-action">
-                  <button ref={popupBtnRef} onClick={(e)=>handleOpenPostPopUp(e)} className="author-action-btn">
-                    <FontAwesomeIcon className="author-action-btn-icon" icon={faEllipsis} />
+                <div className='author-action'>
+                  <button ref={popupBtnRef} onClick={(e)=>handleOpenPostPopUp(e)} className='author-action-btn'>
+                    <FontAwesomeIcon className='author-action-btn-icon' icon={faEllipsis} />
                   </button>
-                    <div ref={popupRef} className={!openPopUp?"author-pop-up":"author-pop-up opened"}>
+                    <div ref={popupRef} className={!openPopUp?'author-pop-up':'author-pop-up opened'}>
                       <ul className='author-pop-up-list'>
                         <li className='author-pop-up-item'>
-                          <a href={`/post/${postData._id}/edit`} className="author-pop-up-link">
+                          <a href={`/post/${postData._id}/edit`} className='author-pop-up-link'>
                             Sửa bài viết
                           </a>
                         </li>
                         <li className='author-pop-up-item'>
-                          <a className="author-pop-up-link" 
+                          <a className='author-pop-up-link' 
                           onClick={()=>{
-                            setOpenPopUp("author-pop-up");
+                            setOpenPopUp('author-pop-up');
                             onDeletePost({
                             classParent: 'page-container blur',
                             classChild: 'delete-post-popup',
@@ -216,12 +216,12 @@ function PostContent(props){
                     </div>
   
                 </div>
-                <div className="post-content-text">
+                <div className='post-content-text'>
                   <p>
                     {postData.content}
                   </p>
                 </div>
-                <span className="post-tags-item">
+                <span className='post-tags-item'>
                 {postData.listTag?.map((tag)=>(
                       `#${tag} `
                     ))}
@@ -230,7 +230,7 @@ function PostContent(props){
               <PostComment post={postData}/>
             </div>
             )
-        :(<div className="post-content-not-found"></div>) 
+        :(<div className='post-content-not-found'></div>) 
       }
     </Wrapper>
   )
@@ -391,7 +391,7 @@ const Wrapper = styled.div`
   }
 
   .author-pop-up::before{
-    content: "";
+    content: '';
     z-index: 100;
     display: block;
     border-width: 12px;
@@ -404,7 +404,7 @@ const Wrapper = styled.div`
   }
 
   .author-pop-up::after{
-    content: "";
+    content: '';
     z-index: 99;
     display: block;
     border-width: 13px;
@@ -468,12 +468,12 @@ const Wrapper = styled.div`
     }
 
     .author-pop-up::before{
-      content: "";
+      content: '';
       right: 16px;
     }
 
     .author-pop-up::after{
-      content: "";
+      content: '';
       right: 16px;  
     }
 
@@ -498,12 +498,12 @@ const Wrapper = styled.div`
     }
 
     .author-pop-up::before{
-      content: "";
+      content: '';
       right: 16px;
     }
 
     .author-pop-up::after{
-      content: "";
+      content: '';
       right: 16px;  
     }
   }
@@ -527,12 +527,12 @@ const Wrapper = styled.div`
     }
 
     .author-pop-up::before{
-      content: "";
+      content: '';
       right: 16px;
     }
 
     .author-pop-up::after{
-      content: "";
+      content: '';
       right: 16px;  
     }
   }

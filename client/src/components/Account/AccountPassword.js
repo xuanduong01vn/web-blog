@@ -1,7 +1,7 @@
-import styled from "styled-components";
-import React, {useState, useEffect} from "react";
+import styled from 'styled-components';
+import React, {useState, useEffect} from 'react';
 import axios from 'axios';
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { 
   faEyeSlash,
   faEye,
@@ -11,8 +11,8 @@ function AccountPassword(){
 
   const id='66669b9c646d48fe74ba397b';
   const [hidePassword, setHidePassword] = useState(false);
-  const [typeInput, setTypeInput] = useState("text");
-  const [userPwd, setUserPwd] = useState("");
+  const [typeInput, setTypeInput] = useState('text');
+  const [userPwd, setUserPwd] = useState('');
   const [inputPassword, setInputPassword]= useState({
     currentPwd: '',
     newPwd:'',
@@ -56,7 +56,7 @@ function AccountPassword(){
 
   function onChangValue(e){
     if(e.target.value.trim().length>0){
-      setTypeInput("password");
+      setTypeInput('password');
     }
     
     const {name, value}= e.target;
@@ -95,17 +95,17 @@ function AccountPassword(){
 
   return(
     <Wrapper>
-      <h2 className="password-container-title">Mật khẩu</h2>
-      <div className="password-container">
-        <div className="password-item">
-          <label htmlFor="password-current">
-            <span className="red-asterisk">* </span>Mật khẩu hiện tại
+      <h2 className='password-container-title'>Mật khẩu</h2>
+      <div className='password-container'>
+        <div className='password-item'>
+          <label htmlFor='password-current'>
+            <span className='red-asterisk'>* </span>Mật khẩu hiện tại
           </label>
-          <div className="password-type-box">
-            <input autoComplete="off" type={typeInput} name="currentPwd" id="password-current" className="password-input" 
+          <div className='password-type-box'>
+            <input autoComplete='off' type={typeInput} name='currentPwd' id='password-current' className='password-input' 
             onChange={(e)=>onChangValue(e)}
             value={inputPassword.currentPwd}/>
-            <button className="hide-password-btn" 
+            <button className='hide-password-btn' 
             onClick={handleHidePassword}>
               {hidePassword ?
                 <FontAwesomeIcon icon={faEye} />
@@ -114,17 +114,17 @@ function AccountPassword(){
               }
             </button>
           </div>
-          {warning && (<span className="warning-box">Sai mật khẩu hiện tại</span>)}
+          {warning && (<span className='warning-box'>Sai mật khẩu hiện tại</span>)}
         </div>
-        <div className="password-item">
-          <label htmlFor="password-new">
-            <span className="red-asterisk">* </span>Mật khẩu mới
+        <div className='password-item'>
+          <label htmlFor='password-new'>
+            <span className='red-asterisk'>* </span>Mật khẩu mới
           </label>
-          <div className="password-type-box">
-            <input autoComplete="off" type={typeInput} name="newPwd" id="password-new" className="password-input" 
+          <div className='password-type-box'>
+            <input autoComplete='off' type={typeInput} name='newPwd' id='password-new' className='password-input' 
             onChange={(e)=>onChangValue(e)}
             value={inputPassword.newPwd}/>
-            <button className="hide-password-btn" 
+            <button className='hide-password-btn' 
             onClick={handleHidePassword}>
               {hidePassword ?
                 <FontAwesomeIcon icon={faEye} />
@@ -134,17 +134,17 @@ function AccountPassword(){
             </button>
           </div>
           {inputPassword.newPwd.trim().length<6 
-          && (<span className="warning-box">Không được bỏ trống, mật khẩu phải có ít nhất 6 ký tự</span>)}
+          && (<span className='warning-box'>Không được bỏ trống, mật khẩu phải có ít nhất 6 ký tự</span>)}
         </div>
-        <div className="password-item">
-          <label htmlFor="password-confirm">
-            <span className="red-asterisk">* </span>Nhập lại mật khẩu mới
+        <div className='password-item'>
+          <label htmlFor='password-confirm'>
+            <span className='red-asterisk'>* </span>Nhập lại mật khẩu mới
           </label>
-          <div className="password-type-box">
-            <input autoComplete="off" type={typeInput} name="confirmPwd" id="password-confirm" className="password-input" 
+          <div className='password-type-box'>
+            <input autoComplete='off' type={typeInput} name='confirmPwd' id='password-confirm' className='password-input' 
             onChange={(e)=>onChangValue(e)}
             value={inputPassword.confirmPwd}/>
-            <button className="hide-password-btn" 
+            <button className='hide-password-btn' 
             onClick={handleHidePassword}>
               {hidePassword ?
                 <FontAwesomeIcon icon={faEye} />
@@ -154,15 +154,15 @@ function AccountPassword(){
             </button>
           </div>
           {inputPassword.confirmPwd.length>0 && inputPassword.confirmPwd.trim()!=inputPassword.newPwd.trim()
-          && (<span className="warning-box">Không khớp mật khẩu mới</span>)}
+          && (<span className='warning-box'>Không khớp mật khẩu mới</span>)}
         </div>
-        <div className="password-item">
-          {success && (<span className="success-box">Đổi mật khẩu thành công</span>)}
+        <div className='password-item'>
+          {success && (<span className='success-box'>Đổi mật khẩu thành công</span>)}
           
         </div>
-        <div className="password-action">
-          <button onClick={cancelInput} className="password-btn">Hủy</button>
-          <button onClick={handleChangePwd} className="password-btn active">Lưu</button>
+        <div className='password-action'>
+          <button onClick={cancelInput} className='password-btn'>Hủy</button>
+          <button onClick={handleChangePwd} className='password-btn active'>Lưu</button>
         </div>
       </div>
     </Wrapper>

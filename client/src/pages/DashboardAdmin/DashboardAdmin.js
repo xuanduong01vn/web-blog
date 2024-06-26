@@ -13,10 +13,10 @@ import DashboardAdmin from '../../components/DashboardAdmin/DashboardAdmin';
 function PageDashboardAdmin(){
   return (
     <Wrapper>
-      <div className="dashboard-admin-container">
+      <div className='dashboard-admin-container'>
         <HeaderAdmin/>
-        <div className="dashboard-admin-content">
-          <DashboarLayout title="admin"/>
+        <div className='dashboard-admin-content'>
+          <DashboarLayout title='admin'/>
           <DashboardAdmin/>
         </div>
       </div>

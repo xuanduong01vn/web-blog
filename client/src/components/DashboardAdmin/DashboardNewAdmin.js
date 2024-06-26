@@ -4,10 +4,10 @@ import axios from 'axios';
 
 function NewAdmin(){
 
-  const [inputUsername, setInputUsername]=useState("");
-  const [inputEmail, setInputEmail]=useState("@gmail.com");
-  const [inputPassword, setInputPassword]=useState("");
-  const [confirmPassword, setConfirmPassword]=useState("");
+  const [inputUsername, setInputUsername]=useState('');
+  const [inputEmail, setInputEmail]=useState('@gmail.com');
+  const [inputPassword, setInputPassword]=useState('');
+  const [confirmPassword, setConfirmPassword]=useState('');
   const [samePassword, setSamePassword] = useState(null);
   const [sameAccount, setSameAccount] = useState(false);
   const [adminList, setAdminList] = useState(null);
@@ -23,10 +23,10 @@ function NewAdmin(){
   useEffect(()=>{
     const getDataAdmin = async () => {
       try {
-        const response = await axios.get("http://localhost:9999/accounts/");
+        const response = await axios.get('http://localhost:9999/accounts/');
         return response.data;
       } catch (err) {
-        console.log("Error fetching authors:", err.message);
+        console.log('Error fetching authors:', err.message);
         return [];
       }
     };
@@ -41,11 +41,11 @@ function NewAdmin(){
 
   function onChangeValue(e, func){
     const {name, value} = e.target;
-      if(e.target.name == "username"){
+      if(e.target.name == 'username'){
         setInputEmail(e.target.value.trim()+`@gmail.com`);
         setSameAccount(adminList?.some(admin=>admin.username==e.target.value.trim()));
       }
-      if(e.target.name=="password"){
+      if(e.target.name=='password'){
         setLegitPass(e.target.value.trim().length>=6);
       }
       setInputValue({
@@ -71,11 +71,11 @@ function NewAdmin(){
     username: inputUsername,
     password: inputPassword,
     email: inputEmail,
-    fullname: "",
+    fullname: '',
     idTypeAccount: 1,
-    birthday: "",
-    createAt: "createAt",
-    avatar: "http://localhost:9999/file/avatar-default.jpg",
+    birthday: '',
+    createAt: 'createAt',
+    avatar: 'http://localhost:9999/file/avatar-default.jpg',
     listLiked: [],
     listMarked: [],
     isDeleted: false
@@ -86,12 +86,12 @@ function NewAdmin(){
     newInputAccount.createAt=new Date();
     newInputAccount.birthday=new Date();
     setSamePassword(confirmPassword != inputPassword);
-    if(inputPassword.length>=6 && confirmPassword !="" && confirmPassword == inputPassword && !sameAccount){
+    if(inputPassword.length>=6 && confirmPassword !='' && confirmPassword == inputPassword && !sameAccount){
       axios.post(`http://localhost:9999/accounts/`,newInputAccount)
       .then(res=>{
         console.log(res.data);
         clearInput();
-        setInputEmail("@gmail.com");
+        setInputEmail('@gmail.com');
         setSuccess(true)
         setTimeout(()=>setSuccess(false),2000);
       })
@@ -102,51 +102,51 @@ function NewAdmin(){
 
   return(
     <Wrapper>
-      <h2 className="profile-container-title">Thêm mới quản trị viên</h2>
-      <div className="profile-container">
-        <div className="profile-item">
-          <label htmlFor="">
-            <span className="red-asterisk">* </span>Tên tài khoản
+      <h2 className='profile-container-title'>Thêm mới quản trị viên</h2>
+      <div className='profile-container'>
+        <div className='profile-item'>
+          <label htmlFor=''>
+            <span className='red-asterisk'>* </span>Tên tài khoản
           </label>
-          <input name="username" type="text" id="profile-username" className="profile-input"
+          <input name='username' type='text' id='profile-username' className='profile-input'
           value={inputValue.username}
           onChange = {e=> onChangeValue(e, setInputUsername)}/>
-          {sameAccount && (<span className="warning-box">Tên tài khoản này đã được sử dụng</span>)}
+          {sameAccount && (<span className='warning-box'>Tên tài khoản này đã được sử dụng</span>)}
         </div>
-        <div className="profile-item">
-          <label htmlFor="profile-email">
-          <span className="red-asterisk">* </span>Email
+        <div className='profile-item'>
+          <label htmlFor='profile-email'>
+          <span className='red-asterisk'>* </span>Email
         </label>
-          <input name="email" type="text" id="profile-email" className="profile-input read-only"
+          <input name='email' type='text' id='profile-email' className='profile-input read-only'
           value={inputEmail} readOnly/>
         </div>
-        <div className="profile-item">
-          <label htmlFor="profile-birthday">
-          <span className="red-asterisk">* </span>Mật khẩu
+        <div className='profile-item'>
+          <label htmlFor='profile-birthday'>
+          <span className='red-asterisk'>* </span>Mật khẩu
         </label>
-          <input name="password" type="text" id="profile-birthday" className="profile-input"
+          <input name='password' type='text' id='profile-birthday' className='profile-input'
           value={inputValue.password}
           onChange = {e=> onChangeValue(e, setInputPassword)}/>
-          {!legitPass && (<span className="warning-box">Mật khẩu phải có ít nhất 6 ký tự</span>)}
+          {!legitPass && (<span className='warning-box'>Mật khẩu phải có ít nhất 6 ký tự</span>)}
         </div>
-        <div className="profile-item">
-          <label htmlFor="profile-birthday">
-          <span className="red-asterisk">* </span>Xác nhận lại mật khẩu
+        <div className='profile-item'>
+          <label htmlFor='profile-birthday'>
+          <span className='red-asterisk'>* </span>Xác nhận lại mật khẩu
         </label>
-          <input name="confirmPassword" type="text" id="profile-birthday" className="profile-input"
+          <input name='confirmPassword' type='text' id='profile-birthday' className='profile-input'
           value={inputValue.confirmPassword}
           onChange = {e=> onChangeValue(e, setConfirmPassword)}/>
-          {samePassword && (<span className="warning-box">Mật khẩu không khớp</span>)}
+          {samePassword && (<span className='warning-box'>Mật khẩu không khớp</span>)}
         </div>
-        <div className="profile-item">
-          {success && (<span className="success-alert">Thêm mới tài khoản thành công</span>)}
+        <div className='profile-item'>
+          {success && (<span className='success-alert'>Thêm mới tài khoản thành công</span>)}
         </div>
         
         
-        <div className="profile-action">
+        <div className='profile-action'>
           <a onClick={addNewAdmin} 
-          // href="/dashboard/admins"
-           className="profile-btn active">Lưu</a>
+          // href='/dashboard/admins'
+           className='profile-btn active'>Lưu</a>
         </div>
         
       </div>

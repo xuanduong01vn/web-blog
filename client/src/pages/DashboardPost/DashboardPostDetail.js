@@ -1,23 +1,23 @@
-import styled from "styled-components";
-import React, {useState, useEffect} from "react";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import styled from 'styled-components';
+import React, {useState, useEffect} from 'react';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCamera,
 } from '@fortawesome/free-solid-svg-icons';
 
-import HeaderDashboard from "../../components/Header/HeaderDashboard.js";
-import DashboardLayout from "../../components/DashboardLayout/DashboardLayout.js";
-import PostContent from "../../components/PostContent/PostContent.js";
+import HeaderDashboard from '../../components/Header/HeaderDashboard.js';
+import DashboardLayout from '../../components/DashboardLayout/DashboardLayout.js';
+import PostContent from '../../components/PostContent/PostContent.js';
 
 function PageDashboardPostDetail(){
-  document.title="Dashboard admin";
+  document.title='Dashboard admin';
 
   return (
     <Wrapper>
-      <div className="dashboard-admin-container">
+      <div className='dashboard-admin-container'>
         <HeaderDashboard/>
-        <div className="dashboard-admin-content">
+        <div className='dashboard-admin-content'>
           <DashboardLayout/>
-          <div className="data-content">
+          <div className='data-content'>
             <PostContent/>
           </div>
           

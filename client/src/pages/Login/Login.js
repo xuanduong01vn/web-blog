@@ -1,7 +1,7 @@
 import styled from 'styled-components';
 import React, {useEffect, useState} from 'react';
 import axios from 'axios';
-import { Navigate ,useNavigate } from "react-router-dom";
+import { Navigate ,useNavigate } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {
   faEyeSlash,
@@ -14,7 +14,7 @@ function Login(){
   document.title='Login';
 
   const [hidePassword, setHidePassword] = useState(false);
-  const [typeInput, setTypeInput] = useState("password");
+  const [typeInput, setTypeInput] = useState('password');
   const [sameEmail, setSameEmail] = useState(false);
   const [samePassword, setSamePassword] = useState(false);
   const [valueUsername, setValueUsername]=useState('');
@@ -70,15 +70,15 @@ function Login(){
       axios.post(`http://localhost:9999/accounts/login/`,newInputAccount)
       .then(res=>{
         console.log(res.data);
-        if(res.data=="Username and password are required"){
+        if(res.data=='Username and password are required'){
         }
-        else if(res.data.message=="Login thành công"){
+        else if(res.data.message=='Login thành công'){
           navigate(res.data.account==1 ?`/dashboard`:`/` );
         }
-        else if(res.data.message=="Login thất bại"){
+        else if(res.data.message=='Login thất bại'){
         }
         else 
-        // (res.data!=="Tài khoản đã tồn tại" && res.data!=="Email đã tồn tại") 
+        // (res.data!=='Tài khoản đã tồn tại' && res.data!=='Email đã tồn tại') 
         {
           clearInput();
         }
@@ -90,20 +90,20 @@ function Login(){
   }
   return(
     <Wrapper>
-      <div className="login-container">
-        <h1 className="page-name">QAx</h1>
-        <h3 className="page-title">Đăng nhập vào QAx</h3>
-        <div className="input-item">
-          <input name="email" id="email-input" type="text" placeholder="Email"
+      <div className='login-container'>
+        <h1 className='page-name'>QAx</h1>
+        <h3 className='page-title'>Đăng nhập vào QAx</h3>
+        <div className='input-item'>
+          <input name='email' id='email-input' type='text' placeholder='Email'
           value={inputValue.email}
           onChange = {e=> onChangeValue(e)}/>
-          {inputValue.email=="" && (<span className="warning-box">Không được để trống email</span>)}
+          {inputValue.email=='' && (<span className='warning-box'>Không được để trống email</span>)}
         </div>
-        <div className="input-item">
-          <input name="password" id="password-input" type={typeInput} placeholder="Mật khẩu" 
+        <div className='input-item'>
+          <input name='password' id='password-input' type={typeInput} placeholder='Mật khẩu' 
            value={inputValue.password}
            onChange = {e=> onChangeValue(e)}/>
-          <button className="hide-password-btn" 
+          <button className='hide-password-btn' 
           onClick={handleHidePassword}>
             {hidePassword ?
               <FontAwesomeIcon icon={faEye} />
@@ -111,14 +111,14 @@ function Login(){
               <FontAwesomeIcon icon={faEyeSlash} />
             }
           </button>
-          {inputValue.password=="" && (<span className="warning-box">Không được để trống mật khẩu</span>)}
+          {inputValue.password=='' && (<span className='warning-box'>Không được để trống mật khẩu</span>)}
         </div>
         
         
-        <button onClick={()=>handleLogin()} className="login-btn">Đăng nhập</button>
-        <div className="other-action">
-          <a href="/forgot-password" className="forgot-password-btn">Quên mật khẩu?</a>
-          <a href="/register" className="register-btn">Tạo tài khoản</a>
+        <button onClick={()=>handleLogin()} className='login-btn'>Đăng nhập</button>
+        <div className='other-action'>
+          <a href='/forgot-password' className='forgot-password-btn'>Quên mật khẩu?</a>
+          <a href='/register' className='register-btn'>Tạo tài khoản</a>
         </div>
       </div>
     </Wrapper>

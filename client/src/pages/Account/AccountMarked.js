@@ -1,18 +1,18 @@
-import AssetsLayout from "../../components/AccountAssets/AssetsLayout";
-import AssetsPost from "../../components/AccountAssets/AssetsPost";
-import Header from "../../components/Header/Header";
-import Footer from "../../components/Footer/Footer";
-import styled from "styled-components";
-import React, { useEffect, useState } from "react";
+import AssetsLayout from '../../components/AccountAssets/AssetsLayout';
+import AssetsPost from '../../components/AccountAssets/AssetsPost';
+import Header from '../../components/Header/Header';
+import Footer from '../../components/Footer/Footer';
+import styled from 'styled-components';
+import React, { useEffect, useState } from 'react';
 
 function AccountMarked(){
-  document.title="My post";
+  document.title='My post';
   return (
     <Wrapper>
       <Header/>
-      <div className="account-container">
-        <div className="account-layout">
-          <AssetsLayout itemActive={"Đã lưu"}/>
+      <div className='account-container'>
+        <div className='account-layout'>
+          <AssetsLayout itemActive={'Đã lưu'}/>
           <AssetsPost/>
         </div>
       </div>

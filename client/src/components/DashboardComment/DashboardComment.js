@@ -1,5 +1,6 @@
 import styled from 'styled-components';
 import React, { useEffect, useState } from 'react';
+import { useLocation, useNavigate, Link } from 'react-router-dom'; 
 import axios from 'axios';
 import { format } from 'date-fns';
 import { vi } from 'date-fns/locale';
@@ -8,48 +9,68 @@ import ReactPaginate from 'react-paginate';
 const itemsPerPage = 10;
 
 function DashboardComment(){
+  const location = useLocation();
+  const navigate = useNavigate();
+  const getQueryParams = (search) => {
+    return new URLSearchParams(search);
+  };
+
+  const queryParams = getQueryParams(location.search);
+  const isDeleted = queryParams.get('isDeleted');
+  const isPage = queryParams.get('page');
   const [cmtList, setCmtList] = useState([]);
   const [accList, setAccList] = useState([]);
-  const [stateCmt, setStateCmt] = useState("all");
+  const [stateCmt, setStateCmt] = useState('');
   const [currentItems, setCurrentItems] = useState([]);
   const [pageCount, setPageCount] = useState(0);
-  const [itemOffset, setItemOffset] = useState(0);
+  const [itemOffset, setItemOffset] = useState(null);
   const [currentCmts, setCurrentCmts] = useState([]);
-  const [currentPage, setCurrentPage] = useState(0);
-
-
-  function handleStateCmt(state){
-    setStateCmt(state);
-    if(state=="all"){
-      setCurrentCmts(cmtList);
-    }else if(state=="deleted"){
-      setCurrentCmts(cmtList.filter(cmt=>cmt.isDeleted==true));
-    }else if(state=="active"){
-      setCurrentCmts(cmtList.filter(cmt=>cmt.isDeleted==false));
-    }
-    setCurrentPage(0);
-    setItemOffset(0);
-  }
+  const [currentPage, setCurrentPage] = useState(null);
 
   useEffect(()=>{
     const getDataCmt = async () => {
       try {
-        const response = await axios.get("http://localhost:9999/comments");
+        const response = await axios.get(`http://localhost:9999/comments`);
         return response.data;
       } catch (err) {
-        console.log("Error fetching authors:", err.message);
+        console.log('Error fetching authors:', err.message);
         return [];
       }
     };
     getDataCmt()
     .then((data) => {
-      setCmtList(data || []);
-      setCurrentCmts(data);
+      setCmtList(data);
+      if(!isPage){
+        setCurrentPage(0);
+        setItemOffset(0);
+      }else{
+        setCurrentPage(isPage-1);
+        setItemOffset((isPage-1)*itemsPerPage);
+      }
+      if(!isDeleted){
+        setStateCmt('all');
+        setCurrentCmts(data);
+      }
+      else if(isDeleted=='false'){
+        setStateCmt('active');
+        setCurrentCmts(data.filter(cmt=>cmt.isDeleted==false));
+      }
+      else if(isDeleted=='true'){
+        setStateCmt('deleted');
+        setCurrentCmts(data.filter(cmt=>cmt.isDeleted==true));
+      }
     })
     .catch((err)=>{
       console.log(err.message);
     });
-  },[]); 
+  },[location.search]); 
+
+  console.log(currentPage);
+
+  function handleStateCmt(state){
+    setCurrentPage(0);
+    setItemOffset(0);
+  }
 
   useEffect(() => {
     const endOffset = itemOffset + itemsPerPage;
@@ -59,17 +80,37 @@ function DashboardComment(){
 
   const handlePageClick = (e) => {
     const newOffset = (e.selected * itemsPerPage) % cmtList.length;
-    setItemOffset(newOffset);
-    setCurrentPage(e.selected);
+    if(e.selected==0){
+      setItemOffset(newOffset);
+      setCurrentPage(e.selected);
+      queryParams.delete('page');
+      navigate(
+        {
+          pathname: location.pathname,
+          search: queryParams.toString(),
+        }
+      )
+    }
+    else if(e.selected>0){
+      setItemOffset(newOffset);
+      setCurrentPage(e.selected);
+      queryParams.set('page',e.selected+1);
+      navigate(
+        {
+          pathname: location.pathname,
+          search: queryParams.toString(),
+        }
+      )
+    }
   };
 
   useEffect(()=>{
     const getDataAcc = async () => {
       try {
-        const response = await axios.get("http://localhost:9999/accounts");
+        const response = await axios.get(`http://localhost:9999/accounts`);
         return response.data;
       } catch (err) {
-        console.log("Error fetching authors:", err.message);
+        console.log('Error fetching authors:', err.message);
         return [];
       }
     };
@@ -94,27 +135,30 @@ function DashboardComment(){
   
   return (
     <Wrapper>
-      <div className="dashboard-post-container">
-        <div className="dashboard-add-new">
+      <div className='dashboard-post-container'>
+        <div className='dashboard-add-new'>
           <h3>Quản lý bình luận</h3>
         </div>
         
-        <div className="dashboard-filter">
-          <ul className="dashboard-filter-list">
-            <li onClick={()=>handleStateCmt("all")} 
-              className={stateCmt=="all"?"dashboard-filter-item active":"dashboard-filter-item"}
-            >Tất cả {`(${cmtList?.length})`}</li>
-            <li onClick={()=>handleStateCmt("active")} 
-              className={stateCmt=="active"?"dashboard-filter-item active":"dashboard-filter-item"}
-            >Đang hoạt động {`(${cmtList.filter(cmt=>cmt.isDeleted==false)?.length})`}</li>
-            <li onClick={()=>handleStateCmt("deleted")} 
-              className={stateCmt=="deleted"?"dashboard-filter-item active":"dashboard-filter-item"}
-            >Đã xóa {`(${cmtList.filter(cmt=>cmt.isDeleted==true)?.length})`}</li>
+        <div className='dashboard-filter'>
+          <ul className='dashboard-filter-list'>
+            <li onClick={()=>handleStateCmt('all')} 
+            className={stateCmt=='all'?'dashboard-filter-item active':'dashboard-filter-item'}>
+              <Link to='/dashboard/comments' className='filter-item-link'>Tất cả {`(${cmtList?.length})`}</Link>
+            </li>
+            <li onClick={()=>handleStateCmt('active')} 
+            className={stateCmt=='active'?'dashboard-filter-item active':'dashboard-filter-item'}>
+              <Link to='/dashboard/comments/?isDeleted=false' className='filter-item-link'>Đang hoạt động {`(${cmtList.filter(cmt=>cmt.isDeleted==false)?.length})`}</Link>
+            </li>
+            <li onClick={()=>handleStateCmt('deleted')} 
+            className={stateCmt=='deleted'?'dashboard-filter-item active':'dashboard-filter-item'}>
+              <Link to='/dashboard/comments/?isDeleted=true' className='filter-item-link'>Đã xóa {`(${cmtList.filter(cmt=>cmt.isDeleted==true)?.length})`}</Link>
+            </li>
           </ul>
         </div>
 
-        <div className="data-table">
-        <table className="dashboard-post-table">
+        <div className='data-table'>
+        <table className='dashboard-post-table'>
           <thead>
             <tr>
               <th>#</th>
@@ -132,12 +176,12 @@ function DashboardComment(){
                 <td>{cmt.content} </td>
                 <td>@{accList.find(acc=>acc._id==cmt.idUser)?.username}</td>
                 <td>{cmt.isDeleted?
-                  <span className="red-asterisk">Đã xóa</span>
-                  :<span className="success-alert">Đang hoạt động</span>}
+                  <span className='red-asterisk'>Đã xóa</span>
+                  :<span className='success-alert'>Đang hoạt động</span>}
                 </td>
                 <td>{formatTime(cmt.createAt)}</td>
                 <td>
-                  <a href="" className='detail-item-btn'>
+                  <a href='' className='detail-item-btn'>
                     Chi tiết
                   </a>
                 </td>
@@ -150,23 +194,23 @@ function DashboardComment(){
         </div>
         {currentCmts.length>itemsPerPage &&
         <ReactPaginate
-          nextLabel=">"
+          nextLabel='>'
           onPageChange={handlePageClick}
           pageRangeDisplayed={5}
           marginPagesDisplayed={2}
           pageCount={pageCount}
-          previousLabel="<"
-          pageClassName="page-item"
-          pageLinkClassName="page-link"
-          previousClassName="page-item"
-          previousLinkClassName="page-link"
-          nextClassName="page-item"
-          nextLinkClassName="page-link"
-          breakLabel="..."
-          breakClassName="page-item"
-          breakLinkClassName="page-link"
-          containerClassName="pagination"
-          activeClassName="active"
+          previousLabel='<'
+          pageClassName='page-item'
+          pageLinkClassName='page-link'
+          previousClassName='page-item'
+          previousLinkClassName='page-link'
+          nextClassName='page-item'
+          nextLinkClassName='page-link'
+          breakLabel='...'
+          breakClassName='page-item'
+          breakLinkClassName='page-link'
+          containerClassName='pagination'
+          activeClassName='active'
           forcePage={currentPage}
           renderOnZeroPageCount={null}
         />
@@ -211,7 +255,9 @@ const Wrapper = styled.div`
   }
 
   .data-table{
-    min-height: 540px;
+    min-height: 580px;
+    box-sizing: border-box;
+    height: 580px;
   }
 
   .post-state-filter{
@@ -234,7 +280,11 @@ const Wrapper = styled.div`
 
   .dashboard-filter-item.active{
     border-bottom: 4px solid var(--hightlight-color);
-    color: var(--hightlight-color)
+    color: var(--hightlight-color);
+
+    .filter-item-link{
+      color: var(--hightlight-color)
+    }
   }
 
   table, th, td{

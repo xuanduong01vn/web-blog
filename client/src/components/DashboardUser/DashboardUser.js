@@ -9,7 +9,7 @@ const itemsPerPage = 10;
 
 function DashboardUser(){
   const [accList, setAccList] = useState([]);
-  const [stateAccount, setStateAccount] = useState("all");
+  const [stateAccount, setStateAccount] = useState('all');
   const [currentItems, setCurrentItems] = useState([]);
   const [pageCount, setPageCount] = useState(0);
   const [itemOffset, setItemOffset] = useState(0);
@@ -18,11 +18,11 @@ function DashboardUser(){
 
   function handleStateAccount(state){
     setStateAccount(state);
-    if(state=="all"){
+    if(state=='all'){
       setCurrentAccs(accList);
-    }else if(state=="deleted"){
+    }else if(state=='deleted'){
       setCurrentAccs(accList.filter(acc=>acc.isDeleted==true));
-    }else if(state=="active"){
+    }else if(state=='active'){
       setCurrentAccs(accList.filter(acc=>acc.isDeleted==false));
     }
     setCurrentPage(0);
@@ -32,10 +32,10 @@ function DashboardUser(){
   useEffect(()=>{
     const getDataAdmin = async () => {
       try {
-        const response = await axios.get("http://localhost:9999/accounts/?idTypeAccount=2");
+        const response = await axios.get(`http://localhost:9999/accounts/?idTypeAccount=2`);
         return response.data;
       } catch (err) {
-        console.log("Error fetching authors:", err.message);
+        console.log('Error fetching authors:', err.message);
         return [];
       }
     };
@@ -73,28 +73,28 @@ function DashboardUser(){
 
   return (
     <Wrapper>
-      <div className="dashboard-post-container">
-        <div className="dashboard-add-new">
+      <div className='dashboard-post-container'>
+        <div className='dashboard-add-new'>
           <h3>Quản lý người dùng</h3>
-          {/* <a href="/dashboard/new-admin" target="_blank" className="dashboard-new-btn">Thêm mới</a> */}
+          {/* <a href='/dashboard/new-admin' target='_blank' className='dashboard-new-btn'>Thêm mới</a> */}
         </div>
         
-        <div className="dashboard-filter">
-          <ul className="dashboard-filter-list">
-            <li onClick={()=>handleStateAccount("all")} 
-            className={stateAccount=="all"?"dashboard-filter-item active":"dashboard-filter-item"} 
+        <div className='dashboard-filter'>
+          <ul className='dashboard-filter-list'>
+            <li onClick={()=>handleStateAccount('all')} 
+            className={stateAccount=='all'?'dashboard-filter-item active':'dashboard-filter-item'} 
             >Tất cả {`(${accList?.length})`}</li>
-            <li onClick={()=>handleStateAccount("active")} 
-            className={stateAccount=="active"?"dashboard-filter-item active":"dashboard-filter-item"}
+            <li onClick={()=>handleStateAccount('active')} 
+            className={stateAccount=='active'?'dashboard-filter-item active':'dashboard-filter-item'}
             >Đang hoạt động {`(${accList.filter(acc=>acc.isDeleted==false)?.length})`}</li>
-            <li onClick={()=>handleStateAccount("deleted")} 
-            className={stateAccount=="deleted"?"dashboard-filter-item active":"dashboard-filter-item"}
+            <li onClick={()=>handleStateAccount('deleted')} 
+            className={stateAccount=='deleted'?'dashboard-filter-item active':'dashboard-filter-item'}
             >Đã xóa {`(${accList.filter(acc=>acc.isDeleted==true)?.length})`}</li>
           </ul>
         </div>
         
-        <div className="data-table">
-        <table className="dashboard-post-table">
+        <div className='data-table'>
+        <table className='dashboard-post-table'>
           <thead>
             <tr>
               <th>#</th>
@@ -130,23 +130,23 @@ function DashboardUser(){
 
         {currentAccs.length>itemsPerPage &&
         <ReactPaginate
-          nextLabel=">"
+          nextLabel='>'
           onPageChange={handlePageClick}
           pageRangeDisplayed={5}
           marginPagesDisplayed={2}
           pageCount={pageCount}
-          previousLabel="<"
-          pageClassName="page-item"
-          pageLinkClassName="page-link"
-          previousClassName="page-item"
-          previousLinkClassName="page-link"
-          nextClassName="page-item"
-          nextLinkClassName="page-link"
-          breakLabel="..."
-          breakClassName="page-item"
-          breakLinkClassName="page-link"
-          containerClassName="pagination"
-          activeClassName="active"
+          previousLabel='<'
+          pageClassName='page-item'
+          pageLinkClassName='page-link'
+          previousClassName='page-item'
+          previousLinkClassName='page-link'
+          nextClassName='page-item'
+          nextLinkClassName='page-link'
+          breakLabel='...'
+          breakClassName='page-item'
+          breakLinkClassName='page-link'
+          containerClassName='pagination'
+          activeClassName='active'
           forcePage={currentPage}
           renderOnZeroPageCount={null}
         />

@@ -1,22 +1,22 @@
-import styled from "styled-components";
-import React, {useState, useEffect} from "react";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import styled from 'styled-components';
+import React, {useState, useEffect} from 'react';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCamera,
 } from '@fortawesome/free-solid-svg-icons';
 
-import HeaderAdmin from "../../components/Header/HeaderDashboard";
-import AdminLayout from "../../components/DashboardLayout/DashboardLayout";
-import GeneralAdmin from "../../components/GeneralAdmin/GeneralAdmin";
+import HeaderAdmin from '../../components/Header/HeaderDashboard';
+import AdminLayout from '../../components/DashboardLayout/DashboardLayout';
+import GeneralAdmin from '../../components/GeneralAdmin/GeneralAdmin';
 
 function HomeAdmin(){
-  document.title="Dashboard admin";
+  document.title='Dashboard admin';
 
   return (
     <Wrapper>
-      <div className="dashboard-admin-container">
+      <div className='dashboard-admin-container'>
         <HeaderAdmin/>
-        <div className="dashboard-admin-content">
-          <AdminLayout title="dashboard"/>
+        <div className='dashboard-admin-content'>
+          <AdminLayout title='dashboard'/>
           <GeneralAdmin/>
         </div>
       </div>

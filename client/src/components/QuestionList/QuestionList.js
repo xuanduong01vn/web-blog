@@ -1,6 +1,6 @@
 import styled from 'styled-components';
-import React, {useEffect, useState} from "react";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import React, {useEffect, useState} from 'react';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {
   faComment,
   faThumbsUp,
@@ -15,20 +15,20 @@ function QuestionList(){
 
   return (
     <Wrapper>
-      <div className="question-list-container">
-      <h2 className="question-container-title">Bài viết nổi bật</h2>
+      <div className='question-list-container'>
+      <h2 className='question-container-title'>Bài viết nổi bật</h2>
       {noQuestion&&
-        <div className="blog-list-alert">
+        <div className='blog-list-alert'>
           <span>Chưa có câu hỏi nào</span>
         </div>
       }
 
       {!noQuestion &&
-        <ul className="question-list-box">
-          <li className="question-item">
+        <ul className='question-list-box'>
+          <li className='question-item'>
             <QuestionItem/>
           </li>
-          <li className="question-item">
+          <li className='question-item'>
             <QuestionItem/>
           </li>
         </ul>

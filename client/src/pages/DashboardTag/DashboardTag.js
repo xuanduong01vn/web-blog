@@ -8,10 +8,10 @@ import DashboardTag from '../../components/DashboardTag/DashboardTag';
 function PageDashboardTag(){
   return (
     <Wrapper>
-      <div className="dashboard-admin-container">
+      <div className='dashboard-admin-container'>
         <HeaderAdmin/>
-        <div className="dashboard-admin-content">
-          <DashboardLayout title="tag"/>
+        <div className='dashboard-admin-content'>
+          <DashboardLayout title='tag'/>
           <DashboardTag/>
         </div>
       </div>

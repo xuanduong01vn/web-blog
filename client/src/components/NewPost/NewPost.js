@@ -104,7 +104,7 @@ function NewPost(){
     amountLiked: 0,
     amountMarked: 0,
     amountComment: 0,
-    idAuthor: "66669b9c646d48fe74ba397b",
+    idAuthor: '66669b9c646d48fe74ba397b',
     createAt: new Date(),
     idTypePost: 1,
     isDeleted: false,
@@ -113,7 +113,7 @@ function NewPost(){
   const navigate= useNavigate();
 
   function handleKeyDown(e){
-    if(e.key=="Enter"){
+    if(e.key=='Enter'){
       setTempListTag([
         ...tempListTag,
         e.target.value.trim(),
@@ -167,29 +167,29 @@ function NewPost(){
 
   return (
     <Wrapper>
-      <div className="new-post-container">
-        <div className="new-post-item">
-          <div className="new-post-title">
-            <input autoComplete="off" type="text" className="new-post-title-input" placeholder="Tiêu đề"
+      <div className='new-post-container'>
+        <div className='new-post-item'>
+          <div className='new-post-title'>
+            <input autoComplete='off' type='text' className='new-post-title-input' placeholder='Tiêu đề'
               value={inputValue.title} name='title'
               onChange={e=>onChangeValue(e)}
             />
           </div>
         </div>
         
-        <div className="new-post-item">
-          <div className="new-post-tags">
+        <div className='new-post-item'>
+          <div className='new-post-tags'>
           {tempListTag.length>0 &&(
-            <ul className="temporary-tags">
+            <ul className='temporary-tags'>
               {tempListTag.map((tag,index)=>(
-                <li className="temporary-tag-item" key={index}>
+                <li className='temporary-tag-item' key={index}>
                   {tag}
                   <span data-name={tag} onClick={e=>handleCancelTag(e)}>x</span>
                 </li>
               ))}
             </ul>
           )}
-            <input autoComplete="off" type="text" className="new-post-tags-input" placeholder="Gắn thẻ"
+            <input autoComplete='off' type='text' className='new-post-tags-input' placeholder='Gắn thẻ'
               value={inputValue.tag} name='tag'
               onChange={e=>onChangeValue(e)}
               onKeyDown={e=>handleKeyDown(e)}
@@ -205,13 +205,13 @@ function NewPost(){
         </div>
         
         
-        <div className="new-post-action">
+        <div className='new-post-action'>
           <button onClick={handlePublish} className={activeBtn}>Xuất bản</button>
         </div>
 
-        <div className="new-post-item">
-          <div className="new-post-content">
-            <textarea autoComplete="off" type="text" className="new-post-content-input" placeholder="Nội dung bài viết"
+        <div className='new-post-item'>
+          <div className='new-post-content'>
+            <textarea autoComplete='off' type='text' className='new-post-content-input' placeholder='Nội dung bài viết'
               value={inputValue.content} name='content'
               onChange={e=>onChangeValue(e)}
             />

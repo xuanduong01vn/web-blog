@@ -8,10 +8,10 @@ import DashboardUser from '../../components/DashboardUser/DashboardUser';
 function PageDashboardUser(){
   return (
     <Wrapper>
-      <div className="dashboard-admin-container">
+      <div className='dashboard-admin-container'>
         <HeaderAdmin/>
-        <div className="dashboard-admin-content">
-          <DashboardLayout title="user"/>
+        <div className='dashboard-admin-content'>
+          <DashboardLayout title='user'/>
           <DashboardUser/>
         </div>
       </div>

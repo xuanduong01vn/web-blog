@@ -1,7 +1,7 @@
 import styled from 'styled-components';
-import React, {useEffect, useState} from "react";
+import React, {useEffect, useState} from 'react';
 import axios from 'axios';
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {
   faComment,
   faThumbsUp,
@@ -54,18 +54,18 @@ function AssetsPost(){
 
   return (
     <Wrapper>
-      <div className="post-list-container">
-      <h2 className="post-container-title">Bài viết</h2>
+      <div className='post-list-container'>
+      <h2 className='post-container-title'>Bài viết</h2>
       {noQuestion&&
-        <div className="post-list-alert">
+        <div className='post-list-alert'>
           <span>Chưa có bài viết nào</span>
         </div>
       }
 
       {!noQuestion &&
-        <ul className="post-list-box">
+        <ul className='post-list-box'>
           {posts.map(p=>(
-            <li key={p._id} className="post-item">
+            <li key={p._id} className='post-item'>
             <AssetsItem author={accs.find(acc=>acc._id==p.idAuthor)} post={p}/>
           </li>
           ))}

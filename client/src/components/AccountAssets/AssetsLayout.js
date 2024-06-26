@@ -1,5 +1,5 @@
-import styled from "styled-components";
-import React, {useState, useEffect} from "react";
+import styled from 'styled-components';
+import React, {useState, useEffect} from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { 
   faChevronDown,
@@ -8,24 +8,24 @@ import {
 function AssetsLayout(props){
 
   const {itemActive}=props;
-  const [openNavbar, setOpenNavbar]= useState("account-navbar");
+  const [openNavbar, setOpenNavbar]= useState('account-navbar');
 
   const handleOpenNavbar =()=>{
-    openNavbar=="account-navbar"?setOpenNavbar("account-navbar-opened"):setOpenNavbar("account-navbar");
+    openNavbar=='account-navbar'?setOpenNavbar('account-navbar-opened'):setOpenNavbar('account-navbar');
   }
 
   const onResizeWidthBrowser=()=>{
-    if(openNavbar=="account-navbar-opened"){
-      setOpenNavbar("account-navbar");
+    if(openNavbar=='account-navbar-opened'){
+      setOpenNavbar('account-navbar');
     }
   }
 
-  window.addEventListener("resize", onResizeWidthBrowser)
+  window.addEventListener('resize', onResizeWidthBrowser)
 
   const navbarItems=[
-    {path:"/account/post", title: "Bài viết"},
-    {path:"/account/deleted", title: "Thùng rác"},
-    {path:"/account/marked", title: "Đã lưu"},
+    {path:'/account/post', title: 'Bài viết'},
+    {path:'/account/deleted', title: 'Thùng rác'},
+    {path:'/account/marked', title: 'Đã lưu'},
   ]
 
   const [selectedItem, setSelectedItem]=useState(0);
@@ -37,13 +37,13 @@ function AssetsLayout(props){
   return(
     <Wrapper>
       <div className={openNavbar}>
-        <ul className="account-navbar-list">
+        <ul className='account-navbar-list'>
           {
             navbarItems.map((item, index)=>{
-              return  (<li key={index} className={itemActive==item.title?"account-navbar-item active":"account-navbar-item"}>
+              return  (<li key={index} className={itemActive==item.title?'account-navbar-item active':'account-navbar-item'}>
                   <a onClick={handleSelectNavbar} 
                   href={item.path} 
-                  className="account-navbar-link">
+                  className='account-navbar-link'>
                     <span>{item.title}</span>
                   </a>
                 </li>)
@@ -52,7 +52,7 @@ function AssetsLayout(props){
  
           }
         </ul>
-        <div onClick={handleOpenNavbar} className="down-menu-btn">
+        <div onClick={handleOpenNavbar} className='down-menu-btn'>
           <FontAwesomeIcon icon={faChevronDown} />
         </div>
       </div>

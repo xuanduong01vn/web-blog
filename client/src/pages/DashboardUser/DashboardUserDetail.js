@@ -8,11 +8,11 @@ import UserLayout from '../../components/User/User';
 function PageDashboardUserDetail(){
   return (
     <Wrapper>
-      <div className="dashboard-admin-container">
+      <div className='dashboard-admin-container'>
         <HeaderAdmin/>
-        <div className="dashboard-admin-content">
+        <div className='dashboard-admin-content'>
           <DashboardLayout/>
-          <div className="data-content">
+          <div className='data-content'>
             <UserLayout/>
           </div>
         </div>

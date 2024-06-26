@@ -1,13 +1,13 @@
 import styled from 'styled-components';
 import React, {useState, useEffect, useRef} from 'react';
 import axios from 'axios';
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCamera,
 } from '@fortawesome/free-solid-svg-icons';
 
 function AccountProfile(){
 
-  const id ="66669b9c646d48fe74ba397b";
+  const id ='66669b9c646d48fe74ba397b';
   const inputFileRef = useRef();
   const [user, setUser] = useState(null);
   const [loading, setLoading]= useState(true);
@@ -116,7 +116,7 @@ function AccountProfile(){
       ...inputBirthday,
       [id]: Number(value),
     })
-    if(id=="yearSelect"){
+    if(id=='yearSelect'){
       setInputBirthday({
         [id]: Number(value),
         monthSelect: 1,
@@ -203,9 +203,9 @@ function AccountProfile(){
     })
     .then(res=>{
       console.log(res.data);
-      setMessage("Cập nhật thành công")
+      setMessage('Cập nhật thành công')
       setTimeout(()=>{
-        setMessage("")
+        setMessage('')
       },3000)
     })
     .catch(err=>{
@@ -215,71 +215,71 @@ function AccountProfile(){
 
     return(
       <Wrapper>
-        <h2 className="profile-container-title">Thông tin cá nhân</h2>
+        <h2 className='profile-container-title'>Thông tin cá nhân</h2>
         {!loading && 
-          <div className="profile-container">
-          <div className="profile-item">
-            <div className="profile-avatar">
+          <div className='profile-container'>
+          <div className='profile-item'>
+            <div className='profile-avatar'>
               <img src={avatarImg}
-              alt="Ảnh đại diện" className="avatar-image"/>
+              alt='Ảnh đại diện' className='avatar-image'/>
             </div>
-            <input ref={inputFileRef} className="avatar-input" type="file" 
+            <input ref={inputFileRef} className='avatar-input' type='file' 
               onChange={(e)=>onChangeFile(e)}/>
-            <button onClick={handleChooseFile} className="avatar-btn" >
-              <FontAwesomeIcon icon={faCamera} className="avatar-btn-icon"/>
+            <button onClick={handleChooseFile} className='avatar-btn' >
+              <FontAwesomeIcon icon={faCamera} className='avatar-btn-icon'/>
             </button>
           </div>
-          <div className="profile-item">
-            <label htmlFor="">Tên tài khoản</label>
-            <input type="text" id="profile-username" className="profile-input" disabled value={user.username}/>
+          <div className='profile-item'>
+            <label htmlFor=''>Tên tài khoản</label>
+            <input type='text' id='profile-username' className='profile-input' disabled value={user.username}/>
           </div>
-          <div className="profile-item">
-            <label htmlFor="profile-fullname">
-              <span className="red-asterisk">* </span>Tên hiển thị
+          <div className='profile-item'>
+            <label htmlFor='profile-fullname'>
+              <span className='red-asterisk'>* </span>Tên hiển thị
             </label>
-            <input name="fullname" type="text" id="profile-fullname" className="profile-input" 
+            <input name='fullname' type='text' id='profile-fullname' className='profile-input' 
             value={inputValue.fullname}
             onChange={e=>{onChangeValue(e)}}/>
           </div>
-          <div className="profile-item">
-            <label htmlFor="profile-email">
-              <span className="red-asterisk">* </span>Email
+          <div className='profile-item'>
+            <label htmlFor='profile-email'>
+              <span className='red-asterisk'>* </span>Email
             </label>
-            <input name="email" type="text" id="profile-email" disabled className="profile-input" 
+            <input name='email' type='text' id='profile-email' disabled className='profile-input' 
             value={user.email}
             onChange={onChangeValue}/>
           </div>
-          <div className="profile-item">
-            <label htmlFor="profile-birthday">
-              <span className="red-asterisk">* </span>Ngày sinh
+          <div className='profile-item'>
+            <label htmlFor='profile-birthday'>
+              <span className='red-asterisk'>* </span>Ngày sinh
             </label>
             <span>
-              <select value={inputBirthday.yearSelect} onChange={(e)=>onChangeYear(e)} id="yearSelect">
+              <select value={inputBirthday.yearSelect} onChange={(e)=>onChangeYear(e)} id='yearSelect'>
                 {years.map((y,index)=>(
                   <option key={index} value={y}>{y}</option>
                 ))}
               </select>
-              <select value={inputBirthday.monthSelect} onChange={(e)=>onChangeYear(e)} id="monthSelect">
+              <select value={inputBirthday.monthSelect} onChange={(e)=>onChangeYear(e)} id='monthSelect'>
                 {months.map((m,index)=>(
                   <option key={index} value={m}>Tháng {m}</option>
                 ))}
               </select>
-              <select value={inputBirthday.dateSelect} onChange={(e)=>onChangeYear(e)} id="dateSelect">
+              <select value={inputBirthday.dateSelect} onChange={(e)=>onChangeYear(e)} id='dateSelect'>
                 {dates.map((d,index)=>(
                   <option key={index} value={d}>Ngày {d}</option>
                 ))}
               </select>
             </span>
-            {/* <input data-name="birthday" type="text" id="profile-birthday" className="profile-input" 
+            {/* <input data-name='birthday' type='text' id='profile-birthday' className='profile-input' 
             value={user.birthday}
             onChange={e=>{onChangeValue(e)}}/> */}
           </div>
-          <div className="profile-item">
-            {message && <span className="success-alert">{message}</span>}
+          <div className='profile-item'>
+            {message && <span className='success-alert'>{message}</span>}
           </div>
-          <div className="profile-action">
-            <button className="profile-btn">Hủy</button>
-            <button onClick={handleUpdateProfile} className="profile-btn active">Lưu</button>
+          <div className='profile-action'>
+            <button className='profile-btn'>Hủy</button>
+            <button onClick={handleUpdateProfile} className='profile-btn active'>Lưu</button>
           </div>
           
         </div>

@@ -1,13 +1,13 @@
-import styled from "styled-components";
-import React, {useState, useEffect} from "react";
+import styled from 'styled-components';
+import React, {useState, useEffect} from 'react';
 
 function AccountNavbar(props){
 
   const {title} =props;
 
   const navbarItems=[
-    {path:"/account/profile", title: "Thông tin cá nhân"},
-    {path:"/account/password", title: "Đổi mật khẩu"},
+    {path:'/account/profile', title: 'Thông tin cá nhân'},
+    {path:'/account/password', title: 'Đổi mật khẩu'},
   ]
 
   const handleSelectNavbar=(e,index)=>{
@@ -16,15 +16,15 @@ function AccountNavbar(props){
 
   return(
     <Wrapper>
-      <div className="account-navbar">
-        <h2 className="account-navbar-title">Tài khoản</h2>
-        <ul className="account-navbar-list">
+      <div className='account-navbar'>
+        <h2 className='account-navbar-title'>Tài khoản</h2>
+        <ul className='account-navbar-list'>
           {
             navbarItems.map((navbarItem, index)=>{
                 return  <li key={index} className={navbarItem.title==title?`account-navbar-item active`:`account-navbar-item`}>
                           <a onClick={handleSelectNavbar} 
                           href={navbarItem.path} 
-                          className="account-navbar-link">
+                          className='account-navbar-link'>
                             <span>{navbarItem.title}</span>
                           </a>
                         </li>

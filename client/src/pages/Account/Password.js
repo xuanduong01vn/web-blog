@@ -1,19 +1,19 @@
-import PasswordSection from "../../components/Account/AccountPassword";
-import Header from "../../components/Header/Header";
-import Footer from "../../components/Footer/Footer";
-import AccountNavbar from "../../components/Account/AccountNavbar";
-import styled from "styled-components";
-import React, { useEffect, useState } from "react";
+import PasswordSection from '../../components/Account/AccountPassword';
+import Header from '../../components/Header/Header';
+import Footer from '../../components/Footer/Footer';
+import AccountNavbar from '../../components/Account/AccountNavbar';
+import styled from 'styled-components';
+import React, { useEffect, useState } from 'react';
 
 function Password(){
-  document.title="Change password";
-  const title="Đổi mật khẩu";
+  document.title='Change password';
+  const title='Đổi mật khẩu';
 
   return (
     <Wrapper>
       <Header/>
-      <div className="account-container">
-        <div className="account-layout">
+      <div className='account-container'>
+        <div className='account-layout'>
           <AccountNavbar title={title}/>
           <PasswordSection/>
         </div>

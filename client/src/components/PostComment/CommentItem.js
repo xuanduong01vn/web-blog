@@ -1,10 +1,10 @@
-import styled from "styled-components";
-import React, {useEffect, useState, useRef } from "react";
+import styled from 'styled-components';
+import React, {useEffect, useState, useRef } from 'react';
 import axios from 'axios';
 import { format } from 'date-fns';
 import { vi } from 'date-fns/locale';
 
-import PostReply from "./PostReply";
+import PostReply from './PostReply';
 
 function CommentItem(props){
 
@@ -85,36 +85,36 @@ function CommentItem(props){
   return(
     <Wrapper>
       {isDeletedPost
-      ?(<div key={comment._id} className="comment-item">
-        <div className="comment-item-created">
+      ?(<div key={comment._id} className='comment-item'>
+        <div className='comment-item-created'>
             <img src={author?.avatar} 
-            alt="" className="comment-item-user-avatar" />
-            <div className="comment-item-user-created">
-              <a href={`/user/${comment.idUser}`} className="comment-item-username">{author?.username}</a>
-              <span className="comment-item-created-time"> bình luận lúc {formatTime(comment.createAt)}</span>
+            alt='' className='comment-item-user-avatar' />
+            <div className='comment-item-user-created'>
+              <a href={`/user/${comment.idUser}`} className='comment-item-username'>{author?.username}</a>
+              <span className='comment-item-created-time'> bình luận lúc {formatTime(comment.createAt)}</span>
             </div>
           </div>
-          <div className="comment-item-content">
-            <span style={{color:"var(--shadow-color)"}}>Bình luận này đã bị xóa!</span>
+          <div className='comment-item-content'>
+            <span style={{color:'var(--shadow-color)'}}>Bình luận này đã bị xóa!</span>
           </div>
       </div>)
       :(
-        <div key={comment._id} className="comment-item">
-          <div className="comment-item-created">
-            <div className="comment-item-user-avatar">
-              <img src="https://www.vietnamfineart.com.vn/wp-content/uploads/2023/07/anh-avatar-dep-cho-con-gai-1.jpg" 
-              alt="user avatar" className="comment-item-user-image"/>
+        <div key={comment._id} className='comment-item'>
+          <div className='comment-item-created'>
+            <div className='comment-item-user-avatar'>
+              <img src='https://www.vietnamfineart.com.vn/wp-content/uploads/2023/07/anh-avatar-dep-cho-con-gai-1.jpg' 
+              alt='user avatar' className='comment-item-user-image'/>
             </div>
-            <div className="comment-item-user-created">
-              <a href={`/user/${comment.idUser}`} className="comment-item-username">{author?.username}</a>
-              <span className="comment-item-created-time"> bình luận lúc {formatTime(comment.createAt)}</span>
+            <div className='comment-item-user-created'>
+              <a href={`/user/${comment.idUser}`} className='comment-item-username'>{author?.username}</a>
+              <span className='comment-item-created-time'> bình luận lúc {formatTime(comment.createAt)}</span>
             </div>
           </div>
-          <div className="comment-item-content">
+          <div className='comment-item-content'>
             {classInput==comment._id 
             ?(<textarea autoFocus 
               ref={textareaRef}
-              className="comment-content-box"
+              className='comment-content-box'
               value={inputComment}
               onChange={e=>onChangeValue(e)}
               />)
@@ -123,12 +123,12 @@ function CommentItem(props){
             
           </div>
           {classInput != comment._id
-            ?(<div className="comment-item-action">
-                <button className="comment-item-btn active"
+            ?(<div className='comment-item-action'>
+                <button className='comment-item-btn active'
                 onClick={openReplyBox}>
                   Trả lời
                 </button>
-                <button onClick={()=>{onEditComment(comment._id)}} className="comment-item-btn">
+                <button onClick={()=>{onEditComment(comment._id)}} className='comment-item-btn'>
                   Sửa
                 </button>
                 <button 
@@ -136,16 +136,16 @@ function CommentItem(props){
                   deleteComment(comment._id);
                   setIsDeletedPost(true);
                 }} 
-                className="comment-item-btn">
+                className='comment-item-btn'>
                   Xóa
                 </button>
               </div>)
-            :(<div className="comment-item-action">
-                <button className="comment-item-btn"
+            :(<div className='comment-item-action'>
+                <button className='comment-item-btn'
                 onClick={()=>setClassInput(null)}>
                   Hủy
                 </button>
-                <button onClick={()=>{handleEditComment(comment._id)}} className={inputComment.trim().length>0?"comment-item-btn active":"comment-item-btn disable"}>
+                <button onClick={()=>{handleEditComment(comment._id)}} className={inputComment.trim().length>0?'comment-item-btn active':'comment-item-btn disable'}>
                   Lưu
                 </button>
               </div>

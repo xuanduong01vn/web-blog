@@ -1,8 +1,8 @@
 import styled from 'styled-components';
-import React, {useEffect, useState} from "react";
+import React, {useEffect, useState} from 'react';
 import { format } from 'date-fns';
 import { vi } from 'date-fns/locale';
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {
   faComment,
   faThumbsUp,
@@ -28,27 +28,27 @@ function AccountPostItem(props){
 
   return(
     <Wrapper>
-      <div className="question-item-cover">
-        <a href={`/post/${post._id}`} className="question-item-title">
+      <div className='question-item-cover'>
+        <a href={`/post/${post._id}`} className='question-item-title'>
           <h3>{post.title}</h3> 
           </a>
-        <div className="question-item-user">
-          <div className="question-item-author">
-            <a href={`/user/${author?._id}`} className="question-item-author-info">
+        <div className='question-item-user'>
+          <div className='question-item-author'>
+            <a href={`/user/${author?._id}`} className='question-item-author-info'>
               {author?.username}
             </a>
           </div>
-          <span className="uestion-item-author-ask"> đã đăng lúc {formatTime(post.createAt)}</span>
+          <span className='uestion-item-author-ask'> đã đăng lúc {formatTime(post.createAt)}</span>
         </div>
         
-        <div className="question-item-interact">
-          <div className="question-item-likes">
+        <div className='question-item-interact'>
+          <div className='question-item-likes'>
             <FontAwesomeIcon icon={faStar} />{post.amountLiked}
           </div>
-          {/* <div className="question-item-dislikes">
+          {/* <div className='question-item-dislikes'>
             <FontAwesomeIcon icon={faThumbsDown} />6
           </div> */}
-          <div className="question-item-comments">
+          <div className='question-item-comments'>
             <FontAwesomeIcon icon={faComment} />{post.amountComment}
           </div>
         </div>

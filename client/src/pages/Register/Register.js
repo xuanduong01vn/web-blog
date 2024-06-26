@@ -1,8 +1,8 @@
-import styled from "styled-components";
-import React, {useEffect, useState} from "react";
+import styled from 'styled-components';
+import React, {useEffect, useState} from 'react';
 import axios from 'axios';
-import { Navigate , useNavigate} from "react-router-dom";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { Navigate , useNavigate} from 'react-router-dom';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {
   faEyeSlash,
   faEye,
@@ -19,7 +19,7 @@ function Register(){
   const [success, setSuccess]= useState(false);
   const [legitPass, setLegitPass] = useState(true);
   const [hidePassword, setHidePassword] = useState(false);
-  const [typeInput, setTypeInput] = useState("password");
+  const [typeInput, setTypeInput] = useState('password');
   const navigate= useNavigate();
 
   var [inputValue, setInputValue] = useState({
@@ -31,13 +31,13 @@ function Register(){
 
   function onChangeValue(e){
     const {name, value} = e.target;
-      if(sameAccount==true && e.target.name=="username" && e.target.value!= (inputValue.username)){
+      if(sameAccount==true && e.target.name=='username' && e.target.value!= (inputValue.username)){
         setSameAccount(false);
       }
-      if(sameEmail==true && e.target.name=="email" && e.target.value!= (inputValue.email)){
+      if(sameEmail==true && e.target.name=='email' && e.target.value!= (inputValue.email)){
         setSameEmail(false);
       }
-      if(e.target.name=="password"){
+      if(e.target.name=='password'){
         setLegitPass(e.target.value.trim().length>=6);
       }
 
@@ -64,11 +64,11 @@ function Register(){
     username: inputValue.username,
     password: inputValue.password,
     email: inputValue.email,
-    fullname: "",
+    fullname: '',
     idTypeAccount: 2,
-    birthday: "",
-    createAt: "",
-    avatar: "http://localhost:9999/file/avatar-default.jpg",
+    birthday: '',
+    createAt: '',
+    avatar: 'http://localhost:9999/file/avatar-default.jpg',
     listLiked: [],
     listMarked: [],
     isDeleted: false
@@ -95,23 +95,23 @@ function Register(){
     newInputAccount.createAt=new Date();
     newInputAccount.birthday=new Date();
     setSamePassword(inputValue.password != inputValue.confirmPassword);
-    if(inputValue.password.length>=6 && inputValue.confirmPassword!="" && inputValue.password == inputValue.confirmPassword && inputValue.username!="" && inputValue.email!="" && checked){
+    if(inputValue.password.length>=6 && inputValue.confirmPassword!='' && inputValue.password == inputValue.confirmPassword && inputValue.username!='' && inputValue.email!='' && checked){
       axios.post(`http://localhost:9999/accounts/`,newInputAccount)
       .then(res=>{
         console.log(res.data);
-        if(res.data=="Username and password are required"){
+        if(res.data=='Username and password are required'){
           
         }
-        else if(res.data=="Tài khoản đã tồn tại"){
+        else if(res.data=='Tài khoản đã tồn tại'){
           setSameAccount(true);
           setSameEmail(false);
         }
-        else if(res.data=="Email đã tồn tại"){
+        else if(res.data=='Email đã tồn tại'){
           setSameAccount(false);
           setSameEmail(true);
         }
         else 
-        // (res.data!=="Tài khoản đã tồn tại" && res.data!=="Email đã tồn tại") 
+        // (res.data!=='Tài khoản đã tồn tại' && res.data!=='Email đã tồn tại') 
         {
 
           navigate(`/login`);
@@ -129,28 +129,28 @@ function Register(){
 
   return(
     <Wrapper>
-      <div className="login-container">
-        <h1 className="page-name">QAx</h1>
-        <h3 className="page-title">Tạo tài khoản QAx</h3>
-        <div className="input-item">
-          <input name="username" type="text" placeholder="Tên người dùng" id="username-input" 
+      <div className='login-container'>
+        <h1 className='page-name'>QAx</h1>
+        <h3 className='page-title'>Tạo tài khoản QAx</h3>
+        <div className='input-item'>
+          <input name='username' type='text' placeholder='Tên người dùng' id='username-input' 
           value={inputValue.username}
           onChange = {e=> onChangeValue(e)}/>
-          {sameAccount && (<span className="warning-box">Tên tài khoản này đã được sử dụng</span>)}
-          {inputValue.username=="" && (<span className="warning-box">Không được để trống tên tài khoản</span>)}
+          {sameAccount && (<span className='warning-box'>Tên tài khoản này đã được sử dụng</span>)}
+          {inputValue.username=='' && (<span className='warning-box'>Không được để trống tên tài khoản</span>)}
         </div>
-        <div className="input-item">
-          <input  name="email" type="text" placeholder="Email người dùng" id="email-input" 
+        <div className='input-item'>
+          <input  name='email' type='text' placeholder='Email người dùng' id='email-input' 
           value={inputValue.email}
           onChange = {e=> onChangeValue(e)}/>
-          {sameEmail && (<span className="warning-box">Email này đã được sử dụng</span>)}
-          {inputValue.email=="" && (<span className="warning-box">Không được để trống email</span>)}
+          {sameEmail && (<span className='warning-box'>Email này đã được sử dụng</span>)}
+          {inputValue.email=='' && (<span className='warning-box'>Không được để trống email</span>)}
         </div>
-        <div className="input-item">
-          <input name="password" type={typeInput} placeholder="Mật khẩu" id="password-input" 
+        <div className='input-item'>
+          <input name='password' type={typeInput} placeholder='Mật khẩu' id='password-input' 
           value={inputValue.password}
           onChange = {e=> onChangeValue(e)}/>
-          <button className="hide-password-btn" 
+          <button className='hide-password-btn' 
           onClick={handleHidePassword}>
             {hidePassword ?
               <FontAwesomeIcon icon={faEye} />
@@ -158,13 +158,13 @@ function Register(){
               <FontAwesomeIcon icon={faEyeSlash} />
             }
           </button>
-          {!legitPass && (<span className="warning-box">Mật khẩu phải có ít nhất 6 ký tự</span>)}
+          {!legitPass && (<span className='warning-box'>Mật khẩu phải có ít nhất 6 ký tự</span>)}
         </div>
-        <div className="input-item">
-          <input name="confirmPassword" type={typeInput} placeholder="Xác nhận mật khẩu" id="confirm-password-input" 
+        <div className='input-item'>
+          <input name='confirmPassword' type={typeInput} placeholder='Xác nhận mật khẩu' id='confirm-password-input' 
           value={inputValue.confirmPassword}
           onChange = {e=> onChangeValue(e)}/>
-          <button className="hide-password-btn" 
+          <button className='hide-password-btn' 
           onClick={handleHidePassword}>
             {hidePassword ?
               <FontAwesomeIcon icon={faEye} />
@@ -172,15 +172,15 @@ function Register(){
               <FontAwesomeIcon icon={faEyeSlash} />
             }
           </button>
-          {samePassword && (<span className="warning-box">Mật khẩu không khớp</span>)}
+          {samePassword && (<span className='warning-box'>Mật khẩu không khớp</span>)}
         </div>
-        <div className="agree-policy">
-          <input className="agree-policy-input" type="checkbox" checked={checked} onChange={onChecked}/>
+        <div className='agree-policy'>
+          <input className='agree-policy-input' type='checkbox' checked={checked} onChange={onChecked}/>
           <span>Tôi đồng ý với các điều khoản</span>
         </div>
         <a onClick={handleRegister} 
         // href='/login' 
-        className="register-btn">Đăng ký</a>
+        className='register-btn'>Đăng ký</a>
         
       </div>
     </Wrapper>

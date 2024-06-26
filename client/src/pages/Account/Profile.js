@@ -1,19 +1,19 @@
-import ProfileSection from "../../components/Account/AccountProfile.js";
-import Header from "../../components/Header/Header.js";
-import Footer from "../../components/Footer/Footer.js";
-import AccountNavbar from "../../components/Account/AccountNavbar.js";
-import styled from "styled-components";
-import React, { useEffect, useState } from "react";
+import ProfileSection from '../../components/Account/AccountProfile.js';
+import Header from '../../components/Header/Header.js';
+import Footer from '../../components/Footer/Footer.js';
+import AccountNavbar from '../../components/Account/AccountNavbar.js';
+import styled from 'styled-components';
+import React, { useEffect, useState } from 'react';
 
 function Profile(){
-  document.title="Account profile";
-  const title="Thông tin cá nhân";
+  document.title='Account profile';
+  const title='Thông tin cá nhân';
   
   return (
     <Wrapper>
       <Header/>
-      <div className="account-container">
-        <div className="account-layout">
+      <div className='account-container'>
+        <div className='account-layout'>
           <AccountNavbar title={title}/>
           <ProfileSection/>
         </div>

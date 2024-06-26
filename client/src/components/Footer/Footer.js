@@ -18,38 +18,38 @@ import { faFacebook,
 function Footer(){
   return (
     <Wrapper>
-      <div className="footer-container">
-        <div className="footer-col">
+      <div className='footer-container'>
+        <div className='footer-col'>
           <h1 className='footer-title'>QAx</h1>
           <p className='year-present'>{`© ${new Date().getFullYear()} xuanduong01vn`}</p>
         </div>
-        <div className="footer-col">
-          <ul className="footer-list">
-            <li className="footer-item"> <a target="_blank" href="" className="footer-link">Chính sách</a></li>
-            <li className="footer-item"><a target="_blank" href="" className="footer-link">Quyền lợi</a></li>
-            <li className="footer-item"><a target="_blank" href="" className="footer-link">Đóng góp</a></li>
-            <li className="footer-item"><a target="_blank" href="" className="footer-link">Trợ giúp</a></li>
+        <div className='footer-col'>
+          <ul className='footer-list'>
+            <li className='footer-item'> <a target='_blank' href='' className='footer-link'>Chính sách</a></li>
+            <li className='footer-item'><a target='_blank' href='' className='footer-link'>Quyền lợi</a></li>
+            <li className='footer-item'><a target='_blank' href='' className='footer-link'>Đóng góp</a></li>
+            <li className='footer-item'><a target='_blank' href='' className='footer-link'>Trợ giúp</a></li>
           </ul>
         </div>
-        <div className="footer-col">
-        <ul className="footer-list">
-            <li className="footer-item">
-              <a target="_blank" href="https://www.facebook.com/xuanduong01vn" className="footer-link">
+        <div className='footer-col'>
+        <ul className='footer-list'>
+            <li className='footer-item'>
+              <a target='_blank' href='https://www.facebook.com/xuanduong01vn' className='footer-link'>
                 <FontAwesomeIcon icon={faFacebook}/>Xuan Duong
               </a>
             </li>
-            <li className="footer-item">
-              <a target="_blank" href="tel:+84353434036" className="footer-link">
+            <li className='footer-item'>
+              <a target='_blank' href='tel:+84353434036' className='footer-link'>
                 <FontAwesomeIcon icon={faPhone} />0353434036
               </a>
             </li>
-            <li className="footer-item">
-              <a target="_blank" href="mailto:xuanduong01vn@gmail.com" className="footer-link">
+            <li className='footer-item'>
+              <a target='_blank' href='mailto:xuanduong01vn@gmail.com' className='footer-link'>
                 <FontAwesomeIcon icon={faEnvelope} />xuanduong01vn@gmail.com
               </a>
             </li>
-            <li className="footer-item">
-              <a target="_blank" href="https://github.com/xuanduong01vn" className="footer-link">
+            <li className='footer-item'>
+              <a target='_blank' href='https://github.com/xuanduong01vn' className='footer-link'>
                 <FontAwesomeIcon icon={faGithub} />xuanduong01vn
               </a>
               </li>

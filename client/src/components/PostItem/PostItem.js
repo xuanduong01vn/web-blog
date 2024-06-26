@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from "react";
+import React, {useEffect, useState} from 'react';
 import styled from 'styled-components';
 import propTypes from 'prop-types';
 import { format } from 'date-fns';
@@ -74,41 +74,41 @@ function PostItem(props){
 
   return(
     <Wrapper>
-      <div className="post-item-cover">
-        <div className="post-item-user">
-          <div className="post-item-author">
-            <a href={`/user/${author?._id}`} className="post-item-author-info">
-              <div className="post-author-avatar">
+      <div className='post-item-cover'>
+        <div className='post-item-user'>
+          <div className='post-item-author'>
+            <a href={`/user/${author?._id}`} className='post-item-author-info'>
+              <div className='post-author-avatar'>
                 <img src={author?.avatar} 
-                alt="user avatar" className="post-author-image"/>
+                alt='user avatar' className='post-author-image'/>
               </div>
-              <p className="post-author-name">{author?.username}</p>
+              <p className='post-author-name'>{author?.username}</p>
             </a>
-            <span className="post-item-author-create">{timeCreated}</span>
+            <span className='post-item-author-create'>{timeCreated}</span>
           </div>
-          {/* <div className="post-item-action">
-            <button onClick={clickMark} className="add-blog post-item-btn">
-              {!marked && <FontAwesomeIcon className="post-item-btn-mark" icon={faBookmark} />}
-              {marked && <FontAwesomeIcon className="post-item-btn-marked" icon={faBookmarked} />}
+          {/* <div className='post-item-action'>
+            <button onClick={clickMark} className='add-blog post-item-btn'>
+              {!marked && <FontAwesomeIcon className='post-item-btn-mark' icon={faBookmark} />}
+              {marked && <FontAwesomeIcon className='post-item-btn-marked' icon={faBookmarked} />}
             </button>
           </div> */}
         </div>
-        <a href={`/post/${post._id}`} className="post-item-title">
+        <a href={`/post/${post._id}`} className='post-item-title'>
           <h3>{ post.title}</h3> 
         </a>
-        <ul className="post-tags">
+        <ul className='post-tags'>
           {post.listTag.map((tag, index)=>(
-            <li key={index} className="post-tags-item">#{tag}</li>
+            <li key={index} className='post-tags-item'>#{tag}</li>
           ))}
         </ul>
-        <div className="post-item-interact">
-          <div className="post-item-stars">
+        <div className='post-item-interact'>
+          <div className='post-item-stars'>
             <FontAwesomeIcon icon={faStar} />{post.amountLiked}
           </div>
-          <div className="post-item-comments">
+          <div className='post-item-comments'>
             <FontAwesomeIcon icon={faComment} />{post.amountComment}
           </div>
-          <div className="post-item-marks">
+          <div className='post-item-marks'>
             <FontAwesomeIcon icon={faBookmarked} />{post.amountMarked}
           </div>
         </div>

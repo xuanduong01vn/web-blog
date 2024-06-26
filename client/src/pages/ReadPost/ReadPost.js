@@ -3,19 +3,19 @@ import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { Navigate, useNavigate, useParams } from 'react-router-dom';
 import Header from '../../components/Header/Header.js';
-import Footer from "../../components/Footer/Footer.js";
+import Footer from '../../components/Footer/Footer.js';
 import PostContent from '../../components/PostContent/PostContent.js';
 
 function ReadPost(){
   
   const [post, setPost] = useState({
-    title: "",
-    id: "",
-    isDeleted: "",
+    title: '',
+    id: '',
+    isDeleted: '',
   });
   const [classPopup, setClassPopup] = useState({
-    classParent: "page-container",
-    classChild: "delete-post-popup hide",
+    classParent: 'page-container',
+    classChild: 'delete-post-popup hide',
   });
   const navigate = useNavigate();
 
@@ -31,8 +31,8 @@ function ReadPost(){
 
   const handleCancelDelete = () => {
     setClassPopup({
-      classParent: "page-container",
-      classChild: "delete-post-popup hide",
+      classParent: 'page-container',
+      classChild: 'delete-post-popup hide',
     });
   };
 
@@ -58,16 +58,16 @@ function ReadPost(){
     <Wrapper>
       <div className={classPopup.classParent}>
         <div className={classPopup.classChild}>
-          <div className="pop-up-container">
+          <div className='pop-up-container'>
             <span>Bạn chắc chắn muốn xóa bài viết này?</span>
-            <div className="btn-list">
-              <button onClick={handleCancelDelete} className="delete-btn">Hủy</button>
-              <button onClick={handleDeletePost} className="delete-btn active">Đồng ý</button>
+            <div className='btn-list'>
+              <button onClick={handleCancelDelete} className='delete-btn'>Hủy</button>
+              <button onClick={handleDeletePost} className='delete-btn active'>Đồng ý</button>
             </div>
           </div>
         </div>
         <Header/>
-        <div className="content-section">
+        <div className='content-section'>
           <PostContent onDataReceived={handlePost} onDeletePost={handleOpenPopup} onIsDeleted={post.isDeleted}/>
         </div>
         <Footer/>

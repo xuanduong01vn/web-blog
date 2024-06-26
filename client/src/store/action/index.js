@@ -1,7 +1,7 @@
 import axios from 'axios';
 
-const API_KEY="";
-const BASE_URL="";
+const API_KEY='';
+const BASE_URL='';
 
 export const getWebQA = ()=>async dispatch =>{
   try {

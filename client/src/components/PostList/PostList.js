@@ -1,8 +1,8 @@
-import React, {useEffect, useState} from "react";
+import React, {useEffect, useState} from 'react';
 import styled from 'styled-components';
 import axios from 'axios';
 import { useLocation, useHistory } from 'react-router-dom';
-import PostItem from "../PostItem/PostItem.js";
+import PostItem from '../PostItem/PostItem.js';
 import ReactPaginate from 'react-paginate';
 
 const itemsPerPage = 10;
@@ -21,10 +21,10 @@ function PostList(props){
   useEffect(()=>{
     const getDataPost = async () => {
       try {
-        const response = await axios.get("http://localhost:9999/posts/?isDeleted=false");
+        const response = await axios.get('http://localhost:9999/posts/?isDeleted=false');
         return response.data;
       } catch (err) {
-        console.log("Error fetching posts:", err.message);
+        console.log('Error fetching posts:', err.message);
         return [];
       }
     };
@@ -62,10 +62,10 @@ function PostList(props){
   useEffect(()=>{
     const getDataAuthor = async () => {
       try {
-        const response = await axios.get("http://localhost:9999/accounts/");
+        const response = await axios.get('http://localhost:9999/accounts/');
         return response.data;
       } catch (err) {
-        console.log("Error fetching authors:", err.message);
+        console.log('Error fetching authors:', err.message);
         return [];
       }
     };
@@ -86,14 +86,14 @@ function PostList(props){
 
   return(
     <Wrapper>
-      <div id="blog-list-container">
+      <div id='blog-list-container'>
         
           {!currentPosts && <div></div>}
           {currentPosts.length>0 &&
-          (<ul className="blog-list-box">
+          (<ul className='blog-list-box'>
             {
               currentItems.map((post, index)=>(
-                <li key={post._id || index} className="blog-item">
+                <li key={post._id || index} className='blog-item'>
                   <PostItem post={post} author={author.find(acc=>acc._id==post.idAuthor)}/>
                 </li>
               )
@@ -103,29 +103,29 @@ function PostList(props){
           )}
           {currentPosts.length==0 &&
           (  
-            <div className="blog-list-alert">
+            <div className='blog-list-alert'>
               <span>Chưa có bài viết nào</span>
             </div>
           )}
         {!idUser && currentPosts.length>itemsPerPage &&
         <ReactPaginate
-          nextLabel=">"
+          nextLabel='>'
           onPageChange={handlePageClick}
           pageRangeDisplayed={5}
           marginPagesDisplayed={2}
           pageCount={pageCount}
-          previousLabel="<"
-          pageClassName="page-item"
-          pageLinkClassName="page-link"
-          previousClassName="page-item"
-          previousLinkClassName="page-link"
-          nextClassName="page-item"
-          nextLinkClassName="page-link"
-          breakLabel="..."
-          breakClassName="page-item"
-          breakLinkClassName="page-link"
-          containerClassName="pagination"
-          activeClassName="active"
+          previousLabel='<'
+          pageClassName='page-item'
+          pageLinkClassName='page-link'
+          previousClassName='page-item'
+          previousLinkClassName='page-link'
+          nextClassName='page-item'
+          nextLinkClassName='page-link'
+          breakLabel='...'
+          breakClassName='page-item'
+          breakLinkClassName='page-link'
+          containerClassName='pagination'
+          activeClassName='active'
           forcePage={currentPage}
           renderOnZeroPageCount={null}
         />

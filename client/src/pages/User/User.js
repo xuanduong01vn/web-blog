@@ -1,8 +1,8 @@
-import React, {useEffect, useState} from "react";
+import React, {useEffect, useState} from 'react';
 import styled from 'styled-components';
-import Header from "../../components/Header/Header";
-import UserLayout from "../../components/User/User";
-import Footer from "../../components/Footer/Footer";
+import Header from '../../components/Header/Header';
+import UserLayout from '../../components/User/User';
+import Footer from '../../components/Footer/Footer';
 
 function User(){
   
@@ -19,7 +19,7 @@ function User(){
   return(
     <Wrapper>
       <Header/>
-      <div className="content-section">
+      <div className='content-section'>
         <UserLayout onDataReceived={handleUserName}/>
       </div>
       <Footer/>

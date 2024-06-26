@@ -43,24 +43,24 @@ import {
   // const handleOpenLowMenu=(e)=>{
   //   if(!openedLowMenu){
   //     setOpenedLowMenu(true);
-  //     setOpenMenuIcon("opened-menu-icon opened");
+  //     setOpenMenuIcon('opened-menu-icon opened');
   //   }
   //   else{
   //     setOpenedLowMenu(false);
-  //     setOpenMenuIcon("opened-menu-icon");
+  //     setOpenMenuIcon('opened-menu-icon');
   //   }
   // }
 
   return(
     <Wrapper>
-      <ul className="top-menu">
-      <li className="top-menu-item">
-        <Link to="/dashboard/" className={title=='dashboard'?'menu-item-link active':'menu-item-link'}>
+      <ul className='top-menu'>
+      <li className='top-menu-item'>
+        <Link to='/dashboard/' className={title=='dashboard'?'menu-item-link active':'menu-item-link'}>
           <FontAwesomeIcon icon={faHouse} />Tổng qua
         </Link>
       </li>
-        <li className="top-menu-item">
-          <button onClick={() => handleOpenLowMenu('post')} className="top-menu-down">
+        <li className='top-menu-item'>
+          <button onClick={() => handleOpenLowMenu('post')} className='top-menu-down'>
             <FontAwesomeIcon icon={faPen} />Bài viết
             <span className={(openedLowMenu=='post')?'opened-menu-icon opened':'opened-menu-icon'} >
               <FontAwesomeIcon icon={faChevronDown} />
@@ -69,14 +69,14 @@ import {
           </button>
           
           {(openedLowMenu=='post') &&
-            <ul className="low-menu">
-            <li className="low-menu-item">
-              <Link to="/dashboard/posts" className={title=='post'?'menu-item-link active':'menu-item-link'}>
+            <ul className='low-menu'>
+            <li className='low-menu-item'>
+              <Link to='/dashboard/posts/' className={title=='post'?'menu-item-link active':'menu-item-link'}>
               Bài viết
               </Link>
             </li>
-            {/* <li className="low-menu-item">
-              <a href="/dashboard/questions" className="menu-item-link">
+            {/* <li className='low-menu-item'>
+              <a href='/dashboard/questions' className='menu-item-link'>
               <FontAwesomeIcon icon={faQuestion} />Câu hỏi
               </a>
             </li> */}
@@ -84,8 +84,8 @@ import {
           }
           
         </li>
-        <li className="top-menu-item">
-          <button onClick={() => handleOpenLowMenu('admin')} className="top-menu-down">
+        <li className='top-menu-item'>
+          <button onClick={() => handleOpenLowMenu('title')} className='top-menu-down'>
               <FontAwesomeIcon icon={faUser} />Tài khoản
             <span className={(openedLowMenu=='admin' || openedLowMenu=='user')?'opened-menu-icon opened':'opened-menu-icon'}>
               <FontAwesomeIcon icon={faChevronDown} />
@@ -93,27 +93,27 @@ import {
             
           </button>
           {(openedLowMenu=='admin' || openedLowMenu=='user') &&
-            <ul className="low-menu">
-            <li className="low-menu-item">
-              <Link to="/dashboard/admins" className={title=='admin'?'menu-item-link active':'menu-item-link'}>
+            <ul className='low-menu'>
+            <li className='low-menu-item'>
+              <Link to='/dashboard/admins/' className={title=='admin'?'menu-item-link active':'menu-item-link'}>
               Quản trị viên
               </Link>
             </li>
-            <li className="low-menu-item">
-              <Link to="/dashboard/users" className={title=='user'?'menu-item-link active':'menu-item-link'}>
+            <li className='low-menu-item'>
+              <Link to='/dashboard/users/' className={title=='user'?'menu-item-link active':'menu-item-link'}>
               Người dùng
               </Link>
             </li>
           </ul>
           }
         </li>
-        <li className="top-menu-item">
-          <Link to="/dashboard/comments" className={title=='comment'?'menu-item-link active':'menu-item-link'}>
+        <li className='top-menu-item'>
+          <Link to='/dashboard/comments/' className={title=='comment'?'menu-item-link active':'menu-item-link'}>
             <FontAwesomeIcon icon={faComment} />Bình luận
           </Link>
         </li>
-        <li className="top-menu-item">
-          <Link to="/dashboard/tags" className={title=='tag'?'menu-item-link active':'menu-item-link'}>
+        <li className='top-menu-item'>
+          <Link to='/dashboard/tags/' className={title=='tag'?'menu-item-link active':'menu-item-link'}>
             <FontAwesomeIcon icon={faHashtag} />Gắn nhãn
           </Link>
         </li>

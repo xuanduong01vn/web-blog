@@ -13,7 +13,7 @@ import { routes } from './routes/index.js';
 function App() {
   return (    
     <Router>
-      <div className="App">
+      <div className='App'>
         <Routes>
           {
             routes.map((route,index)=>{

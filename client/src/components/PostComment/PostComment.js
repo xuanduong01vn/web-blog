@@ -1,15 +1,15 @@
-import styled from "styled-components";
-import React, {useEffect, useState } from "react";
+import styled from 'styled-components';
+import React, {useEffect, useState } from 'react';
 import axios from 'axios';
 import { format, longFormatters } from 'date-fns';
 import { vi } from 'date-fns/locale';
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {
   faComment 
-} from "@fortawesome/free-regular-svg-icons";
+} from '@fortawesome/free-regular-svg-icons';
 
-import CommentItem from "./CommentItem.js";
-import PostReply from "./PostReply.js";
+import CommentItem from './CommentItem.js';
+import PostReply from './PostReply.js';
 
 function PostComment(props){
 
@@ -174,32 +174,32 @@ function PostComment(props){
 
   return(
     <Wrapper>
-      <div className="post-comment-container">
-        <div className="post-comment-alert">
+      <div className='post-comment-container'>
+        <div className='post-comment-alert'>
           <FontAwesomeIcon icon={faComment}/>
           <p>Đăng nhập để bình luận</p>
         </div>
-        <div className="post-comment-type-box">
-          <div className="comment-current-user">
-            <div className="comment-current-user-avatar">
-              <img src="https://www.vietnamfineart.com.vn/wp-content/uploads/2023/07/anh-avatar-dep-cho-con-gai-1.jpg" 
-              alt="user avatar" className="comment-current-user-image"/>
+        <div className='post-comment-type-box'>
+          <div className='comment-current-user'>
+            <div className='comment-current-user-avatar'>
+              <img src='https://www.vietnamfineart.com.vn/wp-content/uploads/2023/07/anh-avatar-dep-cho-con-gai-1.jpg' 
+              alt='user avatar' className='comment-current-user-image'/>
             </div>
-            <p className="comment-current-user-name">xuanduong</p>
+            <p className='comment-current-user-name'>xuanduong</p>
           </div>
-          <textarea className="comment-type-box" type="text" placeholder="Viết bình luận..."
+          <textarea className='comment-type-box' type='text' placeholder='Viết bình luận...'
           value ={inputComment}
           onChange={onChangeInput}/>
-          <button onClick={postComment} className="comment-send-btn active">Bình luận</button>
-          <button onClick={cancelComment} className="comment-send-btn">Hủy</button>
+          <button onClick={postComment} className='comment-send-btn active'>Bình luận</button>
+          <button onClick={cancelComment} className='comment-send-btn'>Hủy</button>
         </div>
         {listComment.length==0
         ?(<h3>Chưa có bình luận nào</h3>)
         :(listComment.length>0)?
           (
-            <ul className="post-comment-list">
-              {listComment.filter(cmt=>cmt.idParent=="").map(comment=>(
-                <li key={comment._id} className="post-comment-item">
+            <ul className='post-comment-list'>
+              {listComment.filter(cmt=>cmt.idParent=='').map(comment=>(
+                <li key={comment._id} className='post-comment-item'>
                   <CommentItem post={amountCmt} comment={comment} 
                   author={getInfoUser(comment.idUser)}
                   openReply={handleOpenReply}
@@ -211,10 +211,10 @@ function PostComment(props){
                   post={post}
                   closeReply={handleCloseReply}
                   />)}
-                  <ul className="post-reply-list">
-                    {listComment.filter(cmt=>cmt.idParent!="" && cmt.idParent==comment._id).map(rep=>(
+                  <ul className='post-reply-list'>
+                    {listComment.filter(cmt=>cmt.idParent!='' && cmt.idParent==comment._id).map(rep=>(
                       
-                      <li key={rep._id} className="post-reply-item">
+                      <li key={rep._id} className='post-reply-item'>
                         <CommentItem post={amountCmt} comment={rep} 
                         deleteComment={handleDeleteComment}
                         author={getInfoUser(rep.idUser)}

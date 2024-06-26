@@ -12,9 +12,9 @@ import NewAdmin from '../../components/DashboardAdmin/DashboardNewAdmin';
 function AddNewAdmin(){
   return (
     <Wrapper>
-      <div className="dashboard-admin-container">
+      <div className='dashboard-admin-container'>
         <HeaderAdmin/>
-        <div className="dashboard-admin-content">
+        <div className='dashboard-admin-content'>
           <NewAdmin/>
         </div>
       </div>

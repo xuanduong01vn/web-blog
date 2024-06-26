@@ -1,6 +1,6 @@
 import styled from 'styled-components';
-import React, {useEffect, useState} from "react";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import React, {useEffect, useState} from 'react';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {
   faComment,
   faThumbsUp,
@@ -11,27 +11,27 @@ import {
 function QuestionItem(){
   return(
     <Wrapper>
-      <div className="question-item-cover">
-        <a href="/post" className="question-item-title">
+      <div className='question-item-cover'>
+        <a href='/post' className='question-item-title'>
           <h3>Cách tạo 1 project bằng Reactjs và Express</h3> 
           </a>
-        <div className="question-item-user">
-          <div className="question-item-author">
-            <a href="/user" className="question-item-author-info">
+        <div className='question-item-user'>
+          <div className='question-item-author'>
+            <a href='/user' className='question-item-author-info'>
               xuanduong
             </a>
           </div>
-          <span className="uestion-item-author-ask"> đã tạo lúc 20:00</span>
+          <span className='uestion-item-author-ask'> đã tạo lúc 20:00</span>
         </div>
         
-        <div className="question-item-interact">
-          <div className="question-item-likes">
+        <div className='question-item-interact'>
+          <div className='question-item-likes'>
             <FontAwesomeIcon icon={faStar} />6
           </div>
-          {/* <div className="question-item-dislikes">
+          {/* <div className='question-item-dislikes'>
             <FontAwesomeIcon icon={faThumbsDown} />6
           </div> */}
-          <div className="question-item-comments">
+          <div className='question-item-comments'>
             <FontAwesomeIcon icon={faComment} />8
           </div>
         </div>

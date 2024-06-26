@@ -1,4 +1,4 @@
-import axios from "axios";
+import axios from 'axios';
 import {
   loginStart,
   loginSuccess,
@@ -6,15 +6,15 @@ import {
   logOutStart,
   logOutSuccess,
   logOutFailed,
-} from "./authSlide";
+} from './authSlide';
 
 
 export const loginUser = async (user, dispatch, navigate) => {
   dispatch(loginStart());
   try {
-    const res = await axios.post("http://localhost:3001/login", user);
+    const res = await axios.post('http://localhost:3001/login', user);
     dispatch(loginSuccess(res.data));
-    navigate("/");
+    navigate('/');
   } catch (err) {
     dispatch(loginFailed());
   }
@@ -23,11 +23,11 @@ export const loginUser = async (user, dispatch, navigate) => {
 export const logOut = async (dispatch, id, navigate, accessToken, axiosJWT) => {
   dispatch(logOutStart());
   try {
-    await axiosJWT.post("http://localhost:3001/logout", id, {
+    await axiosJWT.post('http://localhost:3001/logout', id, {
       headers: { token: `Bearer ${accessToken}` },
     });
     dispatch(logOutSuccess());
-    navigate("/");
+    navigate('/');
   } catch (err) {
     dispatch(logOutFailed());
   }

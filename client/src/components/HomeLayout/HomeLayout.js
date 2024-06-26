@@ -19,18 +19,18 @@ function HomeLayout(){
 
   return (
     <Wrapper>
-      <div className="home-content">
-      {/* <div className="content-select-bar">
-        <div onClick={handleSelectPost} className="content-select active">
+      <div className='home-content'>
+      {/* <div className='content-select-bar'>
+        <div onClick={handleSelectPost} className='content-select active'>
           Bài viết
         </div>
-        <div onClick={handleSelectQuestion} className="content-select">
+        <div onClick={handleSelectQuestion} className='content-select'>
           Câu hỏi
         </div>
       </div> */}
-      <div className="home-content-box">
-        <div className="blog-container-col">
-          <h2 className="blog-container-title">Bài viết mới nhất</h2>
+      <div className='home-content-box'>
+        <div className='blog-container-col'>
+          <h2 className='blog-container-title'>Bài viết mới nhất</h2>
             <PostList/>
         </div>
       

@@ -1,9 +1,8 @@
-import React, {useEffect, useState} from "react";
+import React, {useEffect, useState} from 'react';
 import styled from 'styled-components';
 
-import EditPost from "../../components/EditPost/EditPost";
-import Header from "../../components/Header/Header";
-import Footer from "../../components/Footer/Footer";
+import EditPost from '../../components/EditPost/EditPost';
+import Header from '../../components/Header/Header';
 
 function UpdatePost(){
 

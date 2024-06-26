@@ -1,13 +1,13 @@
-import styled from "styled-components";
-import React, {useState, useEffect} from "react";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import styled from 'styled-components';
+import React, {useState, useEffect} from 'react';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCamera,
 } from '@fortawesome/free-solid-svg-icons';
 
 function GeneralAdmin(){
   return (
     <Wrapper>
-      <div className="home-admin-container">
+      <div className='home-admin-container'>
         asdfasdfasdfasd
       </div>
 

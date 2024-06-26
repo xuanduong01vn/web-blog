@@ -1,9 +1,9 @@
-import React, {useEffect, useState} from "react";
+import React, {useEffect, useState} from 'react';
 import styled from 'styled-components';
-import { useParams } from "react-router-dom";
+import { useParams } from 'react-router-dom';
 import axios from 'axios';
 
-import PostList from "../PostList/PostList";
+import PostList from '../PostList/PostList';
 
 function UserLayout(props){
 
@@ -55,34 +55,34 @@ function UserLayout(props){
 
   return (
     <Wrapper>
-      <div className="user-layout">
-        <div className="user-info-container">
-          <div className="user-info-person">
-            <div className="user-info-avatar">
-              <img src={useData?.avatar} alt="user avatar" className="user-info-image"/>
+      <div className='user-layout'>
+        <div className='user-info-container'>
+          <div className='user-info-person'>
+            <div className='user-info-avatar'>
+              <img src={useData?.avatar} alt='user avatar' className='user-info-image'/>
             </div>
-            <div className="user-info-name">
-              <p className="user-info-fullname">{useData?.fullname}</p>
-              <p className="user-info-username">{useData?.username}</p>
+            <div className='user-info-name'>
+              <p className='user-info-fullname'>{useData?.fullname}</p>
+              <p className='user-info-username'>{useData?.username}</p>
             </div>
           </div>
-          <div className="user-statistic">
-            <div className="statistic-item">
-              <span className="statistic-title">Số lượng bài viết </span>
-              <span className="statistic-ammount">{userPost}</span>
+          <div className='user-statistic'>
+            <div className='statistic-item'>
+              <span className='statistic-title'>Số lượng bài viết </span>
+              <span className='statistic-ammount'>{userPost}</span>
             </div>
-            {/* <div className="statistic-item">
-              <span className="statistic-title">Số lượng câu hỏi </span>
-              <span className="statistic-ammount">8</span>
+            {/* <div className='statistic-item'>
+              <span className='statistic-title'>Số lượng câu hỏi </span>
+              <span className='statistic-ammount'>8</span>
             </div> */}
-            <div className="statistic-item">
-              <span className="statistic-title">Tổng số lượt yêu thích </span>
-              <span className="statistic-ammount">{userLiked}</span>
+            <div className='statistic-item'>
+              <span className='statistic-title'>Tổng số lượt yêu thích </span>
+              <span className='statistic-ammount'>{userLiked}</span>
             </div>
           </div>
         </div>
-        <div className="user-content">
-          <h2 className="blog-container-title">Bài viết</h2>
+        <div className='user-content'>
+          <h2 className='blog-container-title'>Bài viết</h2>
           <PostList idUser={id}/>
           {/* <QuestionList/> */}
         </div>

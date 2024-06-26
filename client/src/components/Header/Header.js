@@ -13,7 +13,7 @@ function Header(){
 
   const [openInput, setOpenInput] = useState(false);
   const [namePopup, setNamePopup] = useState(null);
-  const [searchText, setSearchText] = useState("");
+  const [searchText, setSearchText] = useState('');
 
   const inputRef = useRef();
   const popupRefs = useRef({});
@@ -81,54 +81,54 @@ function Header(){
 
     return (    
         <Wrapper>
-          <div className="header-container">
+          <div className='header-container'>
             {openInput &&
-              <div className="header-search-bar">
-                <input type="text" className="header-search-box" 
+              <div className='header-search-bar'>
+                <input type='text' className='header-search-box' 
                 placeholder='Tìm kiếm trên QAx'
                 />
-                <button onClick={handleCloseSearchBox} id="search-cancel-btn">
-                  <FontAwesomeIcon icon={faXmark} className="search-cancel-icon" />
+                <button onClick={handleCloseSearchBox} id='search-cancel-btn'>
+                  <FontAwesomeIcon icon={faXmark} className='search-cancel-icon' />
                 </button>
               </div>
             }
-            <div className="header-bar">
-              <a href="/" className="header-title">QAx</a>
-              <div id="search-container">
-                  <input id="search-box" type="text" placeholder='Tìm kiếm trên QAx'
+            <div className='header-bar'>
+              <a href='/' className='header-title'>QAx</a>
+              <div id='search-container'>
+                  <input id='search-box' type='text' placeholder='Tìm kiếm trên QAx'
                   value = {searchText} ref={inputRef}
                   onChange={e=>{setSearchText(e.target.value) 
                     console.log(searchText);
                   }}/>
-                  <button id="search-btn">
-                    <FontAwesomeIcon icon={faMagnifyingGlass} className="search-icon" />
+                  <button id='search-btn'>
+                    <FontAwesomeIcon icon={faMagnifyingGlass} className='search-icon' />
                   </button>
-                  <button onClick={handleOpenSearchBox} id="search-header-btn">
-                    <FontAwesomeIcon icon={faMagnifyingGlass} className="search-icon" />
+                  <button onClick={handleOpenSearchBox} id='search-header-btn'>
+                    <FontAwesomeIcon icon={faMagnifyingGlass} className='search-icon' />
                   </button>
               </div> 
-              {/* <div id="sign-container">
-                <a href="/login" id="sign-btn">
+              {/* <div id='sign-container'>
+                <a href='/login' id='sign-btn'>
                   Đăng nhập/ Đăng ký
                 </a>
               </div> */}
-              <div className="user-container">
-                <div className="user-container-item">
+              <div className='user-container'>
+                <div className='user-container-item'>
                   <button ref={el => (btnRefs.current['create'] = el)} 
                   // onClick={(e)=>{
-                  //   handleOpenPopUp("create",e);
+                  //   handleOpenPopUp('create',e);
                   // }} 
-                  className="new-blog-btn user-btn">
+                  className='new-blog-btn user-btn'>
                     <FontAwesomeIcon icon={faPen} className='new-blog-icon user-container-icon'/>
-                      <div ref={el => (popupRefs.current['create'] = el)} className={namePopup=="create"?"header-pop-up-open":"header-pop-up"}>
+                      <div ref={el => (popupRefs.current['create'] = el)} className={namePopup=='create'?'header-pop-up-open':'header-pop-up'}>
                         <ul className='header-pop-up-list'>
                           <li className='header-pop-up-item'>
-                            <a href="/create/post" className="header-pop-up-link create-blog">
+                            <a href='/create/post' className='header-pop-up-link create-blog'>
                               Tạo bài viết
                             </a>
                           </li>
                           <li className='header-pop-up-item'>
-                            <a href="/create/question" className="header-pop-up-link create-question">
+                            <a href='/create/question' className='header-pop-up-link create-question'>
                               Đặt câu hỏi
                             </a>
                           </li>
@@ -136,44 +136,44 @@ function Header(){
                       </div>
                   </button>
                 </div>
-                <div className="user-container-item">
-                  <button className="notify-btn user-btn">
+                <div className='user-container-item'>
+                  <button className='notify-btn user-btn'>
                     <FontAwesomeIcon icon={faBell} className='notify-icon user-container-icon'/>
-                    <div className="notify-alert">
+                    <div className='notify-alert'>
                       <p className='notify-alert-amount'>68</p>
                     </div>
                   </button>
                 </div>
-                <div className="user-container-item">
+                <div className='user-container-item'>
                   <button ref={el => (btnRefs.current['user'] = el)} 
                   // onClick={(e)=>{
-                  //   handleOpenPopUp("user",e);
+                  //   handleOpenPopUp('user',e);
                   // }} 
-                  className="user-bar user-btn">
-                    <div className="user-avatar">
-                      <img src="https://www.vietnamfineart.com.vn/wp-content/uploads/2023/07/anh-avatar-dep-cho-con-gai-1.jpg" 
-                      alt="user avatar" className="user-image"/>
+                  className='user-bar user-btn'>
+                    <div className='user-avatar'>
+                      <img src='https://www.vietnamfineart.com.vn/wp-content/uploads/2023/07/anh-avatar-dep-cho-con-gai-1.jpg' 
+                      alt='user avatar' className='user-image'/>
                     </div>
-                    <p className="user-name">username</p>
-                      <div ref={el => (popupRefs.current['user'] = el)} className={namePopup=="user"?"header-pop-up-open":"header-pop-up"}>
+                    <p className='user-name'>username</p>
+                      <div ref={el => (popupRefs.current['user'] = el)} className={namePopup=='user'?'header-pop-up-open':'header-pop-up'}>
                       <ul className='header-pop-up-list'>
                         <li className='header-pop-up-item'>
-                          <a href="/account/profile" className="header-pop-up-link user-profile">
+                          <a href='/account/profile' className='header-pop-up-link user-profile'>
                             Trang cá nhân
                           </a>
                         </li>
                         <li className='header-pop-up-item'>
-                          <a href="/user" className="header-pop-up-link blog-manage">
+                          <a href='/user' className='header-pop-up-link blog-manage'>
                             Trang hoạt động
                           </a>
                         </li>
                         <li className='header-pop-up-item'>
-                          <a href="/account/post" className="header-pop-up-link blog-manage">
+                          <a href='/account/post' className='header-pop-up-link blog-manage'>
                             Quản lý bài viết
                           </a>
                         </li>
                         <li className='header-pop-up-item'>
-                          <a href="" className="header-pop-up-link log-out">
+                          <a href='' className='header-pop-up-link log-out'>
                             Đăng xuất
                           </a>
                         </li>
@@ -455,7 +455,7 @@ const Wrapper = styled.div`
 
   .header-pop-up::before,
   .header-pop-up-open::before{
-    content: "";
+    content: '';
     z-index: 100;
     display: block;
     border-width: 12px;
@@ -468,7 +468,7 @@ const Wrapper = styled.div`
 
   .header-pop-up::after,
   .header-pop-up-open::after{
-    content: "";
+    content: '';
     z-index: 99;
     display: block;
     border-width: 13px;

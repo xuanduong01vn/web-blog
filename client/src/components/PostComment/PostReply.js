@@ -1,5 +1,5 @@
-import React, { useEffect, useState, useRef } from "react";
-import styled from "styled-components";
+import React, { useEffect, useState, useRef } from 'react';
+import styled from 'styled-components';
 import axios from 'axios';
 
 function PostReply(props){
@@ -38,27 +38,27 @@ function PostReply(props){
 
   return (
     <Wrapper>
-        <div className="post-reply-type-box">
-        <div className="reply-current-user">
-          <div className="reply-current-user-avatar">
-            <img src="https://www.vietnamfineart.com.vn/wp-content/uploads/2023/07/anh-avatar-dep-cho-con-gai-1.jpg" 
-            alt="user avatar" className="reply-current-user-image"/>
+        <div className='post-reply-type-box'>
+        <div className='reply-current-user'>
+          <div className='reply-current-user-avatar'>
+            <img src='https://www.vietnamfineart.com.vn/wp-content/uploads/2023/07/anh-avatar-dep-cho-con-gai-1.jpg' 
+            alt='user avatar' className='reply-current-user-image'/>
           </div>
-          <p className="reply-current-user-name">xuanduong</p>
+          <p className='reply-current-user-name'>xuanduong</p>
         </div>
-        <input className="reply-type-box" type="text" placeholder="Viết bình luận..."
+        <input className='reply-type-box' type='text' placeholder='Viết bình luận...'
           autoFocus
           value={inputComment}
           onChange={onChangeInput}
           />
-        <button className={inputComment.trim().length>0?"reply-send-btn active":"reply-send-btn hide"}
+        <button className={inputComment.trim().length>0?'reply-send-btn active':'reply-send-btn hide'}
           onClick={()=>{
             if(valueComment.content.trim().length>0){
               postReply(valueComment);
             }
           }}
           >Bình luận</button>
-        <button className="reply-send-btn" onClick={closeReplyBox}>Hủy</button>
+        <button className='reply-send-btn' onClick={closeReplyBox}>Hủy</button>
       </div>
       
     </Wrapper>

@@ -10,7 +10,7 @@ import AccountDeleted from '../pages/Account/AccountDeleted.js';
 import AccountMarked from '../pages/Account/AccountMarked.js';
 import CreatePost from '../pages/CreatePost/CreatePost.js';
 import HomeAdmin from '../pages/HomeAdmin/HomeAdmin.js';
-import DashboardPost from '../pages/DashboardPost/DashboardPost.js';
+import PageDashboardPost from '../pages/DashboardPost/DashboardPost.js';
 import DashboardAdmin from '../pages/DashboardAdmin/DashboardAdmin.js';
 import DashboardUser from '../pages/DashboardUser/DashboardUser.js';
 import PageDashboardTag from '../pages/DashboardTag/DashboardTag.js';
@@ -20,29 +20,30 @@ import PageDashboardComment from '../pages/DashboardComment/DashboardComment.js'
 import PageDashboardPostDetail from '../pages/DashboardPost/DashboardPostDetail.js';
 import PageDashboardUserDetail from '../pages/DashboardUser/DashboardUserDetail.js';
 
+
 const routes=[
-  {path: "/", component: Home},
-  {path: "/post/:id", component: ReadPost},
-  {path: "/login", component: Login},
-  {path: "/register", component: Register},
-  {path: "/account/profile", component: Profile},
-  {path: "/account/password", component: Password},
-  {path: "/user/:id", component: User},
-  {path: "/account/post", component: AccountPost},
-  {path: "/account/deleted", component: AccountDeleted},
-  {path: "/account/marked", component: AccountMarked},
-  {path: "/create/post", component: CreatePost},
-  {path: "/dashboard", component: HomeAdmin},
-  {path: "/dashboard/posts", component: DashboardPost},
-  {path: "/dashboard/admins", component: DashboardAdmin},
-  {path: "/dashboard/new-admin", component: AddNewAdmin},
-  {path: "/dashboard/users", component: DashboardUser},
-  {path: "/dashboard/tags", component: PageDashboardTag},
-  {path: "/dashboard/tags?page:query", component: PageDashboardTag},
-  {path: "/post/:id/edit", component: UpdatePost},
-  {path: "/dashboard/comments", component: PageDashboardComment},
-  {path: "/dashboard/post/:id", component: PageDashboardPostDetail},
-  {path: "/dashboard/user/:id", component: PageDashboardUserDetail},
+  {path: '/', component: Home},
+  {path: '/post/:id', component: ReadPost},
+  {path: '/login', component: Login},
+  {path: '/register', component: Register},
+  {path: '/account/profile', component: Profile},
+  {path: '/account/password', component: Password},
+  {path: '/user/:id', component: User},
+  {path: '/account/post', component: AccountPost},
+  {path: '/account/deleted', component: AccountDeleted},
+  {path: '/account/marked', component: AccountMarked},
+  {path: '/create/post', component: CreatePost},
+  {path: '/dashboard', component: HomeAdmin},
+  {path: '/dashboard/posts/', component: PageDashboardPost},
+  {path: '/dashboard/admins', component: DashboardAdmin},
+  {path: '/dashboard/new-admin', component: AddNewAdmin},
+  {path: '/dashboard/users', component: DashboardUser},
+  {path: '/dashboard/tags', component: PageDashboardTag},
+  {path: '/dashboard/tags?page:query', component: PageDashboardTag},
+  {path: '/post/:id/edit', component: UpdatePost},
+  {path: '/dashboard/comments', component: PageDashboardComment},
+  {path: '/dashboard/post/:id', component: PageDashboardPostDetail},
+  {path: '/dashboard/user/:id', component: PageDashboardUserDetail},
 
 ]
 

@@ -1,18 +1,18 @@
-import AssetsLayout from "../../components/AccountAssets/AssetsLayout";
-import AssetsDeleted from "../../components/AccountAssets/AssetsDeleted";
-import Header from "../../components/Header/Header";
-import Footer from "../../components/Footer/Footer";
-import styled from "styled-components";
-import React, { useEffect, useState } from "react";
+import AssetsLayout from '../../components/AccountAssets/AssetsLayout';
+import AssetsDeleted from '../../components/AccountAssets/AssetsDeleted';
+import Header from '../../components/Header/Header';
+import Footer from '../../components/Footer/Footer';
+import styled from 'styled-components';
+import React, { useEffect, useState } from 'react';
 
 function AccountDeleted(){
-  document.title="My deleted";
+  document.title='My deleted';
   return (
     <Wrapper>
       <Header/>
-      <div className="account-container">
-        <div className="account-layout">
-          <AssetsLayout itemActive={"Thùng rác"}/>
+      <div className='account-container'>
+        <div className='account-layout'>
+          <AssetsLayout itemActive={'Thùng rác'}/>
           <AssetsDeleted/>
         </div>
       </div>
