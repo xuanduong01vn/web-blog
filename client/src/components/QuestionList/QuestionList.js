@@ -1,5 +1,6 @@
 import styled from 'styled-components';
 import React, {useEffect, useState} from 'react';
+import axios from 'axios';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {
   faComment,
@@ -12,25 +13,63 @@ import QuestionItem from '../QuestionItem/QuestionItem';
 function QuestionList(){
 
   const [noQuestion,setNoQuestion]=useState(false);
+  const [postList, setPostList] = useState(null);
+  const [authorList, setAuthorList] = useState(null);
+
+  useEffect(()=>{
+    const getDataPost = async () => {
+      try {
+        const response = await axios.get('http://localhost:9999/posts/?isDeleted=false');
+        return await response.data;
+      } catch (err) {
+        console.log('Error fetching posts:', err.message);
+        return [];
+      }
+    };
+    getDataPost()
+    .then((data) => {
+      setPostList(data.sort((a, b) => b.amountComment - a.amountComment).slice(0,5));
+    })
+    .catch((err)=>{
+      console.log(err.message);
+    });
+  },[]); 
+
+  useEffect(()=>{
+    const getDataAuthor = async () => {
+      try {
+        const response = await axios.get('http://localhost:9999/accounts/');
+        return response.data;
+      } catch (err) {
+        console.log('Error fetching authors:', err.message);
+        return [];
+      }
+    };
+    getDataAuthor()
+    .then((data) => {
+      setAuthorList(data);
+    })
+    .catch((err)=>{
+      console.log(err.message);
+    });
+  },[]); 
 
   return (
     <Wrapper>
       <div className='question-list-container'>
       <h2 className='question-container-title'>Bài viết nổi bật</h2>
-      {noQuestion&&
+      {postList?.length==0 &&
         <div className='blog-list-alert'>
-          <span>Chưa có câu hỏi nào</span>
+          <span>Không có bài viết nào</span>
         </div>
       }
-
-      {!noQuestion &&
+      {postList?.length>0 &&
         <ul className='question-list-box'>
-          <li className='question-item'>
-            <QuestionItem/>
-          </li>
-          <li className='question-item'>
-            <QuestionItem/>
-          </li>
+          {postList.map(post=>(
+            <li key={post._id} className='question-item'>
+              <QuestionItem post={post} author={authorList?.find(acc=>acc._id==post.idAuthor)}/>
+            </li>
+          ))}
         </ul>
       }
       </div>

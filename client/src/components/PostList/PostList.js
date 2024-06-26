@@ -18,6 +18,7 @@ function PostList(props){
   const isSearch = queryParams.get('search');
 
   const { idUser } = props;
+
   const [postList, setPostList] = useState([]);
   const [authorList, setAuthorList] = useState([]);
   const [currentItems, setCurrentItems] = useState([]);
@@ -34,7 +35,7 @@ function PostList(props){
     const getDataPost = async () => {
       try {
         const response = await axios.get('http://localhost:9999/posts/?isDeleted=false');
-        return response.data;
+        return await response.data;
       } catch (err) {
         console.log('Error fetching posts:', err.message);
         return [];
@@ -43,7 +44,7 @@ function PostList(props){
     getDataPost()
     .then((data) => {
       setPostList(data);
-      if(!idUser){
+      if(idUser===undefined){
         if(!isSearch){
           setCurrentPosts(data);
         }
@@ -57,7 +58,6 @@ function PostList(props){
           setCurrentPage(isPage-1);
           setItemOffset((isPage-1)*itemsPerPage);
         }
-        
       }
       else{
         setCurrentPosts(data.filter((item)=>item.idAuthor==idUser));
@@ -70,7 +70,7 @@ function PostList(props){
 
   useEffect(() => {
     const endOffset = itemOffset + itemsPerPage;
-    if(!idUser){
+    if(idUser===undefined){
       setCurrentItems(currentPosts?.slice(itemOffset, endOffset));
     }else{
       setCurrentItems(currentPosts);

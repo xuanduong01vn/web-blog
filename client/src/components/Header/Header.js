@@ -8,8 +8,6 @@ import { faMagnifyingGlass,
           faXmark,
  } from '@fortawesome/free-solid-svg-icons';
 
- 
-
 function Header(){
   const location = useLocation();
   const navigate = useNavigate();
@@ -22,8 +20,9 @@ function Header(){
   const [openInput, setOpenInput] = useState(false);
   const [namePopup, setNamePopup] = useState(null);
   const [searchText, setSearchText] = useState(isSearch || '');
+  const [windowWidth, setWindowWidth] = useState(window.innerWidth);
 
-  const inputRef = useRef();
+  const inputRef = useRef(null);
   const popupRefs = useRef({});
   const btnRefs = useRef({});
 
@@ -39,26 +38,42 @@ function Header(){
     }
   }
 
+  useEffect(()=>{
+    const handleResize = () => {
+      setWindowWidth(window.innerWidth);
+    };
+
+    // Thêm sự kiện lắng nghe khi cửa sổ thay đổi kích thước
+    window.addEventListener('resize', handleResize);
+
+    // Xóa sự kiện khi component bị unmount
+    return () => {
+      window.removeEventListener('resize', handleResize);
+    };
+  },[])
+
+  const handleKeyDown = (e) => {
+    if (e.key === 'Enter') {
+      e.preventDefault();
+      handleSearchKey();
+    }
+  };
+
   function onChangeValue(e){
     setSearchText(e.target.value);
   }
 
   //handle open search box in mobile screen
-  const handleOpenSearchBox =()=>{
-    if(!openInput)
-      setOpenInput(true);
+  function handleOpenSearchBox(){
+    setOpenInput(true);
+    console.log(inputRef.current);
+    inputRef.current.focus();
+    inputRef.current.setSelectionRange(0,0);
   }
   //handle close search box in mobile screen
-  const handleCloseSearchBox =()=>{
-    if(openInput)
-      setOpenInput(false);
-  }
-
-  function handleOpenPopUp(popup,e){
-    console.log(btnRefs.current[popup]);
-    if(btnRefs.current[popup].contains(e.target)){
-      setNamePopup(namePopup==null?popup:null); 
-    }
+  function handleCloseSearchBox(){
+    setOpenInput(false);
+    setSearchText('');
   }
 
   useEffect(() => {
@@ -98,7 +113,7 @@ function Header(){
     return (    
         <Wrapper>
           <div className='header-container'>
-            {openInput &&
+            {/* {openInput &&
               <div className='header-search-bar'>
                 <input type='text' className='header-search-box' 
                 placeholder='Tìm kiếm trên QAx'
@@ -108,19 +123,29 @@ function Header(){
                   <FontAwesomeIcon icon={faXmark} className='search-cancel-icon' />
                 </button>
               </div>
-            }
+            } */}
             <div className='header-bar'>
               <a href='/' className='header-title'>QAx</a>
-              <div id='search-container'>
-                  <input id='search-box' type='text' placeholder='Tìm kiếm trên QAx'
-                  value = {searchText} ref={inputRef}
-                  onChange={e=>{onChangeValue(e)}}/>
+              <div className={(window.innerWidth<=768 && searchText.trim().length>0)||openInput?'search-container mobile':'search-container'}>
+                  <input ref={inputRef}
+                  id='search-box' 
+                  type='text' placeholder='Tìm kiếm trên QAx'
+                  value = {searchText} 
+                  onChange={e=>{onChangeValue(e)}}
+                  onKeyDown={handleKeyDown}/>
+                  
                   <button onClick={handleSearchKey} className={searchText.trim().length>0?'search-btn':'search-btn disable'}>
                     <FontAwesomeIcon icon={faMagnifyingGlass} className='search-icon' />
                   </button>
-                  <button onClick={handleOpenSearchBox} className='search-header-btn'>
+                  {((window.innerWidth<=768 && searchText.trim().length>0) || openInput) && 
+                    <button onClick={handleCloseSearchBox} id='search-cancel-btn'>
+                    <FontAwesomeIcon icon={faXmark} className='search-cancel-icon' />
+                  </button>}
+                  
+                  {((window.innerWidth<=768 && searchText.trim().length==0) && !openInput) && 
+                    <button onClick={handleOpenSearchBox} className='search-header-btn'>
                     <FontAwesomeIcon icon={faMagnifyingGlass} className='search-icon' />
-                  </button>
+                  </button>}
               </div> 
               {/* <div className='sign-container'>
                 <a href='/login' id='sign-btn'>
@@ -278,7 +303,22 @@ const Wrapper = styled.div`
       1px 1px 0 var(--text-color);
   }
 
-  #search-container{
+  .search-container.mobile{
+    position: absolute;
+    z-index: 99;
+    width: 100%;
+    height: 60px;
+    margin: 0 -12px;
+    border-radius: 0;
+
+    & #search-box{
+      width: 100%; 
+      border-radius: 0;
+      display: flex;
+    }
+  }
+
+  .search-container{
     border-radius: 18px;
     width: max-content; 
     min-width: 36px;
@@ -290,10 +330,11 @@ const Wrapper = styled.div`
     align-items: center;
   }
 
-  #search-box{
+  .search-container #search-box{
     border-radius: 18px;
     border: 2px solid var(--shadow-color);
     width: 400px; 
+    height: 100%;
     outline: none;
     padding: 8px 36px 8px 24px;
     font-size: 16px;
@@ -308,7 +349,7 @@ const Wrapper = styled.div`
     background-color: white;
   }
 
-  #search-container button{
+  .search-container button{
     position: absolute;
     right: 0;
     border: none;
@@ -317,7 +358,7 @@ const Wrapper = styled.div`
     background-color: transparent;
   }
 
-  #search-container .search-btn.disable{
+  .search-container .search-btn.disable{
     cursor: default;
 
     & svg{
@@ -329,16 +370,13 @@ const Wrapper = styled.div`
     }
   }
 
-  #search-container button svg{
+  .search-container button svg{
     height: 20px;
     transition: var(--transition-time);
     color: var(--text-color);
   }
 
-  
-
-
-  #search-container button:hover svg{
+  .search-container button:hover svg{
     height: 20px;
     color: var(--hightlight-color);
   }
@@ -566,18 +604,18 @@ const Wrapper = styled.div`
       display: none;
     }
 
-    #search-container{
+    .search-container{
       border-radius: 0;
       width: 100%; 
       height: 100%;
       margin: 0 18px 0 auto;
     }
 
-    #search-btn{
+    .search-btn{
       display: none;
     }
 
-    #search-header-btn{
+    .search-header-btn{
       display: block;
     }
 
@@ -598,7 +636,7 @@ const Wrapper = styled.div`
       display: none;
     }
 
-    #search-container{
+    .search-container{
       border-radius: 0;
       width: 100%; 
       height: 100%;

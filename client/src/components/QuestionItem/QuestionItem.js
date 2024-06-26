@@ -1,5 +1,7 @@
 import styled from 'styled-components';
 import React, {useEffect, useState} from 'react';
+import { format } from 'date-fns';
+import { vi } from 'date-fns/locale';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {
   faComment,
@@ -8,31 +10,42 @@ import {
   faStar
 }from '@fortawesome/free-solid-svg-icons'
 
-function QuestionItem(){
+function QuestionItem(props){
+  const {post, author}=props;
+
+  var timeCreated;
+  const now = new Date();
+  if(now.getFullYear()== new Date(post.createAt).getFullYear()){
+    timeCreated= format(new Date(post.createAt), 'HH:mm - dd MMM', { locale: vi });
+  }
+  else{
+    timeCreated= format(new Date(post.createAt), 'HH:mm - dd MMM yyyy', { locale: vi });
+  }
+
   return(
     <Wrapper>
       <div className='question-item-cover'>
         <a href='/post' className='question-item-title'>
-          <h3>Cách tạo 1 project bằng Reactjs và Express</h3> 
+          <h3>{post.title}</h3> 
           </a>
         <div className='question-item-user'>
           <div className='question-item-author'>
             <a href='/user' className='question-item-author-info'>
-              xuanduong
+              {author?.username}
             </a>
           </div>
-          <span className='uestion-item-author-ask'> đã tạo lúc 20:00</span>
+          <span className='uestion-item-author-ask'>{timeCreated}</span>
         </div>
         
         <div className='question-item-interact'>
           <div className='question-item-likes'>
-            <FontAwesomeIcon icon={faStar} />6
+            <FontAwesomeIcon icon={faStar} />{post.amountLiked}
           </div>
           {/* <div className='question-item-dislikes'>
             <FontAwesomeIcon icon={faThumbsDown} />6
           </div> */}
           <div className='question-item-comments'>
-            <FontAwesomeIcon icon={faComment} />8
+            <FontAwesomeIcon icon={faComment} />{post.amountComment}
           </div>
         </div>
       </div>

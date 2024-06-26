@@ -1,6 +1,5 @@
 import React, {useEffect, useState} from 'react';
 import styled from 'styled-components';
-import propTypes from 'prop-types';
 import { format } from 'date-fns';
 import { vi } from 'date-fns/locale';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
