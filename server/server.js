@@ -40,7 +40,8 @@ app.use(cors());
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(morgan('common'));
-app.use('/file', express.static('uploads'));
+app.use('/file/avatar', express.static('images/avatars'));
+app.use('/file/post', express.static('images/posts'));
 
 app.use('/posts', postRouter);
 app.use('/accounts', accountRouter);

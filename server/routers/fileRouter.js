@@ -3,6 +3,7 @@ import express from 'express';
 
 const fileRouter = express.Router();
 
-fileRouter.post('/upload', upload.single('file'), fileController.uploadFile);
+fileRouter.post('/upload-avatar', upload.single('avatar'), fileController.uploadAvatar);
+fileRouter.post('/upload-post', upload.single('post'), fileController.uploadPost);
 
 export default fileRouter;
