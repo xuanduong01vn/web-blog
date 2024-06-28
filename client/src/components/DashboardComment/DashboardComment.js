@@ -230,6 +230,7 @@ const Wrapper = styled.div`
     width: 100%;
     display: flex;
     justify-content: space-between;
+    position: relative;
   }
 
   h3{
@@ -242,11 +243,14 @@ const Wrapper = styled.div`
     border-radius: 8px;
     color: white;
     transition: var(--transition-time);
+    box-sizing: border-box;
+    position: absolute;
+    right: 0;
+    bottom: 0;
   }
 
   .dashboard-new-btn:hover{
     background-color: var(--shadow-color); 
-    color: black;
   }
 
   .dashboard-filter{

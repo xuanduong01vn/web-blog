@@ -75,7 +75,7 @@ function NewAdmin(){
     idTypeAccount: 1,
     birthday: '',
     createAt: 'createAt',
-    avatar: 'http://localhost:9999/file/avatar-default.jpg',
+    avatar: 'http://localhost:9999/file/avatar/avatar-default.jpg',
     listLiked: [],
     listMarked: [],
     isDeleted: false

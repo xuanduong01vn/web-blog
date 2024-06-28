@@ -182,9 +182,9 @@ function AccountProfile(){
     newAvatar=inputValue.avatar;
     if (file){
       const formData = new FormData();
-      formData.append('file', file);
+      formData.append('avatar', file);
       try {
-        const response = await axios.post(`http://localhost:9999/file/upload`, formData, {
+        const response = await axios.post(`http://localhost:9999/file/upload-avatar`, formData, {
           headers: {
             'Content-Type': 'multipart/form-data',
           },
@@ -231,7 +231,7 @@ function AccountProfile(){
           </div>
           <div className='profile-item'>
             <label htmlFor=''>Tên tài khoản</label>
-            <input type='text' id='profile-username' className='profile-input' disabled value={user.username}/>
+            <input type='text' id='profile-username' className='profile-input' disabled value={user?.username}/>
           </div>
           <div className='profile-item'>
             <label htmlFor='profile-fullname'>
@@ -246,7 +246,7 @@ function AccountProfile(){
               <span className='red-asterisk'>* </span>Email
             </label>
             <input name='email' type='text' id='profile-email' disabled className='profile-input' 
-            value={user.email}
+            value={user?.email}
             onChange={onChangeValue}/>
           </div>
           <div className='profile-item'>
