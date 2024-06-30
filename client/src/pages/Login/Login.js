@@ -19,6 +19,7 @@ function Login(){
   const [samePassword, setSamePassword] = useState(false);
   const [valueUsername, setValueUsername]=useState('');
   const [valuePassword, setValuePassword]=useState('');
+  const [loginFailed, setLoginFailed]=useState(false);
   // const [navigate, setNavigate] = useState(null);
   var [inputValue, setInputValue] = useState({
     username: '',
@@ -72,10 +73,12 @@ function Login(){
         console.log(res.data);
         if(res.data=='Username and password are required'){
         }
-        else if(res.data.message=='Login thành công'){
+        else if(res.data.message=='Login success'){
+          localStorage.setItem('auth-token', res.data.token);
           navigate(res.data.account==1 ?`/dashboard`:`/` );
         }
-        else if(res.data.message=='Login thất bại'){
+        else if(res.data.message=='Login failed'){
+          setLoginFailed(true);
         }
         else 
         // (res.data!=='Tài khoản đã tồn tại' && res.data!=='Email đã tồn tại') 
@@ -112,8 +115,8 @@ function Login(){
             }
           </button>
           {inputValue.password=='' && (<span className='warning-box'>Không được để trống mật khẩu</span>)}
+          {loginFailed && (<span className='warning-box'>Email hoặc mật khẩu sai</span>)}
         </div>
-        
         
         <button onClick={()=>handleLogin()} className='login-btn'>Đăng nhập</button>
         <div className='other-action'>

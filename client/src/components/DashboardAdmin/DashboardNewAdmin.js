@@ -87,7 +87,7 @@ function NewAdmin(){
     newInputAccount.birthday=new Date();
     setSamePassword(confirmPassword != inputPassword);
     if(inputPassword.length>=6 && confirmPassword !='' && confirmPassword == inputPassword && !sameAccount){
-      axios.post(`http://localhost:9999/accounts/`,newInputAccount)
+      axios.post(`http://localhost:9999/accounts/register`,newInputAccount)
       .then(res=>{
         console.log(res.data);
         clearInput();

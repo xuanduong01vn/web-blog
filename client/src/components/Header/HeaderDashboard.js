@@ -71,6 +71,10 @@ function HeaderAdmin(){
     };
   }, [namePopup]);
 
+  function handleLogOut(){
+    localStorage.setItem('auth-token', '');
+  }
+
     return (    
         <Wrapper>
           <div className='header-container'>
@@ -135,7 +139,7 @@ function HeaderAdmin(){
                           </a>
                         </li>
                         <li className='header-pop-up-item'>
-                          <a href='' className='header-pop-up-link log-out'>
+                          <a href='/' onClick={handleLogOut} className='header-pop-up-link log-out'>
                             Đăng xuất
                           </a>
                         </li>

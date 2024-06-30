@@ -21,6 +21,7 @@ function Header(){
   const [namePopup, setNamePopup] = useState(null);
   const [searchText, setSearchText] = useState(isSearch || '');
   const [windowWidth, setWindowWidth] = useState(window.innerWidth);
+  const [currentToken, setCurrentToken] = useState(localStorage.getItem('auth-token'));
 
   const inputRef = useRef(null);
   const popupRefs = useRef({});
@@ -110,6 +111,10 @@ function Header(){
     };
   }, [namePopup]);
 
+  function handleLogOut(){
+    localStorage.setItem('auth-token', '');
+  }
+
     return (    
         <Wrapper>
           <div className='header-container'>
@@ -131,6 +136,7 @@ function Header(){
                   id='search-box' 
                   type='text' placeholder='Tìm kiếm trên QAx'
                   value = {searchText} 
+                  autoComplete='off'
                   onChange={e=>{onChangeValue(e)}}
                   onKeyDown={handleKeyDown}/>
                   
@@ -147,11 +153,6 @@ function Header(){
                     <FontAwesomeIcon icon={faMagnifyingGlass} className='search-icon' />
                   </button>}
               </div> 
-              {/* <div className='sign-container'>
-                <a href='/login' id='sign-btn'>
-                  Đăng nhập/ Đăng ký
-                </a>
-              </div> */}
               <div className='user-container'>
                 <div className='user-container-item'>
                   <button ref={el => (btnRefs.current['create'] = el)} 
@@ -184,7 +185,16 @@ function Header(){
                     </div>
                   </button>
                 </div>
-                <div className='user-container-item'>
+                {!currentToken 
+                ?(
+                  <div className='sign-container'>
+                    <a href='/login' id='sign-btn'>
+                      Đăng nhập/ Đăng ký
+                    </a>
+                  </div>
+                )
+                :(
+                  <div className='user-container-item'>
                   <button ref={el => (btnRefs.current['user'] = el)} 
                   // onClick={(e)=>{
                   //   handleOpenPopUp('user',e);
@@ -213,7 +223,7 @@ function Header(){
                           </a>
                         </li>
                         <li className='header-pop-up-item'>
-                          <a href='' className='header-pop-up-link log-out'>
+                          <a href='' onClick={handleLogOut} className='header-pop-up-link log-out'>
                             Đăng xuất
                           </a>
                         </li>
@@ -222,6 +232,8 @@ function Header(){
                     
                   </button>
                 </div>
+                )}
+                
               </div>
             </div>
           </div>                                    
@@ -395,6 +407,8 @@ const Wrapper = styled.div`
     color: var(--text-color);
     font-weight: 500;
     transition: var(--transition-time);
+    display: block;
+    width: max-content;
   }
 
   #sign-btn:hover{

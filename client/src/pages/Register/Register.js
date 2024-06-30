@@ -26,8 +26,13 @@ function Register(){
     username: '',
     email: '',
     password: '',
-    confirmPassword: '',
-  })
+    ['confirm-password']: '',
+  });
+
+  const [inputType, setInputType] = useState({
+    password: 'password',
+    'confirm-password': 'password',
+  });
 
   function onChangeValue(e){
     const {name, value} = e.target;
@@ -45,7 +50,6 @@ function Register(){
         ...inputValue,
         [name]: value.trim(),
       });
-      // func(e.target.value.trim());  
   }
 
   function clearInput(){
@@ -53,7 +57,7 @@ function Register(){
       username: '',
       email: '',
       password: '',
-      confirmPassword: '',
+      ['confirm-password']: '',
     })
   };
 
@@ -74,15 +78,16 @@ function Register(){
     isDeleted: false
   };
 
-  function handleHidePassword(){
-    if(hidePassword==true){
-      setHidePassword(false);
-      setTypeInput('password');
+  function handleHidePassword(input){
+    setInputType(inputType[input]=='password'?
+    {
+      ...inputType,
+      [input]: 'text',
     }
-    else{
-      setHidePassword(true);
-      setTypeInput('text');
-    }
+    :{
+      ...inputType,
+      [input]: 'password',
+    })
   }
 
 
@@ -94,9 +99,9 @@ function Register(){
   function handleRegister(){
     newInputAccount.createAt=new Date();
     newInputAccount.birthday=new Date();
-    setSamePassword(inputValue.password != inputValue.confirmPassword);
-    if(inputValue.password.length>=6 && inputValue.confirmPassword!='' && inputValue.password == inputValue.confirmPassword && inputValue.username!='' && inputValue.email!='' && checked){
-      axios.post(`http://localhost:9999/accounts/`,newInputAccount)
+    setSamePassword(inputValue.password != inputValue['confirm-password']);
+    if(inputValue.password.length>=6 && inputValue['confirm-password']!='' && inputValue.password == inputValue['confirm-password'] && inputValue.username!='' && inputValue.email!='' && checked){
+      axios.post(`http://localhost:9999/accounts/register`,newInputAccount)
       .then(res=>{
         console.log(res.data);
         if(res.data=='Username and password are required'){
@@ -147,12 +152,12 @@ function Register(){
           {inputValue.email=='' && (<span className='warning-box'>Không được để trống email</span>)}
         </div>
         <div className='input-item'>
-          <input name='password' type={typeInput} placeholder='Mật khẩu' id='password-input' 
+          <input name='password' type={inputType.password} placeholder='Mật khẩu' id='password-input' 
           value={inputValue.password}
           onChange = {e=> onChangeValue(e)}/>
           <button className='hide-password-btn' 
-          onClick={handleHidePassword}>
-            {hidePassword ?
+          onClick={()=>handleHidePassword('password')}>
+            {inputType.password !='password' ?
               <FontAwesomeIcon icon={faEye} />
               : 
               <FontAwesomeIcon icon={faEyeSlash} />
@@ -161,12 +166,12 @@ function Register(){
           {!legitPass && (<span className='warning-box'>Mật khẩu phải có ít nhất 6 ký tự</span>)}
         </div>
         <div className='input-item'>
-          <input name='confirmPassword' type={typeInput} placeholder='Xác nhận mật khẩu' id='confirm-password-input' 
+          <input name='confirm-password' type={inputType['confirm-password']} placeholder='Xác nhận mật khẩu' id='confirm-password-input' 
           value={inputValue.confirmPassword}
           onChange = {e=> onChangeValue(e)}/>
           <button className='hide-password-btn' 
-          onClick={handleHidePassword}>
-            {hidePassword ?
+          onClick={()=>handleHidePassword('confirm-password')}>
+            {inputType['confirm-password'] !='password' ?
               <FontAwesomeIcon icon={faEye} />
               : 
               <FontAwesomeIcon icon={faEyeSlash} />

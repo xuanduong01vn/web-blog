@@ -11,9 +11,7 @@ function AccountNavbar(props){
     {path:'/account/password', title: 'Đổi mật khẩu'},
   ]
 
-  const handleSelectNavbar=(e,index)=>{
-    console.log(e.target.innerHTML); 
-  }
+  
 
   return(
     <Wrapper>
@@ -24,7 +22,6 @@ function AccountNavbar(props){
             navbarItems.map((navbarItem, index)=>{
                 return  <li key={index} className={navbarItem.title==title?`account-navbar-item active`:`account-navbar-item`}>
                           <Link to={navbarItem.path} 
-                          onClick={handleSelectNavbar} 
                           className='account-navbar-link'>
                             <span>{navbarItem.title}</span>
                           </Link>

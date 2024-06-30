@@ -18,7 +18,6 @@ function Password(){
           <PasswordSection/>
         </div>
       </div>
-
     </Wrapper>
   )
 }

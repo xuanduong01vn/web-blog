@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import React, {useState, useEffect} from 'react';
+import React, {useState, useEffect, useRef} from 'react';
 import axios from 'axios';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { 
@@ -11,13 +11,19 @@ function AccountPassword(){
 
   const id='66669b9c646d48fe74ba397b';
   const [hidePassword, setHidePassword] = useState(false);
-  const [typeInput, setTypeInput] = useState('text');
+  const [typeInput, setTypeInput] = useState('');
   const [userPwd, setUserPwd] = useState('');
   const [inputPassword, setInputPassword]= useState({
-    currentPwd: '',
-    newPwd:'',
-    confirmPwd:'',
-  })
+    'password-current': '',
+    'password-new':'',
+    'password-confirm':'',
+  });
+
+  const [inputType, setInputType]= useState({
+    'password-current': 'password',
+    'password-new':'password',
+    'password-confirm':'password',
+  });
 
   const [warning, setWarning]= useState(false);
   const [success, setSuccess]= useState(false);
@@ -43,15 +49,16 @@ function AccountPassword(){
     })
   },[userPwd]);
 
-  function handleHidePassword(e){
-    if(hidePassword==true){
-      setHidePassword(false);
-      setTypeInput('password');
+  function handleHidePassword(input){
+    setInputType(inputType[input]=='password'?
+    {
+      ...inputType,
+      [input]: 'text',
     }
-    else{
-      setHidePassword(true);
-      setTypeInput('text');
-    }
+    :{
+      ...inputType,
+      [input]: 'password',
+    })
   }
 
   function onChangValue(e){
@@ -68,23 +75,23 @@ function AccountPassword(){
 
   function cancelInput(){
     setInputPassword({
-      currentPwd: '',
-      newPwd:'',
-      confirmPwd:'',
+      'password-current': '',
+      'password-new':'',
+      'password-confirm':'',
     })
   }
 
   function handleChangePwd(){
-    if(inputPassword.currentPwd.trim()!=userPwd)
+    if(inputPassword['password-current'].trim()!=userPwd)
       {
         setWarning(true);
       }
       else{
         setWarning(false);
       }
-    if(inputPassword.currentPwd==userPwd && inputPassword.newPwd==inputPassword.confirmPwd)  
+    if(inputPassword['password-current']==userPwd && inputPassword['password-new']==inputPassword['password-confirm'])  
       {
-        axios.put(`http://localhost:9999/accounts/${id}`,{password: inputPassword.newPwd.trim()})
+        axios.put(`http://localhost:9999/accounts/${id}`,{password: inputPassword['password-new'].trim()})
         setSuccess(true);
         setTimeout(()=>{
           setSuccess(false);
@@ -98,16 +105,22 @@ function AccountPassword(){
       <h2 className='password-container-title'>Mật khẩu</h2>
       <div className='password-container'>
         <div className='password-item'>
+          <div className='password-type-box'>
+            <input type="password" id="current-password" name="current-password" autocomplete="new-password" style={{ display: 'none' }} />
+          </div>
+        </div>
+        <div className='password-item'>
           <label htmlFor='password-current'>
             <span className='red-asterisk'>* </span>Mật khẩu hiện tại
           </label>
           <div className='password-type-box'>
-            <input autoComplete='off' type={typeInput} name='currentPwd' id='password-current' className='password-input' 
+          <input type="password" name="fake-password" style={{ display: 'none' }} />
+            <input autoComplete='off' type={inputType['password-current']} name='password-current' id='password-current' className='password-input' 
             onChange={(e)=>onChangValue(e)}
-            value={inputPassword.currentPwd}/>
+            value={inputPassword['password-current']}/>
             <button className='hide-password-btn' 
-            onClick={handleHidePassword}>
-              {hidePassword ?
+            onClick={()=>handleHidePassword('password-current')}>
+              {inputType['password-current']!='password' ?
                 <FontAwesomeIcon icon={faEye} />
                 : 
                 <FontAwesomeIcon icon={faEyeSlash} />
@@ -121,19 +134,19 @@ function AccountPassword(){
             <span className='red-asterisk'>* </span>Mật khẩu mới
           </label>
           <div className='password-type-box'>
-            <input autoComplete='off' type={typeInput} name='newPwd' id='password-new' className='password-input' 
+            <input autoComplete='off' type={inputType['password-new']} name='password-new' id='password-new' className='password-input' 
             onChange={(e)=>onChangValue(e)}
-            value={inputPassword.newPwd}/>
+            value={inputPassword['password-new']}/>
             <button className='hide-password-btn' 
-            onClick={handleHidePassword}>
-              {hidePassword ?
+            onClick={()=>handleHidePassword('password-new')}>
+              {inputType['password-new']!='password' ?
                 <FontAwesomeIcon icon={faEye} />
                 : 
                 <FontAwesomeIcon icon={faEyeSlash} />
               }
             </button>
           </div>
-          {inputPassword.newPwd.trim().length<6 
+          {inputPassword['password-new'].trim().length<6 
           && (<span className='warning-box'>Không được bỏ trống, mật khẩu phải có ít nhất 6 ký tự</span>)}
         </div>
         <div className='password-item'>
@@ -141,19 +154,19 @@ function AccountPassword(){
             <span className='red-asterisk'>* </span>Nhập lại mật khẩu mới
           </label>
           <div className='password-type-box'>
-            <input autoComplete='off' type={typeInput} name='confirmPwd' id='password-confirm' className='password-input' 
+            <input autoComplete='off' type={inputType['password-confirm']} name='password-confirm' id='password-confirm' className='password-input' 
             onChange={(e)=>onChangValue(e)}
-            value={inputPassword.confirmPwd}/>
+            value={inputPassword['password-confirm']}/>
             <button className='hide-password-btn' 
-            onClick={handleHidePassword}>
-              {hidePassword ?
+            onClick={()=>handleHidePassword('password-confirm')}>
+              {inputType['password-confirm']!='password' ?
                 <FontAwesomeIcon icon={faEye} />
                 : 
                 <FontAwesomeIcon icon={faEyeSlash} />
               }
             </button>
           </div>
-          {inputPassword.confirmPwd.length>0 && inputPassword.confirmPwd.trim()!=inputPassword.newPwd.trim()
+          {inputPassword['password-confirm'].length>0 && inputPassword['password-confirm'].trim()!=inputPassword['password-new'].trim()
           && (<span className='warning-box'>Không khớp mật khẩu mới</span>)}
         </div>
         <div className='password-item'>
